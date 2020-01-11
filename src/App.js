@@ -1,7 +1,7 @@
 //import K from 'K';
 
 import React from 'react';
-import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import 'App.scss';
 
@@ -29,9 +29,6 @@ function App() {
     content = (
       <Switch>
         <Route
-          path="/logout"
-          render={(props) => <Redirect to="/" />} />
-        <Route
           path="/transmisiones/:txId"
           render={(props) => <VisorTransmision      {...props} jwt={jwt} />} />
         <Route
@@ -49,7 +46,7 @@ function App() {
   return (
     <Router>
       <BootstrapMedia />
-      <BarraSuperior onLogout={() => setJwt(null)} />
+      <BarraSuperior onLogout={() => setJwt(null)} jwt={jwt} />
 
       <Container fluid className="App">
         {content}
