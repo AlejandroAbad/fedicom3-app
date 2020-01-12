@@ -15,32 +15,16 @@ import VisorTransmision from 'componentes/transmisiones/VisorTransmision';
 import BuscadorTransmisiones from 'componentes/transmisiones/BuscadorTransmisiones';
 
 import useStateLocalStorage from 'util/useStateLocalStorage';
-import useInterval from 'util/useInterval';
+
 
 import ContenedorDeTostadas from 'componentes/tostadas/ContenedorDeTostadas';
 import TostadaExpiracionJwt from 'componentes/tostadas/TostadaExpiracionJwt';
 
-
-
 const App = () => {
 
   // Almacena el JWT del usuario logeado
-  const [jwt, _setJwt] = useStateLocalStorage('login.jwt', null, true);
-  const [jwtTTL, setJwtTTL] = React.useState(0);
-
-  const setJwt = (jwt) => {
-    _setJwt(jwt);
-    setJwtTTL(calculaJwtTTL(jwt));
-  }
-
-  useInterval(() => {
-    let ttl = calculaJwtTTL(jwt);
-    if (ttl <= 0 && jwt) setJwt(null);
-    setJwtTTL(ttl);
-  }, 1000);
-
-
-
+  const [jwt, setJwt] = useStateLocalStorage('login.jwt', null, true);
+  
 
   let content = null;
 
@@ -76,7 +60,7 @@ const App = () => {
       </Container>
 
       <ContenedorDeTostadas>
-        <TostadaExpiracionJwt jwt={jwt} jwtTTL={jwtTTL} clearJwt={() => setJwt(null)} />
+        <TostadaExpiracionJwt jwt={jwt} clearJwt={() => setJwt(null)} />
       </ContenedorDeTostadas>
 
     </Router>
@@ -84,12 +68,7 @@ const App = () => {
 }
 
 
-const calculaJwtTTL = (jwt) => {
-  if (!jwt || !jwt.data || !jwt.data.exp) return 0;
-  let now = (new Date()).getTime() / 1000;
-  return Math.round(jwt.data.exp - now);
 
-}
 
 
 
