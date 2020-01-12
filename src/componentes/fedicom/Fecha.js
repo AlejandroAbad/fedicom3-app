@@ -17,7 +17,7 @@ const Fecha = (props) => {
 
     let cadena = dateToHuman(props.fecha);
 
-    return <h6><MdAccessTime size={18} className="text-info" style={{paddingBottom: '3px'}} />{cadena}</h6>;
+    return <span><MdAccessTime size={18} className="text-info" style={{paddingBottom: '3px'}} />{cadena}</span>;
 
 
 }

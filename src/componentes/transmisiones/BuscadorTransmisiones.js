@@ -1,14 +1,15 @@
 import K from 'K';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ReactJson from 'react-json-view';
-
+import { Button, Collapse, Col, Row, Container, ProgressBar, Alert, Spinner } from 'react-bootstrap';
+import { GoSync } from 'react-icons/go'
 
 
 import fedicomFetch from 'util/fedicomFetch';
+import useStateLocalStorage from 'util/useStateLocalStorage';
+
 
 import FilaTransmision from 'componentes/transmisiones/FilaTransmision';
-import { Button, Collapse, Col, Row, Container, ProgressBar, Alert, Spinner } from 'react-bootstrap';
-import useStateLocalStorage from 'util/useStateLocalStorage';
 
 
 const BuscadorTransmisiones = (props) => {
@@ -24,22 +25,23 @@ const BuscadorTransmisiones = (props) => {
         type: 1,
         status: 1,
         createdAt: 1,
+        numerosPedidoSAP: 1,
+        numeroPedidoAgrupado: 1,
         crc: 1,                 // SOLO PEDIDOS (10)
         pedidoConsultado: 1,    // SOLO CONSULTAS DE PEDIDO (11)
         originalTx: 1,          // SOLO EN DUPLICADOS (12) / RETRANSMISIONES (14)
         confirmingId: 1         // SOLO CONFIRMACIONES (13)
     };
+
     let sort = { createdAt: -1 }
 
 
+    const [query, setQuery] = useStateLocalStorage('buscador.consulta', { filter, limit, projection, sort }, true);
+    const [resultado, setResultado] = useState(null);
+    const [error, setError] = useState(null);
+    const [cargando, setCargando] = useState(false);
 
-
-    const [query, setQuery] = useStateLocalStorage('buscador.consulta',{ filter, limit, projection, sort }, true);
-    const [resultado, setResultado] = React.useState(null);
-    const [error, setError] = React.useState(null);
-    const [cargando, setCargando] = React.useState(false);
-
-    useEffect(() => {
+    const ejecutarConsulta = useCallback( () => {
         setCargando(true);
         fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, query)
             .then(response => {
@@ -59,27 +61,31 @@ const BuscadorTransmisiones = (props) => {
                 setError(error);
             })
             .finally(() => setCargando(false))
-    }, [query, props.jwt])
+    }, [query, props.jwt, setResultado, setError, setCargando])
+
+    useEffect(() => {
+        ejecutarConsulta()
+    }, [ejecutarConsulta, query, props.jwt])
 
     let filas = [];
     if (resultado && resultado.data && resultado.data.length > 0) {
         resultado.data.forEach((transmision, index) => {
-            filas.push(<FilaTransmision key={index} transmision={transmision} /> )
+            filas.push(<FilaTransmision key={index} transmision={transmision} />)
         });
     }
 
     return (
         <>
-            <EstadoAPI query={query} resultado={resultado} error={error} cargando={cargando} />
+            <EstadoConsulta query={query} resultado={resultado} error={error} cargando={cargando} onRetry={ejecutarConsulta} />
             <Container fluid={true}>
                 {filas}
             </Container>
-            <DepuradorAPI query={query} resultado={resultado} error={error} cargando={cargando} onQueryChanged={setQuery}/>
+            <DepuradorAPI query={query} resultado={resultado} error={error} cargando={cargando} onQueryChanged={setQuery} />
         </>
     )
 }
 
-const EstadoAPI = (props) => {
+const EstadoConsulta = (props) => {
     if (props.cargando) {
         return (
             <Alert variant='primary' className="text-center">
@@ -94,8 +100,12 @@ const EstadoAPI = (props) => {
     if (!props.error || props.error.length === 0) {
         if (props.resultado && props.resultado.data && props.resultado.data.length === 0) {
             return (
-                <Alert variant='warning' className="text-center">
+                <Alert variant='warning'>
+                    <Button variant='dark' onClick={props.onRetry} className="float-right" size="sm">
+                        <GoSync size={18} style={{ paddingBottom: '3px' }} /> Reintentar
+                    </Button>
                     <Alert.Heading className="mt-1">Sin resultados</Alert.Heading>
+                    Pruebe a cambiar los filtros de búsqueda
                 </Alert>
             )
         }
@@ -117,17 +127,22 @@ const EstadoAPI = (props) => {
 
     return (
         <Alert variant='danger'>
+            <Button variant='dark' onClick={props.onRetry} className="float-right" size="sm">
+                <GoSync size={18} style={{ paddingBottom: '3px' }} /> Reintentar
+            </Button>
+
             <Alert.Heading>Error al obtener datos</Alert.Heading>
             <ul>
                 {alertas}
             </ul>
+
         </Alert>
     )
 }
 
 
 const DepuradorAPI = (props) => {
-    const [openDebug, setOpenDebug] = React.useState(true);
+    const [openDebug, setOpenDebug] = useState(false);
 
     var callbackBinds = {};
     if (props.onQueryChanged) {

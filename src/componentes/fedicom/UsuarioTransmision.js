@@ -38,9 +38,17 @@ const UsuarioTransmision = (props) => {
     let codigoClienteSap = new CodigoCliente(tx.sapResponse && tx.sapResponse.body ? tx.sapResponse.body.sap_cliente : null);
 
     
+
     if (codigoCliente.isVacio()) {
-        // Si no hay codigo cliente, esto cubre los casos 7 y 8
-        return <TextoCodigoCliente codigo={usuarioAutenticado} />
+        if (usuarioAutenticado.isVacio()) {
+            // Esto renderiza como Desconocido.
+            return <TextoCodigoCliente codigo={usuarioAutenticado} /> 
+        } else {
+            return (<>
+                <small style={{ fontVariant: 'small-caps' }}>De: </small> <TextoCodigoCliente codigo={usuarioAutenticado} />
+            </>);
+        }
+        return 
     }
 
     let textoSuperior = null;

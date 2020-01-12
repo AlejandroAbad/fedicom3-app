@@ -191,6 +191,6 @@ export const TextoCodigoCliente = (props) => {
 
     }
 
-    return <span className="text-muted font-italic">Desconocido</span>;
+    return <small className="text-muted font-italic" style={{fontVariant: 'small-caps'}}>Sin identificar</small>;
 
 }
