@@ -32,7 +32,7 @@ const BadgeFlag = (props) => {
     rest.pill = true;
     rest.className += ' mx-1 text-lowercase';
     if (!rest.style) rest.style = {}
-    rest.style['font-variant'] = 'small-caps';
+    rest.style.fontVariant = 'small-caps';
 
     return <Badge {...rest}>{iconComponent || null} {titulo}</Badge>
 
