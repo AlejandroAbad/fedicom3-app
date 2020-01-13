@@ -3,10 +3,15 @@ import {Row, Col} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import ReactJson from 'react-json-view';
 
-import EtiquetaEstado from 'componentes/fedicom/EtiquetaEstado';
-import EtiquetaTipo from 'componentes/fedicom/EtiquetaTipo';
-import UsuarioTransmision from 'componentes/fedicom/UsuarioTransmision';
-import Fecha from 'componentes/fedicom/Fecha';
+import EtiquetaEstado from 'componentes/camposTransmision/EtiquetaEstado';
+import EtiquetaTipo from 'componentes/camposTransmision/EtiquetaTipo';
+import UsuarioTransmision from 'componentes/camposTransmision/UsuarioTransmision';
+import Fecha from 'componentes/camposTransmision/Fecha';
+import IpTransmision from 'componentes/camposTransmision/IpTransmision';
+import SoftwareEmisor from 'componentes/camposTransmision/SoftwareEmisor';
+import Flags from 'componentes/camposTransmision/Flags';
+
+
 
 const FilaTransmision = (props) => {
 
@@ -21,18 +26,26 @@ const FilaTransmision = (props) => {
                     { tx.crc && <Col lg={12}><code className="text-monospace text-info">CRC</code> <code className="text-uppercase text-dark">{tx.crc}</code></Col>}
                 </Row>
             </Col>
-            <Col lg={2} md={3}>
+            <Col lg={2} md={4}>
                 <Row className="p-0 m-0 no-gutters">
                     <Col lg={12}><EtiquetaTipo tipo={tx.type} /></Col>
                     <Col lg={12}><EtiquetaEstado estado={tx.status} /></Col>
                 </Row>
             </Col>
-            <Col lg={3} md={5}><UsuarioTransmision transmision={tx} /></Col>
-            <Col lg={4} md={12}>Resto</Col>
+            <Col lg={3} md={4}><UsuarioTransmision transmision={tx} /></Col>
+            <Col lg={2} md={12}>
+                <Row className="p-0 m-0 no-gutters">
+                    <Col lg={12}><IpTransmision ip={tx.clientRequest.ip} /></Col>
+                    <Col lg={12}><SoftwareEmisor softwareId={tx.clientRequest.headers['software-id']} /></Col>
+                </Row>
+            </Col>
+            <Col lg={2} md={12} className="text-center">
+                <Flags tx={tx} />
+            </Col>
 
-            {/*<Col lg={12}>
-            <ReactJson src={tx || {}} collapsed />
-    </Col>*/}
+            {/*<Col lg={12} className="mt-3">
+                <ReactJson src={tx || {}} collapsed />
+            </Col>*/}
         </Row>
         
     )

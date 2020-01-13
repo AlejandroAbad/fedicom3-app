@@ -148,7 +148,7 @@ const TextoMuteado = (props) => {
     return <span className="font-italic" style={{ opacity: 0.5 }}>{props.texto}</span>;
 }
 const TextoSociedad = (props) => {
-    return <abbr title={'Sociedad: ' + props.codigoSap + ' - ' + props.nombre}>{props.codigo}</abbr>
+    return <abbr title={'Sociedad: ' + props.codigoSap + ' - ' + props.nombre} className="text-decoration-none">{props.codigo}</abbr>
 }
 
 export const TextoCodigoCliente = (props) => {

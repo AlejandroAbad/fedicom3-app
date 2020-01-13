@@ -27,11 +27,13 @@ const BuscadorTransmisiones = (props) => {
         createdAt: 1,
         numerosPedidoSAP: 1,
         numeroPedidoAgrupado: 1,
+        "clientRequest.headers.software-id": 1,
         crc: 1,                 // SOLO PEDIDOS (10)
         pedidoConsultado: 1,    // SOLO CONSULTAS DE PEDIDO (11)
         originalTx: 1,          // SOLO EN DUPLICADOS (12) / RETRANSMISIONES (14)
         confirmingId: 1         // SOLO CONFIRMACIONES (13)
     };
+
 
     let sort = { createdAt: -1 }
 
@@ -77,7 +79,7 @@ const BuscadorTransmisiones = (props) => {
     return (
         <>
             <EstadoConsulta query={query} resultado={resultado} error={error} cargando={cargando} onRetry={ejecutarConsulta} />
-            <Container fluid={true}>
+            <Container>
                 {filas}
             </Container>
             <DepuradorAPI query={query} resultado={resultado} error={error} cargando={cargando} onQueryChanged={setQuery} />
@@ -100,6 +102,7 @@ const EstadoConsulta = (props) => {
     if (!props.error || props.error.length === 0) {
         if (props.resultado && props.resultado.data && props.resultado.data.length === 0) {
             return (
+                
                 <Alert variant='warning'>
                     <Button variant='dark' onClick={props.onRetry} className="float-right" size="sm">
                         <GoSync size={18} style={{ paddingBottom: '3px' }} /> Reintentar
