@@ -145,14 +145,15 @@ const EstadoConsulta = (props) => {
 
 
 const DepuradorAPI = (props) => {
-    const [openDebug, setOpenDebug] = useState(false);
+    const [openDebug, setOpenDebug] = useStateLocalStorage('buscador.debugApi', false, false);
 
     var callbackBinds = {};
     if (props.onQueryChanged) {
         callbackBinds = {
             onEdit: (e) => props.onQueryChanged(e.updated_src),
             onAdd: (e) => props.onQueryChanged(e.updated_src),
-            onDelete: (e) => props.onQueryChanged(e.updated_src)
+            onDelete: (e) => props.onQueryChanged(e.updated_src),
+            shouldCollapse: (key) => { return ['filter','projection','sort'].includes(key.name) }
         }
     }
 
@@ -182,7 +183,7 @@ const DepuradorAPI = (props) => {
                         <Col lg={8}>
                             <h3>Respuesta</h3>
                             {estado}
-                            {!props.cargando && <ReactJson src={props.resultado || props.error || {}} />}
+                            {!props.cargando && <ReactJson src={props.resultado || props.error || {}} shouldCollapse={(key)=> { return key.name === 'data' }}/>}
                         </Col>
                     </Row>
                 </Container>
