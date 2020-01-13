@@ -1,29 +1,44 @@
 import React from 'react';
-import { Badge } from 'react-bootstrap';
+import { Badge, Popover, OverlayTrigger } from 'react-bootstrap';
 
-import { GiMedicines, GiFactory } from 'react-icons/gi';
-import { MdControlPointDuplicate, MdExposurePlus1 } from 'react-icons/md';
-import { FaDatabase } from 'react-icons/fa'
+import { GiMedicines } from 'react-icons/gi';
+import { MdControlPointDuplicate, MdBugReport, MdAirplanemodeActive, MdPortableWifiOff } from 'react-icons/md';
+import { FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc } from 'react-icons/fa'
 
-const Flags = (props) => {
+const FlagPopover = (props) => {
 
-    let flags = props.flags;
+    let {variant, icono, titulo, descripcion} = props;
+    let iconComponent = null;
+    if (icono) {
+        iconComponent = new icono({
+            size: 14,
+            className: 'mb-1'
+        });
+    }
 
-    return (<>
-        <BadgeFlag variant="primary" titulo="Estupe" icon={GiMedicines} />
-        <BadgeFlag variant="warning" titulo="Duplicados" icon={MdControlPointDuplicate}/>
-        <BadgeFlag variant="danger" titulo="SQLite" icon={FaDatabase} />
-        <BadgeFlag variant="info" titulo="Bonificación" icon={MdExposurePlus1} />
-        <BadgeFlag variant="secondary" titulo="Transfer" icon={GiFactory} />
-    </>);
+
+    let className = 'border border-' + variant;
+    return (
+        <Popover id="popover-basic" className={className}>
+            <Popover.Title as="h3" variant={variant}>
+                {iconComponent} {titulo}
+            </Popover.Title>
+            <Popover.Content>
+                {descripcion}
+            </Popover.Content>
+
+        </Popover>
+    )
 }
 
 const BadgeFlag = (props) => {
 
-    let { icon, titulo, ...rest } = props;
+    // TODO: Un 
+
+    let { icono, titulo, tecnico, ...rest } = props;
     let iconComponent = null;
-    if (icon) {
-        iconComponent = new icon({
+    if (icono) {
+        iconComponent = new icono({
             size: 14
         });
     }
@@ -34,8 +49,44 @@ const BadgeFlag = (props) => {
     if (!rest.style) rest.style = {}
     rest.style.fontVariant = 'small-caps';
 
-    return <Badge {...rest}>{iconComponent || null} {titulo}</Badge>
+    return (
+        <OverlayTrigger trigger="hover" overlay={FlagPopover(props)} placement="bottom">
+            <Badge {...rest}>{iconComponent || null} {titulo}</Badge>
+        </OverlayTrigger>
+    )
 
+}
+
+let index = 0;
+const FLAG_BADGES = {
+
+    sqlite: <BadgeFlag key={index++} variant="danger" titulo="SQLite" icono={FaDatabase} descripcion="La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB." tecnico />,
+
+    retransUpd: <BadgeFlag key={index++} variant="info" titulo="Actualizado" icono={FaRetweet} descripcion="El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." />,
+    retransNoUpd: <BadgeFlag key={index++} variant="danger" titulo="Retransmitido" icono={FaRetweet} descripcion="El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." />,
+
+    watchdog: <BadgeFlag key={index++} variant="warning" titulo="Recuperado" icono={MdBugReport} descripcion="El estado del pedido ha sido recuperado por el WatchDog." tecnico />,
+    noSap: <BadgeFlag key={index++} variant="danger" titulo="Sin faltas" icono={MdPortableWifiOff} descripcion="No se devolvieron faltas para este pedido." />,
+    estupe: <BadgeFlag key={index++} variant="success" titulo="Estupe" icono={GiMedicines} descripcion="El pedido contiene algún producto estupefaciente." />,
+    dupes: <BadgeFlag key={index++} variant="warning" titulo="Duplicados" icono={MdControlPointDuplicate} descripcion="Esta transmisión se ha sido recibido varias veces. El resto de transmisiones se marcaron como duplicadas." />,
+    bonif: <BadgeFlag key={index++} variant="success" titulo="Bonificado" icono={FaPercentage} descripcion="El pedido contiene líneas bonificadas." />,
+    transfer: <BadgeFlag key={index++} variant="primary" titulo="Transfer" icono={MdAirplanemodeActive} descripcion="El pedido lo realiza un laboratorio." />,
+    faltaTotal: <BadgeFlag key={index++} variant="secondary" titulo="Falta Total" icono={FaCreativeCommonsNc} descripcion="Todas las líneas del pedido son falta total. No se servirá nada." />
+    
+    
+
+}
+
+
+const Flags = (props) => {
+
+    // let flags = props.flags;
+    
+
+
+    return (<>
+        {Object.values(FLAG_BADGES)}
+    </>);
 }
 
 export default Flags;
