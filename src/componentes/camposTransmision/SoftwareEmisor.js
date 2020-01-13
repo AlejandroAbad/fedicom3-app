@@ -20,7 +20,6 @@ const PROGRAMAS_FARMACIA = {
     9999: 'APP FEDICOM3 PHP'
 }
 const getNombreProgramaFarmacia = (idPrograma) => {
-    console.log(parseInt(idPrograma));
     return PROGRAMAS_FARMACIA[parseInt(idPrograma)] || 'DESCONOCIDO'; 
 }
 
