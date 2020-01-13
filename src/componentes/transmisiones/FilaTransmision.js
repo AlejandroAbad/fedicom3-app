@@ -35,8 +35,8 @@ const FilaTransmision = (props) => {
             <Col lg={3} md={4}><UsuarioTransmision transmision={tx} /></Col>
             <Col lg={2} md={12}>
                 <Row className="p-0 m-0 no-gutters">
-                    <Col lg={12}><IpTransmision ip={tx.clientRequest.ip} /></Col>
-                    <Col lg={12}><SoftwareEmisor softwareId={tx.clientRequest.headers['software-id']} /></Col>
+                    <Col lg={12}><IpTransmision ip={(tx.clientRequest && tx.clientRequest.ip) || null} /></Col>
+                    <Col lg={12}><SoftwareEmisor softwareId={(tx.clientRequest && tx.clientRequest.headers['software-id']) || null} /></Col>
                 </Row>
             </Col>
             <Col lg={2} md={12} className="text-center">

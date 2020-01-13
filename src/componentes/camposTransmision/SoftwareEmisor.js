@@ -25,6 +25,14 @@ const getNombreProgramaFarmacia = (idPrograma) => {
 
 
 const SoftwareEmisor = (props) => {
+
+    let swId = props.softwareId;
+    if (!swId) 
+        return (<>
+            <FaLaptopMedical className="text-info" />
+            <code className="text-danger"><span className="text-decoration-none" > No especificado</span></code>
+        </>);
+
     return (<>
         <FaLaptopMedical className="text-info" />
         <code className="text-reset"><abbr className="text-decoration-none" title={props.softwareId}> {getNombreProgramaFarmacia(props.softwareId)}</abbr></code>
