@@ -80,7 +80,6 @@ const Flags = (props) => {
 
     let flagBadges = [];
     for (var flag in flags) {
-        console.log('FLAG', flag, flags[flag], FLAG_BADGES[flag] != null)
         if (flags[flag] === true && FLAG_BADGES[flag]) 
             flagBadges.push(FLAG_BADGES[flag]);
     }
