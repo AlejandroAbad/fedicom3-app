@@ -42,7 +42,7 @@ const EtiquetaTipo = (props) => {
 
     return (
         <OverlayTrigger trigger="hover" overlay={popover(tipo)} placement="bottom">
-            <Badge pill size="lg" variant={tipo[3]} className="px-2 py-1" style={{ fontVariant: 'small-caps' }} >{tipo[1]}</Badge>
+            <Badge pill size="lg" variant={tipo[3]} className="px-2 pb-2 pt-1 text-lowercase" style={{ fontVariant: 'small-caps' }} >{tipo[1]}</Badge>
         </OverlayTrigger>
     );
 };

@@ -47,7 +47,7 @@ const EtiquetaEstado = (props) => {
 
     return (
         <OverlayTrigger trigger="hover" overlay={popover(estado)} placement="bottom">
-            <Badge pill size="lg" variant={estado[3]} className="px-2 py-1" style={{fontVariant: 'small-caps'}} >{estado[1]}</Badge>
+            <Badge pill size="lg" variant={estado[3]} className="px-2 pb-2 pt-1 text-lowercase" style={{fontVariant: 'small-caps'}} >{estado[1]}</Badge>
         </OverlayTrigger>
     );
 };
