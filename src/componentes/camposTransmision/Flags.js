@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, Popover, OverlayTrigger } from 'react-bootstrap';
 
 import { GiMedicines } from 'react-icons/gi';
-import { MdControlPointDuplicate, MdBugReport, MdAirplanemodeActive, MdPortableWifiOff } from 'react-icons/md';
+import { MdControlPointDuplicate, MdBugReport, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md';
 import { FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation } from 'react-icons/fa'
 
 const FlagPopover = (props) => {
@@ -70,6 +70,7 @@ const FLAG_BADGES = {
     transfer: <BadgeFlag key={index++} variant="primary" titulo="Transfer" icono={MdAirplanemodeActive} descripcion="El pedido lo realiza un laboratorio." />,
     faltaTotal: <BadgeFlag key={index++} variant="secondary" titulo="Falta Total" icono={FaCreativeCommonsNc} descripcion="Todas las líneas del pedido son falta total. No se servirá nada." />,
     formato: <BadgeFlag key={index++} variant="warning" titulo="Formato" icono={FaRadiation} descripcion={<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>} tecnico />,
+    demorado: <BadgeFlag key={index++} variant="primary" titulo="Demorado" icono={MdTimer} descripcion={<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>} />,
 }
 
 
