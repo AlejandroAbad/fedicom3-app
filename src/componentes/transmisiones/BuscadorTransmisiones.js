@@ -7,7 +7,7 @@ import { GoSync } from 'react-icons/go'
 import fedicomFetch from 'util/fedicomFetch';
 import useStateLocalStorage from 'util/useStateLocalStorage';
 
-import DepuradorAPI from 'componentes/debug/DepuradorApi/DepuradorApi';
+import DepuradorAPI from 'componentes/debug/depuradorApi/DepuradorApi';
 import FilaTransmision from 'componentes/transmisiones/FilaTransmision';
 
 
