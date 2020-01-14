@@ -40,12 +40,12 @@ const FilaTransmision = (props) => {
                 </Row>
             </Col>
             <Col lg={2} md={12} className="text-center">
-                <Flags tx={tx} />
+                <Flags flags={tx.flags} />
             </Col>
 
-            {/*<Col lg={12} className="mt-3">
+            {<Col lg={12} className="mt-3 border-top pt-4">
                 <ReactJson src={tx || {}} collapsed />
-            </Col>*/}
+            </Col>}
         </Row>
         
     )
