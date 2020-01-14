@@ -1,21 +1,20 @@
 import K from 'K';
 import React, { useState, useEffect, useCallback } from 'react';
-import ReactJson from 'react-json-view';
-import { Button, Collapse, Col, Row, Container, ProgressBar, Alert, Spinner } from 'react-bootstrap';
+import { Button, Container,  Alert, Spinner } from 'react-bootstrap';
 import { GoSync } from 'react-icons/go'
 
 
 import fedicomFetch from 'util/fedicomFetch';
 import useStateLocalStorage from 'util/useStateLocalStorage';
 
-
+import DepuradorAPI from 'componentes/debug/DepuradorApi/DepuradorApi';
 import FilaTransmision from 'componentes/transmisiones/FilaTransmision';
 
 
 const BuscadorTransmisiones = (props) => {
 
     let limit = 20;
-    let filter = { type: { $in: [10, 11, 12, 13, 14] } };
+    let filter = { type: { $in: [10, 14] } };
     let projection = {
         _id: 1,
         client: 1,
@@ -28,6 +27,7 @@ const BuscadorTransmisiones = (props) => {
         numerosPedidoSAP: 1,
         numeroPedidoAgrupado: 1,
         "clientRequest.headers.software-id": 1,
+        flags: 1,
         crc: 1,                 // SOLO PEDIDOS (10)
         pedidoConsultado: 1,    // SOLO CONSULTAS DE PEDIDO (11)
         originalTx: 1,          // SOLO EN DUPLICADOS (12) / RETRANSMISIONES (14)
@@ -82,7 +82,7 @@ const BuscadorTransmisiones = (props) => {
             <Container>
                 {filas}
             </Container>
-            <DepuradorAPI query={query} resultado={resultado} error={error} cargando={cargando} onQueryChanged={setQuery} />
+            <DepuradorAPI id='BuscadorTransmisiones' query={query} resultado={resultado} error={error} cargando={cargando} onQueryChanged={setQuery} />
         </>
     )
 }
@@ -142,57 +142,6 @@ const EstadoConsulta = (props) => {
         </Alert>
     )
 }
-
-
-const DepuradorAPI = (props) => {
-    const [openDebug, setOpenDebug] = useStateLocalStorage('buscador.debugApi', false, false);
-
-    var callbackBinds = {};
-    if (props.onQueryChanged) {
-        callbackBinds = {
-            onEdit: (e) => props.onQueryChanged(e.updated_src),
-            onAdd: (e) => props.onQueryChanged(e.updated_src),
-            onDelete: (e) => props.onQueryChanged(e.updated_src),
-            shouldCollapse: (key) => { return ['filter','projection','sort'].includes(key.name) }
-        }
-    }
-
-    let estado = null;
-    if (props.cargando)
-        estado = <ProgressBar animated now={100} label={`Cargando ...`} className="my-3" />;
-    else
-        if (props.error) estado = <ProgressBar now={100} variant="danger" label={`ERROR`} className="my-3" />;
-        else estado = <ProgressBar now={100} variant="success" label={`OK`} className="my-3" />;
-
-
-    return (
-        <Container fluid className="border border-info rounded pb-0 mb-3 mt-5">
-            <Col className="text-right my-4">
-                <Button size="sm" onClick={() => setOpenDebug(!openDebug)} aria-controls="collapse-depurador-api" aria-expanded={openDebug}>
-                    {openDebug ? 'Ocultar debug' : 'Mostrar debug'}
-                </Button>
-            </Col>
-
-            <Collapse in={openDebug}>
-                <Container fluid id="example-collapse-text" className="mt-4 mb-5">
-                    <Row>
-                        <Col lg={4}>
-                            <h3>Consulta</h3>
-                            <ReactJson src={props.query || {}} {...callbackBinds} />
-                        </Col>
-                        <Col lg={8}>
-                            <h3>Respuesta</h3>
-                            {estado}
-                            {!props.cargando && <ReactJson src={props.resultado || props.error || {}} shouldCollapse={(key)=> { return key.name === 'data' }}/>}
-                        </Col>
-                    </Row>
-                </Container>
-            </Collapse>
-        </Container>
-
-    )
-}
-
 
 
 
