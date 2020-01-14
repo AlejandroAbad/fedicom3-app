@@ -8,7 +8,7 @@ import 'App.scss';
 import { Container } from 'react-bootstrap';
 import ReactJson from 'react-json-view';
 
-import BootstrapMedia from 'componentes/bootstrapMedia/BootstrapMedia';
+import BootstrapMedia from 'componentes/debug/bootstrapMedia/BootstrapMedia';
 import BarraSuperior from 'componentes/barraSuperior/BarraSuperior';
 import FormularioLogin from 'componentes/formularioLogin/FormularioLogin';
 import VisorTransmision from 'componentes/transmisiones/VisorTransmision';
