@@ -45,7 +45,7 @@ const DepuradorAPI = (props) => {
                         <Col lg={8}>
                             <h3>Respuesta</h3>
                             {estado}
-                            {!props.cargando && <ReactJson src={props.resultado || props.error || {}} shouldCollapse={(key) => { return key.name === 'data' }} />}
+                            {!props.cargando && <ReactJson src={props.resultado || props.error || {}} shouldCollapse={(key) => { return ['headers', 'lineas', 'clientResponse', 'clientRequest', 'sapResponse', 'sapRequest', 'sapConfirms', 's'].includes(key.name) }} />}
                         </Col>
                     </Row>
                 </Container>
