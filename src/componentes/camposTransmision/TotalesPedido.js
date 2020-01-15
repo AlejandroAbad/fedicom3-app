@@ -17,12 +17,12 @@ const Totales = (props) => {
     if (t.cantidadBonificacion) {
         cantidad = (<>
             {' '}
-            < FiThumbsUp className="text-success" size={16} style={estiloIconos} />{t.cantidad}+{t.cantidadBonificacion}
+            < FiThumbsUp className="text-success" size={18} style={estiloIconos} />{t.cantidad}+{t.cantidadBonificacion}
         </>);
     } else {
         cantidad = (<>
             {' '}
-            < FiThumbsUp className="text-success" size={16} style={estiloIconos} />{t.cantidad}
+            < FiThumbsUp className="text-success" size={18} style={estiloIconos} />{t.cantidad}
         </>);
     }
 
@@ -30,18 +30,18 @@ const Totales = (props) => {
     if (t.cantidadFalta || t.cantidadBonificacionFalta)
         if (t.cantidadBonificacionFalta) {
             faltas = (<span className="text-danger">
-                <FiThumbsDown className="text-danger" size={16} style={estiloIconos} />{t.cantidadFalta}+{t.cantidadBonificacionFalta}
+                <FiThumbsDown className="text-danger" size={18} style={estiloIconos} />{t.cantidadFalta}+{t.cantidadBonificacionFalta}
             </span>);
         } else {
             faltas = (<span className="text-danger">
-                <FiThumbsDown size={16} style={estiloIconos} />{t.cantidadFalta}
+                <FiThumbsDown size={18} style={estiloIconos} />{t.cantidadFalta}
             </span>
             );
         }
 
 
     return <code className="text-reset">
-        <FiPackage className="text-info" size={16} style={estiloIconos} />{t.lineas} {cantidad} {faltas}
+        <FiPackage className="text-info" size={18} style={estiloIconos} />{t.lineas} {cantidad} {faltas}
     </code>;
 
 
