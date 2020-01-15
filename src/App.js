@@ -55,9 +55,9 @@ const App = () => {
       <BootstrapMedia />
       <BarraSuperior onLogout={() => setJwt(null)} jwt={jwt} />
 
-      <Container fluid className="App">
+      <div className="App">
         {content}
-      </Container>
+      </div>
 
       <ContenedorDeTostadas>
         <TostadaExpiracionJwt jwt={jwt} clearJwt={() => setJwt(null)} />
