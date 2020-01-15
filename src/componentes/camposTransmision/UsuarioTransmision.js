@@ -61,7 +61,7 @@ const UsuarioTransmision = (props) => {
             if (!codigoCliente.equals(usuarioAutenticado)) {
                 textoInferior = (<>
                     <TextoCodigoCliente codigo={usuarioAutenticado} />
-                    <small style={{ fontVariant: 'small-caps' }}> en nombre de</small>
+                    {!usuarioAutenticado.isLaboratorio() && <small style={{ fontVariant: 'small-caps', letterSpacing: '-0.05em' }}> a nombre de</small>}
                 </>);
             }
         }

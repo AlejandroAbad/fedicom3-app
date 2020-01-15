@@ -145,7 +145,14 @@ export class CodigoCliente {
 
 const TextoMuteado = (props) => {
     if (!props.texto) return null;
-    return <span className="font-italic" style={{ opacity: 0.5 }}>{props.texto}</span>;
+    let {className, style, ...rest}  = props;
+
+    className = 'font-italic ' + className;
+    if (!style) style = {};
+    style.opacity = 0.35;
+    style.letterSpacing = '-0.05em';
+    
+    return <span {...rest} className={className} style={style}>{props.texto}</span>;
 }
 const TextoSociedad = (props) => {
     return <abbr title={'Sociedad: ' + props.codigoSap + ' - ' + props.nombre} className="text-decoration-none">{props.codigo}</abbr>
@@ -167,7 +174,7 @@ export const TextoCodigoCliente = (props) => {
         return <code>
             <TextoMuteado texto={codigoCliente.cerosIniciales} />
             {codigoCliente.codigoCliente}
-            <TextoMuteado texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
+            <TextoMuteado className="" texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
         </code>
     }
 
@@ -176,7 +183,7 @@ export const TextoCodigoCliente = (props) => {
             <TextoMuteado texto={codigoCliente.cerosIniciales} />
             <TextoSociedad codigo={codigoCliente.codigoSociedad} codigoSap={codigoCliente.codigoSociedadSap} nombre={codigoCliente.nombreSociedad} />
             {codigoCliente.codigoCliente.padStart(5, '0')}
-            <TextoMuteado texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
+            <TextoMuteado style={{ fontSize: '90%' }} texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
         </code>
     }
 

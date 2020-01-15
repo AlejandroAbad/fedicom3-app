@@ -12,13 +12,13 @@ const PROGRAMAS_FARMACIA = {
     48: 'NIXFARMA', // PULSO
     59: 'TEDIFARMA', // COFARES
     61: 'TEDIFARMA 2', // COFARES
-    9000: 'POSTMAN',
-    9700: 'APP EMPLEADO',
-    9800: 'F+ONLINE',
+    9000: 'PostMan',
+    9700: 'App Empleado',
+    9800: 'F+Online',
     9991: 'SAP D01',
     9992: 'SAP T01',
     9993: 'SAP P01',
-    9999: 'APP FEDICOM3 PHP'
+    9999: 'Simulador'
 }
 const getNombreProgramaFarmacia = (idPrograma) => {
     return PROGRAMAS_FARMACIA[parseInt(idPrograma)] || 'DESCONOCIDO'; 
