@@ -27,6 +27,9 @@ const BuscadorTransmisiones = (props) => {
         numerosPedidoSAP: 1,
         numeroPedidoAgrupado: 1,
         "clientRequest.headers.software-id": 1,
+        "clientRequest.body.tipoPedido": 1,
+        "clientRequest.body.codigoAlmacenServicio": 1,
+        "clientResponse.body.codigoAlmacenServicio": 1,
         flags: 1,
         crc: 1,                 // SOLO PEDIDOS (10)
         pedidoConsultado: 1,    // SOLO CONSULTAS DE PEDIDO (11)
