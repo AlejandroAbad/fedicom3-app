@@ -167,11 +167,11 @@ export const TextoCodigoCliente = (props) => {
         
 
     if (codigoCliente.isLiteral()) {
-        return <code>{codigoCliente.codigoCliente}</code>
+        return <code className="text-reset">{codigoCliente.codigoCliente}</code>
     }
 
     if (codigoCliente.isSoloCliente()) {
-        return <code>
+        return <code className="text-reset">
             <TextoMuteado texto={codigoCliente.cerosIniciales} />
             {codigoCliente.codigoCliente}
             <TextoMuteado className="" texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
@@ -179,7 +179,7 @@ export const TextoCodigoCliente = (props) => {
     }
 
     if (codigoCliente.isClienteSociedad()) {
-        return <code>
+        return <code className="text-reset">
             <TextoMuteado texto={codigoCliente.cerosIniciales} />
             <TextoSociedad codigo={codigoCliente.codigoSociedad} codigoSap={codigoCliente.codigoSociedadSap} nombre={codigoCliente.nombreSociedad} />
             {codigoCliente.codigoCliente.padStart(5, '0')}
@@ -190,14 +190,14 @@ export const TextoCodigoCliente = (props) => {
     if (codigoCliente.isLaboratorio()) {
         return (
             <>
-                <code>
-                    <abbr className="font-weight-bold text-dark" title={codigoCliente.nombreTipoTransfer}>{codigoCliente.tipoTransfer}</abbr>
-                    {codigoCliente.codigoLaboratorio}
-                </code>&nbsp;<small>{codigoCliente.nombreLaboratorio}</small>
+                <code className="text-reset">
+                    <abbr className="font-weight-bold text-dark text-decoration-none" title={codigoCliente.nombreTipoTransfer}>{codigoCliente.tipoTransfer}</abbr>
+                    {/*codigoCliente.codigoLaboratorio*/}
+                </code>&nbsp;<code>{codigoCliente.nombreLaboratorio}</code>
             </>);
 
     }
 
-    return <small className="text-muted font-italic" style={{fontVariant: 'small-caps'}}>Sin identificar</small>;
+    return <code className="text-reset text-muted font-italic" style={{ fontVariant: 'small-caps' }}>Sin identificar</code>;
 
 }
