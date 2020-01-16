@@ -5,7 +5,10 @@ import { GoSync } from 'react-icons/go';
 
 
 const EstadoConsulta = (props) => {
-    if (props.cargando) {
+
+    const {datos, error, cargando} = props.resultado;
+
+    if (cargando) {
         return (
             <Alert variant='primary' className="text-center">
                 <Spinner animation="border" variant="primary" className="mt-2" />
@@ -16,8 +19,8 @@ const EstadoConsulta = (props) => {
 
 
 
-    if (!props.error || props.error.length === 0) {
-        if (props.resultado && props.resultado.data && props.resultado.data.length === 0) {
+    if (!error || error.length === 0) {
+        if (datos && datos.length === 0) {
             return (
 
                 <Alert variant='warning'>
@@ -33,10 +36,10 @@ const EstadoConsulta = (props) => {
     }
 
     let alertas = [];
-    if (props.error.forEach) {
-        props.error.forEach((error, index) => {
-            if (error.codigo && error.descripcion) {
-                alertas.push(<li key={index}>{error.descripcion} <small className="text-muted">{error.codigo}</small></li>);
+    if (error.forEach) {
+        error.forEach((err, index) => {
+            if (err.codigo && err.descripcion) {
+                alertas.push(<li key={index}>{err.descripcion} <small className="text-muted">{err.codigo}</small></li>);
             } else {
                 alertas.push(<li key={index}>No se pudo alcanzar el servidor</li>);
             }

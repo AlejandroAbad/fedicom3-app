@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 //import { FiChevronsRight, FiChevronsLeft, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 import { AiOutlineEllipsis } from 'react-icons/ai';
 
 const MenuPaginacion = (props) => {
 
-    let min = props.min;
-    let max = props.max;
-    const [actual, setActual] = useState(1);
+    const { min, max, actual, onPaginaCambiada, ...rest } = props;
+    
+    const cambiarPagina = (pagina) => {
+        if (onPaginaCambiada)
+            onPaginaCambiada(pagina)
+    }
 
     let intermedios = [];
     let elipsisInicio = false;
     let elipsisFin = false;
-
     let posMin, posActual, posMax;
-
     for (let i = -4; i <= 4; i++) {
         let valor = actual + i;
         let pos = 4 + i;
@@ -24,22 +25,15 @@ const MenuPaginacion = (props) => {
         if (valor === min) posMin = pos
         if (valor === max) posMax = pos
     }
-
     let distanciaInicio = posMin ? posActual - posMin : 4;
     let distanciaFin = posMax ? posMax - posActual : 4;
 
     let elementosPreservadosInicio = (distanciaInicio > 3) ? Math.max(2, 5 - distanciaFin) : 4 ;
     let elementosPreservadosFin = (distanciaFin > 3) ? Math.max(2, 5 - distanciaInicio) : 4;
 
-
-
-    for (let i = posActual - elementosPreservadosInicio; i >= 0; i--) {
-        intermedios[i] = 0;
-    }
-
-    for (let i = posActual + elementosPreservadosFin ; i < intermedios.length; i++) {
-        intermedios[i] = 0;
-    }
+    for (let i = posActual - elementosPreservadosInicio; i >= 0; i--) intermedios[i] = 0;
+    for (let i = posActual + elementosPreservadosFin ; i < intermedios.length; i++) intermedios[i] = 0;
+    
 
     elipsisFin = (distanciaFin > 3 && max !== 5);
     elipsisInicio = (distanciaInicio > 3 && max !== 5);
@@ -51,20 +45,21 @@ const MenuPaginacion = (props) => {
                 key={numero}
                 activo={numero === actual}
                 numero={numero}
-                onClick={setActual}>
+                onClick={cambiarPagina}>
                 {numero}
             </Elemento>)
         }
     })
 
+    rest.className += " GrupoBotones"
     return (
-        <ul className="pagination">
+        <ul {...rest} >
             {elipsisInicio && <>
                 <Elemento
                     key={min}
                     activo={actual === min}
                     numero={min}
-                    onClick={setActual}>
+                    onClick={cambiarPagina}>
                     {min}
                 </Elemento>
                 { max > 7 && <Elipsis /> }
@@ -72,7 +67,7 @@ const MenuPaginacion = (props) => {
                     key={min+1}
                     activo={actual === min+1}
                     numero={min+1}
-                    onClick={setActual}>
+                    onClick={cambiarPagina}>
                     {min+1}
                 </Elemento>}
             </>}
@@ -85,7 +80,7 @@ const MenuPaginacion = (props) => {
                     key={max - 1}
                     activo={actual === max - 1}
                     numero={max - 1}
-                    onClick={setActual}>
+                    onClick={cambiarPagina}>
                     {max - 1}
                 </Elemento>}
 
@@ -93,7 +88,7 @@ const MenuPaginacion = (props) => {
                     key={max}
                     activo={actual === max}
                     numero={max}
-                    onClick={setActual}>
+                    onClick={cambiarPagina}>
                     {max}
                 </Elemento>
             </>}
@@ -110,8 +105,7 @@ const Elemento = (props) => {
         (props.activo ? 'active' : '');
 
     let linkStyle = {
-        lineHeight: '24px',
-        width: '46px'
+        height: '40px'
     }
 
 
@@ -129,7 +123,7 @@ const Elemento = (props) => {
 }
 
 const Elipsis = (props) => {
-    return <Elemento disabled><AiOutlineEllipsis size={20} style={{ paddingBottom: '1px' }} /></Elemento>
+    return <Elemento disabled><AiOutlineEllipsis size={20} style={{ paddingBottom: '0px' }} /></Elemento>
 }
 /*
 const UltimoElemento = (props) => {

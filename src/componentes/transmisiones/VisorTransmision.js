@@ -7,42 +7,34 @@ import fedicomFetch from 'util/fedicomFetch';
 
 const VisorTransmision = (props) => {
 
-    const [resultado, setResultado] = useState(null);
-    const [error, setError] = useState(null);
-    const [cargando, setCargando] = useState(false);
+    const [resultado, setResultado] = useState( {datos: null, error: null, cargando: false} );
     let txId = props.match.params.txId;
 
-    
     const ejecutarConsulta = useCallback( () => {
-        setCargando(true);
+        setResultado({ datos: null, error: null, cargando: false })
         fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, {filter:{_id: txId}})
             .then(response => {
                 if (response) {
                     if (response.ok) {
-                        setResultado(response.body);
-                        setError(null);
+                        setResultado({ datos: response.body, error: null, cargando: false });
                     } else {
-                        setResultado(null);
-                        setError(response.body);
+                        setResultado({ datos: null, error: response.body, cargando: false });
                     }
                 }
-
             })
-            .catch(error => {
-                setResultado(null);
-                setError(error);
+            .catch(err => {
+                setResultado({ datos: null, error: err, cargando: false });
             })
-            .finally(() => setCargando(false))
-    }, [txId, props.jwt, setResultado, setError, setCargando])
+    }, [setResultado, props.jwt, txId])
 
     useEffect(() => {
         ejecutarConsulta()
-    }, [txId, props.jwt, ejecutarConsulta])
+    }, [ejecutarConsulta, props.jwt, txId])
 
     return (
         <Container fluid>
             <h1>{txId}</h1>
-            <DepuradorAPI id='VisorTransmisiones' query={{filter:{_id: txId}}} resultado={resultado} error={error} cargando={cargando} />
+            <DepuradorAPI id='VisorTransmisiones' query={{filter:{_id: txId}}} resultado={resultado} />
         </Container>
         
 

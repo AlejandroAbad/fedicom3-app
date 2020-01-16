@@ -19,11 +19,13 @@ const DepuradorAPI = (props) => {
         }
     }
 
+    const {cargando, datos, error}  = props.resultado;
+
     let estado = null;
-    if (props.cargando)
+    if (cargando)
         estado = <ProgressBar animated now={100} label={`Cargando ...`} className="my-3" />;
     else
-        if (props.error) estado = <ProgressBar now={100} variant="danger" label={`ERROR`} className="my-3" />;
+        if (error) estado = <ProgressBar now={100} variant="danger" label={`ERROR`} className="my-3" />;
         else estado = <ProgressBar now={100} variant="success" label={`OK`} className="my-3" />;
 
 
@@ -45,7 +47,7 @@ const DepuradorAPI = (props) => {
                         <Col lg={8}>
                             <h3>Respuesta</h3>
                             {estado}
-                            {!props.cargando && <ReactJson src={props.resultado || props.error || {}} shouldCollapse={(key) => { return ['headers', 'lineas', 'clientResponse', 'clientRequest', 'sapResponse', 'sapRequest', 'sapConfirms', 's'].includes(key.name) }} />}
+                            {!cargando && <ReactJson src={datos || error || {}} shouldCollapse={(key) => { return ['headers', 'lineas', 'clientResponse', 'clientRequest', 'sapResponse', 'sapRequest', 'sapConfirms', 's'].includes(key.name) }} />}
                         </Col>
                     </Row>
                 </Container>

@@ -1,43 +1,101 @@
 import React from 'react';
-import { DropdownButton, Dropdown, ButtonToolbar, ButtonGroup, Button, Row, Col } from 'react-bootstrap';
+import { Row, Col, Form } from 'react-bootstrap';
 import { MdViewHeadline, MdViewStream } from 'react-icons/md';
 import { FiFilter } from 'react-icons/fi';
 import { FaSortAmountDown } from 'react-icons/fa';
 
+import './MenuBusqueda.scss';
 import MenuPaginacion from 'componentes/menuPaginacion/MenuPaginacion';
 
 
 
 
+const Elemento = (props) => {
+
+    let className = 'page-item ' +
+        (props.deshabilitado ? 'disabled' : '') +
+        (props.activo ? 'active' : '');
+
+    let linkStyle = { height: '40px', width: '46px' }
+
+    let icono = new props.icono({ size: 20, style: { marginBottom: '2px' } })
+
+    let callback = () => { }
+    if (!props.deshabilitado && !props.activo) {
+        linkStyle.cursor = 'pointer'
+        callback = props.onClick || (() => { })
+    }
+
+    return (<li className={className}>
+        <span className="page-link text-center" role="button" style={linkStyle} onClick={callback}>
+            {icono}
+        </span>
+    </li>)
+}
+
 const MenuBusqueda = (props) => {
+
+    const { /*query,*/ resultado, distribucion, onLimiteCambiado, onPaginaCambiada, onDistribucionCambiada} = props;
+
+    if (!resultado.datos) return null;
+    const { limit, skip, total} = resultado.datos;
+
+    // Configuracion del paginador
+    let pagMax = Math.floor((total/limit) + 1);
+    let pagActual = (skip / limit) + 1;
+
+    // Configuracion del limitador de resultados
+    let limitOptions = [];
+    let stepSize = 10;
+    if (limit < stepSize) limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
+    for (let i = stepSize; i <= 50; i = i + stepSize) {
+        if (i > stepSize && limit < i && limit > (i - stepSize) )
+            limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
+        limitOptions.push(<option value={i} key={i}>{i}</option>)
+    }
+    if (limit > 50) limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
+    
+    
+    const paginaCambiada = (pagina) => {
+        if (onPaginaCambiada)
+            onPaginaCambiada(pagina);
+    }
+
+    const distribucionCambiada = (distribucion) => {
+        if (onDistribucionCambiada)
+            onDistribucionCambiada(distribucion);
+    }
 
 
     return (
-        <Row className="border-bottom pt-2 mb-3 no-gutters">
-            <Col>
-
-                <ButtonToolbar className="mb-1 border-bottom-1" >
-
-                    <MenuPaginacion min={1} max={20} actual={6} />
-
-                    <ButtonGroup size="sm" className="ml-auto" >
-                        <Button variant="outline-secondary"><MdViewHeadline size={26} className="" /></Button>
-                        <Button variant="outline-secondary"><MdViewStream size={26} className="" /></Button>
-                    </ButtonGroup>
-
-                    <div className="w-0 mx-1"></div>
-
-                    <ButtonGroup>
-                        <Button variant="outline-secondary border-right-0"><FiFilter size={22} /></Button>
-
-                        <DropdownButton variant="outline-secondary" as={ButtonGroup} title={<FaSortAmountDown size={20} style={{ paddingBottom: '3px' }} />} id="bg-nested-dropdown">
-                            <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-                            <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
-                        </DropdownButton>
-                    </ButtonGroup>
-
-                </ButtonToolbar >
+        <Row className="border-bottom no-gutters MenuBusqueda">
+            <Col className="" sm={8} xs={12}>
+                <MenuPaginacion min={1} max={pagMax} actual={pagActual} onPaginaCambiada={paginaCambiada} className="mb-2 mx-auto justify-content-center justify-content-sm-start" />
             </Col>
+            <Col className="" sm={2} xs={8}>
+                <ul className="GrupoBotones float-sm-right mb-2">
+                    <Elemento icono={MdViewHeadline} onClick={() => distribucionCambiada('tabla')} activo={distribucion === 'tabla'} />
+                    <Elemento icono={MdViewStream} onClick={() => distribucionCambiada('normal')} activo={distribucion === 'normal'} />
+                </ul>
+            </Col>
+            <Col className="pl-2" sm={2} xs={4}>
+                <ul className="GrupoBotones float-right">
+                    <Elemento icono={FiFilter} />
+                    <Elemento icono={FaSortAmountDown} />
+                </ul>
+            </Col>
+            <Col className="align-middle" md={6} sm={7} xs={5}>
+                <small className="d-none d-sm-inline mr-1">Mostrar</small>
+                <Form.Control as="select" size="sm" value={limit} className="w-auto d-inline-block h-auto" onChange={(e) => onLimiteCambiado(parseInt(e.target.value))}>
+                    {limitOptions}
+                </Form.Control>
+                <small className="d-none d-sm-inline ml-1">transmisiones por página</small>
+                <small className="d-sm-none ml-1">tx &#x02A2F; pág</small>
+            </Col>
+            <Col className="align-middle mb-2 pt-1 text-right" md={6} sm={5} xs={7}>
+                <small>Filtrando {total} {total === 1 ? 'transmisión' : 'transmisiones'}</small>
+            </Col>
+
         </Row >
     );
 }
