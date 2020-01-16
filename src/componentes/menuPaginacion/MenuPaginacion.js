@@ -1,25 +1,48 @@
 import React, { useState } from 'react';
-import { FiFilter, FiChevronsRight, FiChevronsLeft, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
+//import { FiChevronsRight, FiChevronsLeft, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 import { AiOutlineEllipsis } from 'react-icons/ai';
 
 const MenuPaginacion = (props) => {
 
-    let min = 1;
-    let max = 6;
-    const [actual, setActual] = useState(min);
-
-    let distanciaInicio = actual - min;
-    let distanciaFin = max - actual;
-
-    console.log([distanciaInicio, distanciaFin]);
+    let min = props.min;
+    let max = props.max;
+    const [actual, setActual] = useState(1);
 
     let intermedios = [];
     let elipsisInicio = false;
     let elipsisFin = false;
 
+    let posMin, posActual, posMax;
 
-    intermedios[5] = actual;
+    for (let i = -4; i <= 4; i++) {
+        let valor = actual + i;
+        let pos = 4 + i;
 
+        intermedios[pos] = (valor >= min && valor <= max) ? valor : 0;
+
+        if (valor === actual) posActual = pos
+        if (valor === min) posMin = pos
+        if (valor === max) posMax = pos
+    }
+
+    let distanciaInicio = posMin ? posActual - posMin : 4;
+    let distanciaFin = posMax ? posMax - posActual : 4;
+
+    let elementosPreservadosInicio = (distanciaInicio > 3) ? Math.max(2, 5 - distanciaFin) : 4 ;
+    let elementosPreservadosFin = (distanciaFin > 3) ? Math.max(2, 5 - distanciaInicio) : 4;
+
+
+
+    for (let i = posActual - elementosPreservadosInicio; i >= 0; i--) {
+        intermedios[i] = 0;
+    }
+
+    for (let i = posActual + elementosPreservadosFin ; i < intermedios.length; i++) {
+        intermedios[i] = 0;
+    }
+
+    elipsisFin = (distanciaFin > 3 && max !== 5);
+    elipsisInicio = (distanciaInicio > 3 && max !== 5);
 
     let elementosIntermedios = []
     intermedios.forEach(numero => {
@@ -34,24 +57,38 @@ const MenuPaginacion = (props) => {
         }
     })
 
-
     return (
         <ul className="pagination">
-            {elipsisInicio && <> 
+            {elipsisInicio && <>
                 <Elemento
                     key={min}
                     activo={actual === min}
                     numero={min}
                     onClick={setActual}>
-                        {min}
+                    {min}
                 </Elemento>
-                <Elipsis />
+                { max > 7 && <Elipsis /> }
+                {max === 7 && <Elemento
+                    key={min+1}
+                    activo={actual === min+1}
+                    numero={min+1}
+                    onClick={setActual}>
+                    {min+1}
+                </Elemento>}
             </>}
 
             {elementosIntermedios}
 
-            {elipsisFin && <> 
-                <Elipsis />
+            {elipsisFin && <>
+                {max > 7 && <Elipsis />}
+                {max === 7 && <Elemento
+                    key={max - 1}
+                    activo={actual === max - 1}
+                    numero={max - 1}
+                    onClick={setActual}>
+                    {max - 1}
+                </Elemento>}
+
                 <Elemento
                     key={max}
                     activo={actual === max}
@@ -94,7 +131,7 @@ const Elemento = (props) => {
 const Elipsis = (props) => {
     return <Elemento disabled><AiOutlineEllipsis size={20} style={{ paddingBottom: '1px' }} /></Elemento>
 }
-
+/*
 const UltimoElemento = (props) => {
     return <Elemento {...props}><FiChevronsRight size={20} style={{ paddingBottom: '1px' }} /></Elemento>
 }
@@ -110,6 +147,7 @@ const SiguienteElemento = (props) => {
 const AnteriorElemento = (props) => {
     return <Elemento {...props}><FiChevronLeft size={20} style={{ paddingBottom: '1px' }} /></Elemento>
 }
+*/
 
 
 export default MenuPaginacion;
