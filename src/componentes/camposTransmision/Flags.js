@@ -7,7 +7,7 @@ import { FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation }
 
 const FlagPopover = (props) => {
 
-    let {variant, icono, titulo, descripcion} = props;
+    let { variant, icono, titulo, descripcion } = props;
     let iconComponent = null;
     if (icono) {
         iconComponent = new icono({
@@ -33,13 +33,12 @@ const FlagPopover = (props) => {
 
 const BadgeFlag = (props) => {
 
-    // TODO: Un 
-
-    let { icono, titulo, tecnico, ...rest } = props;
+    let { icono, titulo, tecnico, formato, ...rest } = props;
     let iconComponent = null;
     if (icono) {
         iconComponent = new icono({
-            size: 14
+            size: 14,
+            className: (formato !== 'corto' ? 'mr-1' : '')
         });
     }
 
@@ -51,40 +50,44 @@ const BadgeFlag = (props) => {
 
     return (
         <OverlayTrigger trigger="hover" overlay={FlagPopover(props)} placement="bottom">
-            <Badge {...rest}>{iconComponent || null} {titulo}</Badge>
+            <Badge {...rest}>{iconComponent || null}{formato !== 'corto' && titulo}</Badge>
         </OverlayTrigger>
     )
 
 }
 
-let index = 0;
-const FLAG_BADGES = {
-    sqlite: <BadgeFlag key={index++} variant="danger" titulo="SQLite" icono={FaDatabase} descripcion="La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB." tecnico />,
-    retransUpd: <BadgeFlag key={index++} variant="info" titulo="Actualizado" icono={FaRetweet} descripcion="El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." />,
-    retransNoUpd: <BadgeFlag key={index++} variant="danger" titulo="Retransmitido" icono={FaRetweet} descripcion="El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." />,
-    watchdog: <BadgeFlag key={index++} variant="warning" titulo="Recuperado" icono={MdBugReport} descripcion="El estado del pedido ha sido recuperado por el WatchDog." tecnico />,
-    noSap: <BadgeFlag key={index++} variant="danger" titulo="Sin faltas" icono={MdPortableWifiOff} descripcion="No se devolvieron faltas para este pedido." />,
-    estupe: <BadgeFlag key={index++} variant="success" titulo="Estupe" icono={GiMedicines} descripcion="El pedido contiene algún producto estupefaciente." />,
-    dupes: <BadgeFlag key={index++} variant="warning" titulo="Duplicados" icono={MdControlPointDuplicate} descripcion="Esta transmisión se ha sido recibido varias veces. El resto de transmisiones se marcaron como duplicadas." />,
-    bonif: <BadgeFlag key={index++} variant="success" titulo="Bonificado" icono={FaPercentage} descripcion="El pedido contiene líneas bonificadas." />,
-    transfer: <BadgeFlag key={index++} variant="primary" titulo="Transfer" icono={MdAirplanemodeActive} descripcion="El pedido lo realiza un laboratorio." />,
-    faltaTotal: <BadgeFlag key={index++} variant="secondary" titulo="Falta Total" icono={FaCreativeCommonsNc} descripcion="Todas las líneas del pedido son falta total. No se servirá nada." />,
-    formato: <BadgeFlag key={index++} variant="warning" titulo="Formato" icono={FaRadiation} descripcion={<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>} tecnico />,
-    demorado: <BadgeFlag key={index++} variant="primary" titulo="Demorado" icono={MdTimer} descripcion={<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>} />,
+
+const DEFINICION_FLAGS = {
+    sqlite: { variant: "danger", titulo: "SQLite", icono: FaDatabase, descripcion: "La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB.", tecnico: true },
+    retransUpd: { variant: "info", titulo: "Actualizado", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." },
+    retransNoUpd: { variant: "danger", titulo: "Retransmitido", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." },
+    watchdog: { variant: "warning", titulo: "Recuperado", icono: MdBugReport, descripcion: "El estado del pedido ha sido recuperado por el WatchDog.", tecnico: true },
+    noSap: { variant: "danger", titulo: "Sin faltas", icono: MdPortableWifiOff, descripcion: "No se devolvieron faltas para este pedido." },
+    estupe: { variant: "success", titulo: "Estupe", icono: GiMedicines, descripcion: "El pedido contiene algún producto estupefaciente." },
+    dupes: { variant: "warning", titulo: "Duplicados", icono: MdControlPointDuplicate, descripcion: "Esta transmisión se ha sido recibido varias veces. El resto de transmisiones se marcaron como duplicadas." },
+    bonif: { variant: "success", titulo: "Bonificado", icono: FaPercentage, descripcion: "El pedido contiene líneas bonificadas." },
+    transfer: { variant: "primary", titulo: "Transfer", icono: MdAirplanemodeActive, descripcion: "El pedido lo realiza un laboratorio." },
+    faltaTotal: { variant: "secondary", titulo: "Falta Total", icono: FaCreativeCommonsNc, descripcion: "Todas las líneas del pedido son falta total. No se servirá nada." },
+    formato: { variant: "warning", titulo: "Formato", icono: FaRadiation, descripcion: (<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>), tecnico: true },
+    demorado: { variant: "primary", titulo: "Demorado", icono: MdTimer, descripcion: (<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>) },
 }
 
 
 const Flags = (props) => {
 
-    let flags = props.flags;
-    if (!flags) return null;
+    const { flags, formato } = props;
 
+    if (!flags) return null;
+    let index = 0;
     let flagBadges = [];
     for (var flag in flags) {
-        if (flags[flag] === true && FLAG_BADGES[flag]) 
-            flagBadges.push(FLAG_BADGES[flag]);
+        let propiedades = DEFINICION_FLAGS[flag];
+        if (flags[flag] === true && propiedades) {
+            flagBadges.push(
+                <BadgeFlag key={++index} {...propiedades} formato={formato || 'normal'} />
+            )
+        }
     }
-
 
     return (<>
         {flagBadges}
