@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
-import { Pagination, DropdownButton, Dropdown, ButtonToolbar, ButtonGroup, Button, Row, Col } from 'react-bootstrap';
+import React from 'react';
+import { DropdownButton, Dropdown, ButtonToolbar, ButtonGroup, Button, Row, Col } from 'react-bootstrap';
 import { MdViewHeadline, MdViewStream } from 'react-icons/md';
 import { FiFilter } from 'react-icons/fi';
-import { FaSortAmountDown, FaEllipsisH } from 'react-icons/fa';
+import { FaSortAmountDown } from 'react-icons/fa';
 
 import MenuPaginacion from 'componentes/menuPaginacion/MenuPaginacion';
 

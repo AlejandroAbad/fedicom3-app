@@ -5,7 +5,7 @@ import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom"
 
 import 'App.scss';
 
-import { Container } from 'react-bootstrap';
+
 import ReactJson from 'react-json-view';
 
 import BootstrapMedia from 'componentes/debug/bootstrapMedia/BootstrapMedia';

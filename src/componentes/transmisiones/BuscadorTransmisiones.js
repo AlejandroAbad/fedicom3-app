@@ -1,6 +1,6 @@
 import K from 'K';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row} from 'react-bootstrap';
+// import { Container, Row} from 'react-bootstrap';
 
 
 import fedicomFetch from 'util/fedicomFetch';
@@ -74,7 +74,7 @@ const BuscadorTransmisiones = (props) => {
     useEffect(() => {
         ejecutarConsulta()
     }, [ejecutarConsulta, query, props.jwt])
-    
+
 
 
     let filas = [];
