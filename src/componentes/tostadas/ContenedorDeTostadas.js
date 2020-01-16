@@ -5,10 +5,10 @@ const ContenedorDeTostadas = (props) => {
     return (
         <div aria-live="polite" aria-atomic="true" style={{
             position: 'fixed',
-            top: '80px',
-            right: '10px',
-            minHeight: '200px',
-
+            bottom: 0,
+            right: '20px',
+            minHeight: '160px',
+            zIndex: 99999
         }}
         >
             <div style={{
