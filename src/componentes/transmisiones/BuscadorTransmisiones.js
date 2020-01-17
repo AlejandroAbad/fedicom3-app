@@ -1,5 +1,6 @@
 import K from 'K';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+//import moment from 'moment';
 // import update from 'immutability-helper';
 // import { Container, Row} from 'react-bootstrap';
 
@@ -11,8 +12,10 @@ import useStateLocalStorage from 'util/useStateLocalStorage';
 import EstadoConsulta from './EstadoConsulta';
 import FilaTransmision from './FilaTransmision';
 import MenuBusqueda from './MenuBusqueda';
+import FormularioOrden from './FormularioOrden';
+import FormularioFiltros from './FormularioFiltros';
 
-const PROYECCION_POR_DEFECTO = {
+const PROYECCION = {
     _id: 1,
     client: 1,
     authenticatingUser: 1,
@@ -35,25 +38,45 @@ const PROYECCION_POR_DEFECTO = {
 };
 
 const LIMITE_POR_DEFECTO = 10;
-const FILTRO_POR_DEFECTO = { type: { $in: [10, 14] } }
+const FILTRO_POR_DEFECTO = {
+    type: { $in: [10, 14] },
+    //createdAt: { $gte: moment().startOf('day'), $lt: moment().endOf('day') }
+}
 const SORT_POR_DEFECTO = { createdAt: -1 }
 
 
 const BuscadorTransmisiones = (props) => {
 
+    console.log('RENDER');
     // Control de la consulta al API
-    const [query, setQuery] = useStateLocalStorage('buscador.consulta', { filter: FILTRO_POR_DEFECTO, limit: LIMITE_POR_DEFECTO, proyeccion: PROYECCION_POR_DEFECTO, sort: SORT_POR_DEFECTO, skip: 0 }, true);
-    const [resultado, setResultado] = useState({datos: null, error: null, cargando: false});
-    const [formato, setFormato] = useStateLocalStorage('buscador.formato', 'normal', false);
+    const [query, _setQuery] = useStateLocalStorage('buscador.query', {filter: FILTRO_POR_DEFECTO, sort: SORT_POR_DEFECTO, limit: LIMITE_POR_DEFECTO, skip: 0}, true)
+    
+    const [resultado, setResultado] = useState({ datos: null, error: null, cargando: false })
+
+    // Controla el formato en el que muestra el display (normal o compacto)
+    const [formato, setFormato] = useStateLocalStorage('buscador.formato', 'normal', false)
+
+    // Determina si mostrar la tabla de resultados, 
+    const [funcion, setFuncion] = useStateLocalStorage('buscador.funcion', 'visor', false)
 
     // Para no perder el ultimo resultado entre cargas de mas resultados
-    const ultimoResultado = useRef( resultado );
+    const ultimoResultado = useRef(resultado);
     if (resultado !== ultimoResultado.current) ultimoResultado.current = resultado;
-        
+
+    const construirQuery = useCallback(() => {
+        return {
+            filter: query.filter,
+            proyection: PROYECCION,
+            sort: query.sort,
+            skip: parseInt(query.skip),
+            limit: parseInt(query.limit)
+        }
+    }, [query])
 
     const ejecutarConsulta = useCallback(() => {
+        console.log('Q', construirQuery())
         setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
-        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, query)
+        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, construirQuery())
             .then(response => {
                 if (response) {
                     if (response.ok) {
@@ -67,53 +90,97 @@ const BuscadorTransmisiones = (props) => {
             .catch(error => {
                 setResultado({ datos: null, error, cargando: false });
             })
-    }, [query, setResultado, props.jwt])
+    }, [setResultado, props.jwt, construirQuery])
 
     useEffect(() => {
         ejecutarConsulta()
-    }, [ejecutarConsulta, query, props.jwt])
+    }, [ejecutarConsulta])
 
-
-    const cambiarLimite = (newLimit) => {
+    const cambiarLimiteResultados = (limite) => {
         let queryNueva = {}
         Object.assign(queryNueva, query);
-        queryNueva.limit = newLimit;
-        setQuery(queryNueva);
+        queryNueva.limit = limite;
+        queryNueva.skip = 0;
+        setFuncion('visor');
+        _setQuery(queryNueva);
     };
 
-    const cambiarPagina = (newPage) => {
+    const cambiarPagina = (pagina) => {
         let queryNueva = {}
         Object.assign(queryNueva, query);
-        queryNueva.skip = (newPage - 1) * query.limit;
-        setQuery(queryNueva);
+        queryNueva.skip = (pagina - 1) * query.limit;
+        setFuncion('visor');
+        _setQuery(queryNueva);
     };
 
-    
+    const cambiarOrden = (orden) => {
+        let queryNueva = {}
+        Object.assign(queryNueva, query);
+        queryNueva.orden = orden;
+        queryNueva.skip = 0;
+        setFuncion('visor');
+        _setQuery(queryNueva);
+    }
+
+    const cambiarFiltro = (filtro) => {
+        let queryNueva = {}
+        Object.assign(queryNueva, query);
+        queryNueva.filter = filtro;
+        queryNueva.skip = 0;
+        setFuncion('visor');
+        _setQuery(queryNueva);
+    }
 
 
 
-    let filas = [];
-    if (!resultado.cargando && resultado.datos && resultado.datos.data && resultado.datos.data.length > 0) {
-        resultado.datos.data.forEach((transmision, index) => {
-            filas.push(<FilaTransmision key={index} transmision={transmision} formato={formato} />)
-        });
+
+    let contenidoPagina = null;
+    if (funcion === 'filtro') {
+
+        contenidoPagina = <FormularioFiltros
+            filtros={query.filter}
+            onAceptar={cambiarFiltro}
+            onCancelar={() => { setFuncion('visor') }}
+        />
+
+    } else if (funcion === 'orden') {
+
+        contenidoPagina = <FormularioOrden
+            orden={query.sort}
+            onAceptar={cambiarOrden}
+            onCancelar={() => { setFuncion('visor') }}
+        />
+
+    } else {
+
+        let filas = [];
+        if (!resultado.cargando && resultado.datos && resultado.datos.data && resultado.datos.data.length > 0) {
+            resultado.datos.data.forEach((transmision, index) => {
+                filas.push(<FilaTransmision key={index} transmision={transmision} formato={formato} />)
+            });
+        }
+        contenidoPagina = (<>
+            <MenuBusqueda
+                query={construirQuery()}
+                resultado={resultado}
+                formato={formato}
+                funcion={funcion}
+                onLimiteCambiado={cambiarLimiteResultados}
+                onPaginaCambiada={cambiarPagina}
+                onFormatoCambiado={setFormato}
+                onFuncionCambiada={setFuncion} />
+            {(resultado.cargando || !filas.length) && <EstadoConsulta query={construirQuery()} resultado={resultado} onRetry={ejecutarConsulta} />}
+            {filas}
+        </>);
+
     }
 
     return (
         <>
             <div className="container-xl">
-                <MenuBusqueda 
-                    query={query} 
-                    resultado={resultado}
-                    formato={formato}
-                    onLimiteCambiado={cambiarLimite} 
-                    onPaginaCambiada={cambiarPagina} 
-                    onFormatoCambiado={setFormato}/>
-                
-                {(resultado.cargando || !filas.length)  && <EstadoConsulta query={query} resultado={resultado} onRetry={ejecutarConsulta} />}
-                {filas}
+                {contenidoPagina}
             </div>
-            {/*<DepuradorAPI id='BuscadorTransmisiones' query={query} resultado={resultado} onQueryChanged={setQuery} />*/}
+            {/*<DepuradorAPI id='BuscadorTransmisiones' query={construirQuery()} resultado={resultado} />*/}
         </>
     )
 }

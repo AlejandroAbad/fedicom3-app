@@ -1,52 +1,51 @@
-import React from 'react';
-import { Row, Col, Form } from 'react-bootstrap';
-import { MdViewHeadline, MdViewStream } from 'react-icons/md';
-import { FiFilter } from 'react-icons/fi';
-import { FaSortAmountDown } from 'react-icons/fa';
+import React from 'react'
+import { Row, Col, Form } from 'react-bootstrap'
+import { MdViewHeadline, MdViewStream } from 'react-icons/md'
+import { FiFilter } from 'react-icons/fi'
+import { FaSortAmountDown } from 'react-icons/fa'
 
-import './MenuBusqueda.scss';
-import MenuPaginacion from 'componentes/menuPaginacion/MenuPaginacion';
+import './MenuBusqueda.scss'
+import MenuPaginacion from 'componentes/menuPaginacion/MenuPaginacion'
 
 
 
 
 const Elemento = (props) => {
 
-    let className = 'page-item ' +
-        (props.deshabilitado ? 'disabled' : '') +
-        (props.activo ? 'active' : '');
+    let { activo, deshabilitado, icono, className, onClick, ...rest} = props
 
+    className = className + ' page-item ' +        (deshabilitado ? 'disabled' : '') +        (activo ? 'active' : '')
     let linkStyle = { height: '40px', width: '46px' }
 
-    let icono = new props.icono({ size: 20, style: { marginBottom: '2px' } })
+    let elementoIcono = new icono({ size: 20, style: { marginBottom: '2px' } })
 
     let callback = () => { }
-    if (!props.deshabilitado && !props.activo) {
+    if (!deshabilitado && !activo) {
         linkStyle.cursor = 'pointer'
-        callback = props.onClick || (() => { })
+        callback = onClick || (() => { })
     }
 
-    return (<li className={className}>
+    return (<li className={className} {...rest}>
         <span className="page-link text-center" role="button" style={linkStyle} onClick={callback}>
-            {icono}
+            {elementoIcono}
         </span>
     </li>)
 }
 
 const MenuBusqueda = (props) => {
 
-    const { /*query,*/ resultado, formato, onLimiteCambiado, onPaginaCambiada, onFormatoCambiado} = props;
+    const { resultado, formato, funcion, onLimiteCambiado, onPaginaCambiada, onFormatoCambiado, onFuncionCambiada} = props
 
     if (!resultado.datos) return null;
-    const { limit, skip, total} = resultado.datos;
+    const { limit, skip, total} = resultado.datos
 
     // Configuracion del paginador
-    let pagMax = Math.floor((total/limit) + 1);
-    let pagActual = (skip / limit) + 1;
+    let pagMax = Math.floor((total/limit) + 1)
+    let pagActual = (skip / limit) + 1
 
     // Configuracion del limitador de resultados
-    let limitOptions = [];
-    let stepSize = 10;
+    let limitOptions = []
+    let stepSize = 10
     if (limit < stepSize) limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
     for (let i = stepSize; i <= 50; i = i + stepSize) {
         if (i > stepSize && limit < i && limit > (i - stepSize) )
@@ -58,13 +57,20 @@ const MenuBusqueda = (props) => {
     
     const paginaCambiada = (pagina) => {
         if (onPaginaCambiada)
-            onPaginaCambiada(pagina);
+            onPaginaCambiada(pagina)
     }
 
     const cambiarFormato = (formato) => {
         if (onFormatoCambiado)
-            onFormatoCambiado(formato);
+            onFormatoCambiado(formato)
     }
+
+    const cambiarFuncion = (funcion) => {
+        if (onFuncionCambiada)
+            onFuncionCambiada(funcion)
+    }
+
+
 
 
     return (
@@ -80,8 +86,8 @@ const MenuBusqueda = (props) => {
             </Col>
             <Col className="pl-2" sm={2} xs={4}>
                 <ul className="GrupoBotones float-right">
-                    <Elemento icono={FiFilter} />
-                    <Elemento icono={FaSortAmountDown} />
+                    <Elemento icono={FiFilter} onClick={() => cambiarFuncion('filtro')} activo={funcion === 'filtro'} />
+                    <Elemento icono={FaSortAmountDown} onClick={() => cambiarFuncion('orden')} activo={funcion === 'orden'} />
                 </ul>
             </Col>
             <Col className="align-middle" md={6} sm={7} xs={5}>
@@ -97,7 +103,7 @@ const MenuBusqueda = (props) => {
             </Col>
 
         </Row >
-    );
+    )
 }
 
-export default MenuBusqueda;
+export default MenuBusqueda
