@@ -44,7 +44,7 @@ const BuscadorTransmisiones = (props) => {
     // Control de la consulta al API
     const [query, setQuery] = useStateLocalStorage('buscador.consulta', { filter: FILTRO_POR_DEFECTO, limit: LIMITE_POR_DEFECTO, proyeccion: PROYECCION_POR_DEFECTO, sort: SORT_POR_DEFECTO, skip: 0 }, true);
     const [resultado, setResultado] = useState({datos: null, error: null, cargando: false});
-    const [distribucion, setDistribucion] = useStateLocalStorage('buscador.distribucion', 'normal', false);
+    const [formato, setFormato] = useStateLocalStorage('buscador.formato', 'normal', false);
 
     // Para no perder el ultimo resultado entre cargas de mas resultados
     const ultimoResultado = useRef( resultado );
@@ -95,7 +95,7 @@ const BuscadorTransmisiones = (props) => {
     let filas = [];
     if (!resultado.cargando && resultado.datos && resultado.datos.data && resultado.datos.data.length > 0) {
         resultado.datos.data.forEach((transmision, index) => {
-            filas.push(<FilaTransmision key={index} transmision={transmision} distribucion={distribucion} />)
+            filas.push(<FilaTransmision key={index} transmision={transmision} formato={formato} />)
         });
     }
 
@@ -105,10 +105,10 @@ const BuscadorTransmisiones = (props) => {
                 <MenuBusqueda 
                     query={query} 
                     resultado={resultado}
-                    distribucion={distribucion}
+                    formato={formato}
                     onLimiteCambiado={cambiarLimite} 
                     onPaginaCambiada={cambiarPagina} 
-                    onDistribucionCambiada={setDistribucion}/>
+                    onFormatoCambiado={setFormato}/>
                 
                 {(resultado.cargando || !filas.length)  && <EstadoConsulta query={query} resultado={resultado} onRetry={ejecutarConsulta} />}
                 {filas}

@@ -35,7 +35,7 @@ const Elemento = (props) => {
 
 const MenuBusqueda = (props) => {
 
-    const { /*query,*/ resultado, distribucion, onLimiteCambiado, onPaginaCambiada, onDistribucionCambiada} = props;
+    const { /*query,*/ resultado, formato, onLimiteCambiado, onPaginaCambiada, onFormatoCambiado} = props;
 
     if (!resultado.datos) return null;
     const { limit, skip, total} = resultado.datos;
@@ -61,9 +61,9 @@ const MenuBusqueda = (props) => {
             onPaginaCambiada(pagina);
     }
 
-    const distribucionCambiada = (distribucion) => {
-        if (onDistribucionCambiada)
-            onDistribucionCambiada(distribucion);
+    const cambiarFormato = (formato) => {
+        if (onFormatoCambiado)
+            onFormatoCambiado(formato);
     }
 
 
@@ -74,8 +74,8 @@ const MenuBusqueda = (props) => {
             </Col>
             <Col className="" sm={2} xs={8}>
                 <ul className="GrupoBotones float-sm-right mb-2">
-                    <Elemento icono={MdViewHeadline} onClick={() => distribucionCambiada('tabla')} activo={distribucion === 'tabla'} />
-                    <Elemento icono={MdViewStream} onClick={() => distribucionCambiada('normal')} activo={distribucion === 'normal'} />
+                    <Elemento icono={MdViewHeadline} onClick={() => cambiarFormato('compacto')} activo={formato === 'compacto'} />
+                    <Elemento icono={MdViewStream} onClick={() => cambiarFormato('normal')} activo={formato === 'normal'} />
                 </ul>
             </Col>
             <Col className="pl-2" sm={2} xs={4}>

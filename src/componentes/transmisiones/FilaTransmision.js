@@ -20,10 +20,9 @@ import { IoIosPerson } from 'react-icons/io';
 
 const FilaTransmision = (props) => {
 
-    let tx = props.transmision;
-    let distribucion = props.distribucion;
+    let { transmision: tx, formato } = props
 
-    if (distribucion === 'tabla') {
+    if (formato === 'compacto') {
         let user = new CodigoCliente(tx.client);
         if (user.isVacio())
             user = new CodigoCliente(tx.authenticatingUser);
@@ -38,7 +37,7 @@ const FilaTransmision = (props) => {
                 <Col xs={6} sm={6} md={5} lg={2} xl="auto" className="ml-xl-3"><EtiquetaTipo tipo={tx.type} /></Col>
                 <Col xs={6} sm={6} md={3} lg={2} xl="auto" className="ml-xl-3"><EtiquetaEstado estado={tx.status} /></Col>
                 <Col xs={6} sm={6} md={3} lg={3} xl="auto" className="ml-xl-3"><IoIosPerson className="text-info" size={18} />{componenteCliente}</Col>
-                <Col xs={6} sm={6} md={3} lg={2} xl="auto" className="ml-xl-3"><AlmacenServicio transmision={tx} /></Col>
+                <Col xs={6} sm={6} md={3} lg={2} xl="auto" className="ml-xl-3"><AlmacenServicio transmision={tx} formato="corto" /></Col>
                 <Col xs={12} sm={12} md={3} lg={10} xl="auto" className="ml-xl-3"><TotalesPedido transmision={tx} /></Col>
                 <Col xl="auto" className="d-none d-xl-inline-block ml-xl-3"><Flags flags={tx.flags} formato="corto" /></Col>
             </Row>
