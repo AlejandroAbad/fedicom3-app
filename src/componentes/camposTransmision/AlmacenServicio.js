@@ -27,12 +27,26 @@ const getNombreAlmacen = (codigo) => {
 
 const AlmacenServicio = (props) => {
 
-    let tx = props.transmision;
+    let { transmision: tx, formato} = props
+    
 
     let almacenSolicitado = (tx && tx.clientRequest && tx.clientRequest.body) ? tx.clientRequest.body.codigoAlmacenServicio : null;
     let almacenElegido = (tx && tx.clientResponse && tx.clientResponse.body) ? tx.clientResponse.body.codigoAlmacenServicio : null;
     
     if (!almacenElegido && !almacenSolicitado) return null;
+
+    if (formato === 'corto') {
+        let nombreAlmacen = getNombreAlmacen(almacenElegido);
+        if (!nombreAlmacen.substring) {
+            // Si no es string
+            return <code className="text-reset"><FaWarehouse size={18} className="text-info" style={{ paddingBottom: '3px' }} />
+                <abbr className="ml-1 text-decoration-none text-warning" title="Desconocido">{almacenElegido}</abbr>
+            </code>;
+        }
+        return <code className="text-reset"><FaWarehouse size={18} className="text-info" style={{ paddingBottom: '3px' }} />
+            <abbr className="ml-1 text-decoration-none" title={getNombreAlmacen(almacenElegido)}>{almacenElegido}</abbr>
+        </code>;
+    }
 
     if (almacenSolicitado === almacenElegido || !almacenElegido) {
         return <code className="text-reset"><FaWarehouse size={18} className="text-info" style={{ paddingBottom: '3px' }} />
