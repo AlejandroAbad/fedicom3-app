@@ -7,8 +7,8 @@ const jsonFetch = async (url, options = {}, body = null) => {
         options.body = JSON.stringify(body);
         if (options.headers)
             options.headers['Content-Type'] = 'application/json';
-        else 
-            options.headers = {'Content-Type' : 'application/json'};
+        else
+            options.headers = { 'Content-Type': 'application/json' };
         if (!options.method) options.method = 'POST';
     }
 

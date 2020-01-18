@@ -1,69 +1,38 @@
-import React from 'react';
+import K from 'K'
+import React from 'react'
 
+import { Row, Col } from 'react-bootstrap'
+import { IoIosPerson, IoMdKey } from 'react-icons/io'
 
-
-const LABORATORIOS = {
-    '60200357': 'INDAS',
-    '60200614': 'PFIZER',
-    '60200118': 'CINFA',
-    '60201909': 'STADA',
-    '60202977': 'TEVA',
-    '60201230': 'MEDA-PHARMA',
-    '60203056': 'QUALIGEN',
-    '60202713': 'KERN',
-    '60202056': 'RATIOPHARM',
-    '60203087': 'ACTAVIS',
-    '60202004': 'ITALFARMACO',
-    '60202331': 'RINTER',
-    '60202979': 'RINTER CORONA',
-    '60202707': 'IODES',
-    '60200002': 'ABBOT PEDIASURE',
-    '60200561': 'NORMON',
-    '60203123': 'Lab60203123',
-    '60203226': 'PFIZER_2',
-    '60200767': 'HARTMANN',
-    '60203449': 'ABBOT-BGP',
-    '60202422': 'MABOFARMA',
-    '60202740': 'APOTEX',
-    '60203401': 'Lab60203401',
-    '60200282': 'SANDOZ',
-    '60202659': 'BEXAL',
-    '60203016': 'Lab60203016',
-    '60202637': 'Lab60202637',
-    '60200223': 'ESTEVE',
-    '60202374': 'EFFIK',
-    '60202256': 'Lab60202256',
-    '60202257': 'Lab60202257',
-    '60202833': 'MYLAN',
-    '60200253': 'FERRER INTERNACIONAL',
-    '60200020': 'DAIICHI-SANKYO',
-    '60202430': 'OMEGA-PHARMA'
-}
-
-const VKORG = {
-    '101': ['HF01', 'Hefame'],
-    '2901': ['BF01', 'Borginofarma'],
-    '180': ['FM01', 'Famesa'],
-    '309': ['IT01', 'Interapothek']
-}
+import Icono from 'componentes/icono/Icono'
 
 const getNombreLaboratorio = (codigoLaboratorio) => {
-    return LABORATORIOS[codigoLaboratorio] || 'Desconocido';
+    return K.LABORATORIOS[codigoLaboratorio] || 'Desconocido'
 }
 
 const getTextoTipoTransfer = (tipoTransfer) => {
-    switch (tipoTransfer) {
-        case 'TG': return 'Transfer Gratuito';
-        case 'TP': return 'Transfer Portal';
-        default: return 'Transfer Normal';
-    }
+    return K.TIPOS_TRANSFER[tipoTransfer] || 'Transfer desconocido'
 }
 
 const getSociedad = (codigo) => {
-    return VKORG[codigo] || ['????', 'Desconocida'];
+    return K.VKORG[codigo] || ['????', 'Desconocida']
 }
 
+const TextoMuteado = (props) => {
+    if (!props.texto) return null;
+    let { className, style, ...rest } = props;
 
+    className = 'font-italic ' + className;
+    if (!style) style = {};
+    style.opacity = 0.35;
+    style.letterSpacing = '-0.05em';
+
+    return <span {...rest} className={className} style={style}>{props.texto}</span>;
+}
+
+const TextoSociedad = (props) => {
+    return <abbr title={'Sociedad: ' + props.codigoSap + ' - ' + props.nombre} className="text-decoration-none">{props.codigo}</abbr>
+}
 
 export class CodigoCliente {
 
@@ -136,55 +105,44 @@ export class CodigoCliente {
         return this.tipo === 'cliente'
     }
 
-    equals( otro ) {
-        return (this.codigoComparable === otro.codigoComparable ) ;
+    equals(otro) {
+        return (this.codigoComparable === otro.codigoComparable);
     }
 
 
 }
 
-const TextoMuteado = (props) => {
-    if (!props.texto) return null;
-    let {className, style, ...rest}  = props;
+export const TextoCodigoCliente = ({ codigoCliente, ...props }) => {
 
-    className = 'font-italic ' + className;
-    if (!style) style = {};
-    style.opacity = 0.35;
-    style.letterSpacing = '-0.05em';
-    
-    return <span {...rest} className={className} style={style}>{props.texto}</span>;
-}
-const TextoSociedad = (props) => {
-    return <abbr title={'Sociedad: ' + props.codigoSap + ' - ' + props.nombre} className="text-decoration-none">{props.codigo}</abbr>
-}
 
-export const TextoCodigoCliente = (props) => {
-
-    let codigoCliente = props.codigo;
-    if (typeof codigoCliente === 'string' || codigoCliente instanceof String)
+    if (!codigoCliente.isLiteral) {
         codigoCliente = new CodigoCliente(codigoCliente);
-    else
-        
+    }
+
 
     if (codigoCliente.isLiteral()) {
         return <code className="text-reset">{codigoCliente.codigoCliente}</code>
     }
 
     if (codigoCliente.isSoloCliente()) {
-        return <code className="text-reset">
-            <TextoMuteado texto={codigoCliente.cerosIniciales} />
-            {codigoCliente.codigoCliente}
-            <TextoMuteado className="" texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
-        </code>
+        return (
+            <code className="text-reset">
+                <TextoMuteado texto={codigoCliente.cerosIniciales} />
+                {codigoCliente.codigoCliente}
+                <TextoMuteado className="" texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
+            </code>
+        )
     }
 
     if (codigoCliente.isClienteSociedad()) {
-        return <code className="text-reset">
-            <TextoMuteado texto={codigoCliente.cerosIniciales} />
-            <TextoSociedad codigo={codigoCliente.codigoSociedad} codigoSap={codigoCliente.codigoSociedadSap} nombre={codigoCliente.nombreSociedad} />
-            {codigoCliente.codigoCliente.padStart(5, '0')}
-            <TextoMuteado style={{ fontSize: '90%' }} texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
-        </code>
+        return (
+            <code className="text-reset">
+                <TextoMuteado texto={codigoCliente.cerosIniciales} />
+                <TextoSociedad codigo={codigoCliente.codigoSociedad} codigoSap={codigoCliente.codigoSociedadSap} nombre={codigoCliente.nombreSociedad} />
+                {codigoCliente.codigoCliente.padStart(5, '0')}
+                <TextoMuteado style={{ fontSize: '90%' }} texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
+            </code>
+        )
     }
 
     if (codigoCliente.isLaboratorio()) {
@@ -194,10 +152,53 @@ export const TextoCodigoCliente = (props) => {
                     <abbr className="font-weight-bold text-dark text-decoration-none" title={codigoCliente.nombreTipoTransfer}>{codigoCliente.tipoTransfer}</abbr>
                     {/*codigoCliente.codigoLaboratorio*/}
                 </code>&nbsp;<code>{codigoCliente.nombreLaboratorio}</code>
-            </>);
+            </>
+        )
 
     }
 
     return <code className="text-reset text-muted font-italic" style={{ fontVariant: 'small-caps' }}>Sin identificar</code>;
+
+}
+
+export const UsuarioTransmision = ({ transmision, ...props }) => {
+
+    let codigoCliente = new CodigoCliente(transmision.client);
+    let usuarioAutenticado = new CodigoCliente(transmision.authenticatingUser);
+    let codigoClienteSap = new CodigoCliente(transmision.sapResponse && transmision.sapResponse.body ? transmision.sapResponse.body.sap_cliente : null);
+
+    let textoSuperior = null;
+    let textoInferior = null;
+
+    if (codigoCliente.isVacio()) {
+        textoSuperior = <TextoCodigoCliente codigoCliente={usuarioAutenticado} />
+    } else {
+
+        if (!codigoClienteSap || codigoClienteSap.isVacio() || codigoCliente.codigoOriginal === codigoClienteSap.codigoOriginal) {
+            textoInferior = <TextoCodigoCliente codigoCliente={codigoCliente} />
+        } else {
+            textoInferior = <><TextoCodigoCliente codigoCliente={codigoCliente} /> &raquo; <TextoCodigoCliente codigoCliente={codigoClienteSap} /></>
+        }
+
+        if (usuarioAutenticado.isVacio()) {
+            textoSuperior = (<>
+                <small className="small-caps">Sin autenticar</small>
+            </>);
+        } else {
+            if (!codigoCliente.equals(usuarioAutenticado)) {
+                textoSuperior = (<>
+                    <TextoCodigoCliente codigoCliente={usuarioAutenticado} />
+                    {!usuarioAutenticado.isLaboratorio() && <small className="texto-compacto"> a nombre de</small>}
+                </>);
+            }
+        }
+    }
+
+    return (
+        <Row className="p-0 m-0 no-gutters">
+            {textoSuperior && <Col lg={12}><Icono icono={IoMdKey} posicion={[16, 0]} className="text-info mr-1" />{textoSuperior}</Col>}
+            {textoInferior && <Col lg={12}><Icono icono={IoIosPerson} posicion={[16, 0]} className="text-info mr-1" />{textoInferior}</Col>}
+        </Row>
+    )
 
 }

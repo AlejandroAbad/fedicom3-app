@@ -4,33 +4,33 @@ import ReactJson from 'react-json-view';
 
 import useStateLocalStorage from 'util/useStateLocalStorage';
 
-const DepuradorAPI = (props) => {
+const DepuradorAPI = ({ id, query, resultado, onQueryChanged, ...props }) => {
 
-    let nombreDepurador = useRef(props.id);
+    let nombreDepurador = useRef(id);
     const [openDebug, setOpenDebug] = useStateLocalStorage('depuradorAPI.' + nombreDepurador.current, false, false);
 
     var callbackBinds = {};
-    if (props.onQueryChanged) {
+    if (onQueryChanged) {
         callbackBinds = {
-            onEdit: (e) => props.onQueryChanged(e.updated_src),
-            onAdd: (e) => props.onQueryChanged(e.updated_src),
-            onDelete: (e) => props.onQueryChanged(e.updated_src),
+            onEdit: (e) => onQueryChanged(e.updated_src),
+            onAdd: (e) => onQueryChanged(e.updated_src),
+            onDelete: (e) => onQueryChanged(e.updated_src),
             shouldCollapse: (key) => { return ['filter', 'projection', 'sort'].includes(key.name) }
         }
     }
 
-    const {cargando, datos, error}  = props.resultado;
+    const { cargando, datos, error } = resultado
 
-    let estado = null;
+    let estado = null
     if (cargando)
-        estado = <ProgressBar animated now={100} label={`Cargando ...`} className="my-3" />;
+        estado = <ProgressBar animated now={100} label="Cargando ..." className="my-3" />
     else
-        if (error) estado = <ProgressBar now={100} variant="danger" label={`ERROR`} className="my-3" />;
-        else estado = <ProgressBar now={100} variant="success" label={`OK`} className="my-3" />;
+        if (error) estado = <ProgressBar now={100} variant="danger" label={`ERROR`} className="my-3" />
+        else estado = <ProgressBar now={100} variant="success" label={`OK`} className="my-3" />
 
 
     return (
-        <Container fluid className="border border-info rounded pb-0 mb-3 mt-5">
+        <Container fluid className="border-top border-primary pb-0 mb-3 mt-5">
             <Col className="text-right my-4">
                 <Button size="sm" onClick={() => setOpenDebug(!openDebug)} aria-controls="collapse-depurador-api" aria-expanded={openDebug}>
                     {openDebug ? 'Ocultar debug' : 'Mostrar debug'}
@@ -42,7 +42,7 @@ const DepuradorAPI = (props) => {
                     <Row>
                         <Col lg={4}>
                             <h3>Consulta</h3>
-                            <ReactJson src={props.query || {}} {...callbackBinds} />
+                            <ReactJson src={query || {}} {...callbackBinds} />
                         </Col>
                         <Col lg={8}>
                             <h3>Respuesta</h3>
@@ -53,8 +53,7 @@ const DepuradorAPI = (props) => {
                 </Container>
             </Collapse>
         </Container>
-
     )
 }
 
-export default DepuradorAPI;
+export default DepuradorAPI

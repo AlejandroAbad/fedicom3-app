@@ -9,10 +9,12 @@ import 'App.scss';
 import ReactJson from 'react-json-view';
 
 import BootstrapMedia from 'componentes/debug/bootstrapMedia/BootstrapMedia';
-import BarraSuperior from 'componentes/barraSuperior/BarraSuperior';
-import FormularioLogin from 'componentes/formularioLogin/FormularioLogin';
-import VisorTransmision from 'componentes/transmisiones/VisorTransmision';
-import BuscadorTransmisiones from 'componentes/transmisiones/BuscadorTransmisiones';
+
+import BarraNavegacionSuperior from 'layout/barraNavegacionSuperior/BarraNavegacionSuperior';
+import FormularioLogin from 'layout/formularioLogin/FormularioLogin';
+import VisorTransmision from 'layout/transmisiones/VisorTransmision';
+import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
+
 
 import useStateLocalStorage from 'util/useStateLocalStorage';
 
@@ -24,7 +26,7 @@ const App = () => {
 
   // Almacena el JWT del usuario logeado
   const [jwt, setJwt] = useStateLocalStorage('login.jwt', null, true);
-  
+
 
   let content = null;
 
@@ -53,7 +55,7 @@ const App = () => {
   return (
     <Router>
       <BootstrapMedia />
-      <BarraSuperior onLogout={() => setJwt(null)} jwt={jwt} />
+      <BarraNavegacionSuperior onLogout={() => setJwt(null)} jwt={jwt} />
 
       <div className="App">
         {content}

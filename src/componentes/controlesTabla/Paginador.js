@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiOutlineEllipsis } from 'react-icons/ai'
-import './Paginador.scss'
+import BotonControl from './BotonControl'
+
 
 const Paginador = ({ min, max, actual, onPaginaCambiada, className, ...props }) => {
 
@@ -40,58 +41,34 @@ const Paginador = ({ min, max, actual, onPaginaCambiada, className, ...props }) 
     intermedios.forEach(numero => {
         if (numero) {
             botones.push(
-                <BotonPaginador key={numero} activo={numero === actual} numero={numero} onClick={cambiarPagina} />
+                <BotonControl key={numero} activo={numero === actual} numero={numero} onClick={cambiarPagina} />
             )
         }
     })
 
-    className += ' Paginador'
+    className += ' GrupoBotones'
     return (
         <ul {...props} className={className}>
             {elipsisInicio && <>
-                <BotonPaginador key={min} activo={actual === min} numero={min} onClick={cambiarPagina} />
+                <BotonControl key={min} activo={actual === min} numero={min} onClick={cambiarPagina} />
                 {max > 7 && <Elipsis />}
-                {max === 7 && <BotonPaginador key={min + 1} activo={actual === min + 1} numero={min + 1} onClick={cambiarPagina} />}
+                {max === 7 && <BotonControl key={min + 1} activo={actual === min + 1} numero={min + 1} onClick={cambiarPagina} />}
             </>}
 
             {botones}
 
             {elipsisFin && <>
                 {max > 7 && <Elipsis />}
-                {max === 7 && <BotonPaginador key={max - 1} activo={actual === max - 1} numero={max - 1} onClick={cambiarPagina} />}
-                <BotonPaginador key={max} activo={actual === max} numero={max} onClick={cambiarPagina} />
+                {max === 7 && <BotonControl key={max - 1} activo={actual === max - 1} numero={max - 1} onClick={cambiarPagina} />}
+                <BotonControl key={max} activo={actual === max} numero={max} onClick={cambiarPagina} />
             </>}
         </ul>
     );
 }
 
 
-const BotonPaginador = ({ className, deshabilitado, activo, onClick, numero, ...props }) => {
-
-    let classNameLi = className + ' BotonPaginador page-item ' + (deshabilitado ? 'disabled' : '') + (activo ? 'active' : '')
-    let classNameSpan = 'EnlacePaginador page-link ' + (deshabilitado || activo ? '' : 'enlace')
-
-    let callback = () => {
-        if (!deshabilitado && !activo && onClick) {
-            onClick(numero)
-        }
-    }
-
-    let contenido = numero ? numero : props.children;
-
-    return (
-        <li className={classNameLi} {...props}>
-            <span className={classNameSpan} role="button" onClick={callback}>
-                {contenido}
-            </span>
-        </li>
-    )
-}
-
-const Elipsis = ({deshabilitado, ...props}) => {
-    return <BotonPaginador deshabilitado={deshabilitado || true} {...props}>
-        <AiOutlineEllipsis size={20} style={{ paddingBottom: '0px' }} />
-    </BotonPaginador>
+const Elipsis = ({ deshabilitado, ...props }) => {
+    return <BotonControl icono={AiOutlineEllipsis} deshabilitado={deshabilitado || true} {...props} />
 }
 
 

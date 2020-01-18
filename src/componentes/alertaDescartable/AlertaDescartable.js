@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { Alert } from 'react-bootstrap';
 
-const AlertaDescartable = (props) => {
+const AlertaDescartable = ({ timeout, ...props }) => {
 
     const [show, setShow] = React.useState(true);
 
-    
-    useEffect( () => {
-        if (props.timeout)
-            setTimeout(() => setShow(false), props.timeout );
+    useEffect(() => {
+        if (timeout)
+            setTimeout(() => setShow(false), timeout);
     });
 
     if (show) {
         return (
-            <Alert variant={props.variant || null} onClose={() => setShow(false)} dismissible >
+            <Alert {...props} onClose={() => setShow(false)} dismissible >
                 {props.children}
             </Alert>
         );

@@ -1,18 +1,18 @@
-import React from 'react';
+import React from 'react'
+import { FaTag } from 'react-icons/fa'
+import Icono from 'componentes/icono/Icono'
 
-import { FaTag } from 'react-icons/fa';
+const TipoPedido = ({ transmision, ...props }) => {
 
+    let tipoTransmitido = (transmision && transmision.clientRequest && transmision.clientRequest.body) ? transmision.clientRequest.body.tipoPedido : null;
+    if (!tipoTransmitido) return null
 
-const TipoPedido = (props) => {
-
-    let tx = props.transmision;
-    let tipoTransmitido = (tx && tx.clientRequest && tx.clientRequest.body) ? tx.clientRequest.body.tipoPedido : null;
-
-    if (!tipoTransmitido) return null;
-
-    return <code className="text-reset"><FaTag size={16} className="text-info" style={{ paddingBottom: '0px' }} /> {tipoTransmitido}</code>;
-
-
+    return (
+        <code className="text-reset">
+            <Icono icono={FaTag} posicion={[16, 0]} className="text-info mr-1" />
+            {tipoTransmitido}
+        </code>
+    )
 }
 
-export default TipoPedido;
+export default TipoPedido

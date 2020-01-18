@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const convertirValor = (localStorageKey, defaultValue, json) => {
     var valor = localStorage.getItem(localStorageKey);
-    
+
     if (valor === null) return defaultValue;
     if (valor === 'null') return null;
     if (valor === 'undefined') return undefined;
@@ -10,7 +10,7 @@ const convertirValor = (localStorageKey, defaultValue, json) => {
     if (valor === 'false') return false;
 
     if (json) {
-        
+
         try {
             return JSON.parse(valor);
         } catch (e) {
@@ -24,7 +24,7 @@ const convertirValor = (localStorageKey, defaultValue, json) => {
 
 
 const useStateLocalStorage = (localStorageKey, defaultValue = null, asJson = true) => {
-    
+
     const [json] = useState(asJson);
     const [value, setValue] = useState(
         convertirValor(localStorageKey, defaultValue, json)

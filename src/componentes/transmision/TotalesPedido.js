@@ -1,50 +1,51 @@
-import React from 'react';
+import React from 'react'
+import { FiPackage, FiThumbsDown, FiThumbsUp } from 'react-icons/fi'
 
-//import { MdFormatListNumbered, MdAdd, MdRemove } from 'react-icons/md';
-import { FiPackage, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import Icono from 'componentes/icono/Icono'
 
+const Totales = ({ transmision, ...props }) => {
 
-const Totales = (props) => {
-
-    let tx = props.transmision;
-    let t = (tx && tx.flags) ? tx.flags.s : null;
+    let t = (transmision && transmision.flags) ? transmision.flags.s : null;
 
     if (!t) return null;
 
-    let estiloIconos = { paddingBottom: '2px', marginRight: '2px' };
-
     let cantidad = null;
     if (t.cantidadBonificacion) {
-        cantidad = (<>
-            {' '}
-            < FiThumbsUp className="text-success" size={18} style={estiloIconos} />{t.cantidad}+{t.cantidadBonificacion}
-        </>);
+        cantidad = (
+            <>
+                <Icono icono={FiThumbsUp} className="text-success ml-3 mr-1" posicion={[16, 0]} />{t.cantidad}+{t.cantidadBonificacion}
+            </>
+        )
     } else {
-        cantidad = (<>
-            {' '}
-            < FiThumbsUp className="text-success" size={18} style={estiloIconos} />{t.cantidad}
-        </>);
+        cantidad = (
+            <>
+                <Icono icono={FiThumbsUp} className="text-success ml-3 mr-1" posicion={[16, 0]} />{t.cantidad}
+            </>
+        )
     }
 
     let faltas = null;
     if (t.cantidadFalta || t.cantidadBonificacionFalta)
         if (t.cantidadBonificacionFalta) {
-            faltas = (<span className="text-danger">
-                <FiThumbsDown className="text-danger" size={18} style={estiloIconos} />{t.cantidadFalta}+{t.cantidadBonificacionFalta}
-            </span>);
+            faltas = (
+                <span className="text-danger">
+                    <Icono icono={FiThumbsDown} className="text-danger ml-2 mr-1" posicion={[16, 0]} />{t.cantidadFalta}+{t.cantidadBonificacionFalta}
+                </span>
+            )
         } else {
-            faltas = (<span className="text-danger">
-                <FiThumbsDown size={18} style={estiloIconos} />{t.cantidadFalta}
-            </span>
-            );
+            faltas = (
+                <span className="text-danger">
+                    <Icono icono={FiThumbsDown} className="text-danger ml-2 mr-1" posicion={[16, 0]} />{t.cantidadFalta}
+                </span>
+            )
         }
 
 
-    return <code className="text-reset">
-        <FiPackage className="text-info" size={18} style={estiloIconos} />{t.lineas} {cantidad} {faltas}
-    </code>;
-
-
+    return (
+        <code className="text-reset">
+            <Icono icono={FiPackage} className="text-info mr-1" posicion={[16, 0]} />{t.lineas}{cantidad}{faltas}
+        </code>
+    )
 }
 
 export default Totales;

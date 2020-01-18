@@ -1,18 +1,27 @@
-import React from 'react';
-import { FaNetworkWired } from 'react-icons/fa';
+import React from 'react'
+import { FaNetworkWired } from 'react-icons/fa'
 
-const IpTransmision = (props) => {
-    
-    let ip = props.ip;
+import Icono from 'componentes/icono/Icono'
+
+const IpTransmision = ({ ip, ...props }) => {
 
     if (ip) {
-        if ( ip.startsWith('::ffff:') ) ip = ip.substring(7);
-        return (<><FaNetworkWired className="text-info" /> <code className="text-reset" >{ip}</code></>);
-
+        if (ip.startsWith('::ffff:')) ip = ip.substring(7);
+        return (
+            <>
+                <Icono icono={FaNetworkWired} posicion={[16, 0]} className="text-info mr-1" />
+                <code className="text-reset" >{ip}</code>
+            </>
+        )
     } else {
-        return (<><FaNetworkWired className="text-info" /> <code className="text-danger" >Desconocido</code></>);
+        return (
+            <>
+                <Icono icono={FaNetworkWired} posicion={[16, 0]} className="text-info mr-1" />
+                <code className="text-warning" >Desconocido</code>
+            </>
+        )
     }
 
 }
 
-export default IpTransmision;
+export default IpTransmision
