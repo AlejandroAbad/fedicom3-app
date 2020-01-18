@@ -5,7 +5,7 @@ import { FiFilter } from 'react-icons/fi'
 import { FaSortAmountDown } from 'react-icons/fa'
 
 import './MenuBusqueda.scss'
-import MenuPaginacion from 'componentes/menuPaginacion/MenuPaginacion'
+import Paginador from 'componentes/paginador/Paginador'
 
 
 
@@ -76,7 +76,7 @@ const MenuBusqueda = (props) => {
     return (
         <Row className="border-bottom no-gutters MenuBusqueda">
             <Col className="" sm={8} xs={12}>
-                <MenuPaginacion min={1} max={pagMax} actual={pagActual} onPaginaCambiada={paginaCambiada} className="mb-2 mx-auto justify-content-center justify-content-sm-start" />
+                <Paginador min={1} max={pagMax} actual={pagActual} onPaginaCambiada={paginaCambiada} className="mb-2 mx-auto justify-content-center justify-content-sm-start" />
             </Col>
             <Col className="" sm={2} xs={8}>
                 <ul className="GrupoBotones float-sm-right mb-2">

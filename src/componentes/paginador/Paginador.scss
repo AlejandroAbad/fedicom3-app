@@ -1,0 +1,16 @@
+.Paginador {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+
+  .EnlacePaginador {
+    height: 40px;
+    text-align: center !important;
+  }
+
+  .enlace {
+    cursor: pointer;
+  }
+}

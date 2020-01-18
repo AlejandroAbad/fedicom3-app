@@ -3,17 +3,17 @@ import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 //import ReactJson from 'react-json-view';
 
-import EtiquetaEstado from 'componentes/camposTransmision/EtiquetaEstado';
-import EtiquetaTipo from 'componentes/camposTransmision/EtiquetaTipo';
-import UsuarioTransmision from 'componentes/camposTransmision/UsuarioTransmision';
-import Fecha from 'componentes/camposTransmision/Fecha';
-import IpTransmision from 'componentes/camposTransmision/IpTransmision';
-import SoftwareEmisor from 'componentes/camposTransmision/SoftwareEmisor';
-import TipoPedido from 'componentes/camposTransmision/TipoPedido';
-import Flags from 'componentes/camposTransmision/Flags';
-import TotalesPedido from 'componentes/camposTransmision/TotalesPedido';
-import AlmacenServicio from 'componentes/camposTransmision/AlmacenServicio';
-import { CodigoCliente, TextoCodigoCliente } from 'componentes/camposTransmision/CodigoCliente';
+import EtiquetaEstado from 'componentes/transmision/EtiquetaEstado';
+import EtiquetaTipo from 'componentes/transmision/EtiquetaTipo';
+import UsuarioTransmision from 'componentes/transmision/UsuarioTransmision';
+import Fecha from 'componentes/transmision/Fecha';
+import IpTransmision from 'componentes/transmision/IpTransmision';
+import SoftwareEmisor from 'componentes/transmision/SoftwareEmisor';
+import TipoPedido from 'componentes/transmision/TipoPedido';
+import Flags from 'componentes/transmision/Flags';
+import TotalesPedido from 'componentes/transmision/TotalesPedido';
+import AlmacenServicio from 'componentes/transmision/AlmacenServicio';
+import { CodigoCliente, TextoCodigoCliente } from 'componentes/transmision/CodigoCliente';
 import { IoIosPerson } from 'react-icons/io';
 
 
