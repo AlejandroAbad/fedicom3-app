@@ -13,8 +13,8 @@ import ControlesTabla from 'componentes/controlesTabla/ControlesTabla';
 
 import EstadoConsulta from './EstadoConsulta';
 import FilaTransmision from './FilaTransmision';
-import FormularioOrden from './FormularioOrden';
-import FormularioFiltros from './FormularioFiltros';
+import FormularioOrden from './formularios/FormularioOrden';
+import FormularioFiltros from './formularios/FormularioFiltros';
 
 const PROYECCION = {
     _id: 1,
@@ -48,7 +48,6 @@ const SORT_POR_DEFECTO = { createdAt: -1 }
 
 const BuscadorTransmisiones = (props) => {
 
-    console.log('RENDER');
     // Control de la consulta al API
     const [query, _setQuery] = useStateLocalStorage('buscador.query', { filter: FILTRO_POR_DEFECTO, sort: SORT_POR_DEFECTO, limit: LIMITE_POR_DEFECTO, skip: 0 }, true)
 
@@ -106,6 +105,7 @@ const BuscadorTransmisiones = (props) => {
     };
 
     const cambiarPagina = (pagina) => {
+        console.log('pagina cambiada', pagina)
         let queryNueva = {}
         Object.assign(queryNueva, query);
         queryNueva.skip = (pagina - 1) * query.limit;
@@ -138,7 +138,7 @@ const BuscadorTransmisiones = (props) => {
     if (funcion === 'filtro') {
 
         contenidoPagina = <FormularioFiltros
-            filtros={query.filter}
+            filtro={query.filter}
             onAceptar={cambiarFiltro}
             onCancelar={() => { setFuncion('visor') }}
         />

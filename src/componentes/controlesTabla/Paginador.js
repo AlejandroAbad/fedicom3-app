@@ -41,7 +41,7 @@ const Paginador = ({ min, max, actual, onPaginaCambiada, className, ...props }) 
     intermedios.forEach(numero => {
         if (numero) {
             botones.push(
-                <BotonControl key={numero} activo={numero === actual} numero={numero} onClick={cambiarPagina} />
+                <BotonControl key={numero} activo={numero === actual} numero={numero} onClick={() => cambiarPagina(numero)} />
             )
         }
     })
@@ -50,17 +50,17 @@ const Paginador = ({ min, max, actual, onPaginaCambiada, className, ...props }) 
     return (
         <ul {...props} className={className}>
             {elipsisInicio && <>
-                <BotonControl key={min} activo={actual === min} numero={min} onClick={cambiarPagina} />
+                <BotonControl key={min} activo={actual === min} numero={min} onClick={() => cambiarPagina(min)} />
                 {max > 7 && <Elipsis />}
-                {max === 7 && <BotonControl key={min + 1} activo={actual === min + 1} numero={min + 1} onClick={cambiarPagina} />}
+                {max === 7 && <BotonControl key={min + 1} activo={actual === min + 1} numero={min + 1} onClick={() => cambiarPagina(min+1)} />}
             </>}
 
             {botones}
 
             {elipsisFin && <>
                 {max > 7 && <Elipsis />}
-                {max === 7 && <BotonControl key={max - 1} activo={actual === max - 1} numero={max - 1} onClick={cambiarPagina} />}
-                <BotonControl key={max} activo={actual === max} numero={max} onClick={cambiarPagina} />
+                {max === 7 && <BotonControl key={max - 1} activo={actual === max - 1} numero={max - 1} onClick={() => cambiarPagina(max-1)} />}
+                <BotonControl key={max} activo={actual === max} numero={max} onClick={() => cambiarPagina(max)} />
             </>}
         </ul>
     );

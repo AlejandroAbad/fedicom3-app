@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
-import { Container, Row, Col, Nav, Form, Button } from 'react-bootstrap';
+import { useForm } from "react-hook-form";
+import { Container, Row, Col, Form, Dropdown } from 'react-bootstrap';
 import ReactJson from 'react-json-view';
 
-import { GoDiff, GoCheck, GoX, GoKey } from 'react-icons/go';
+import { GoDiff, GoKey } from 'react-icons/go';
 import { FiFilter } from 'react-icons/fi'
+
+import Icono from 'componentes/icono/Icono'
+import CabeceraFormulario from './CabeceraFormulario'
+import BusquedaTransmisionUnica from './BusquedaTransmisionUnica'
 
 
 const obtenerModoDelFiltro = (f) => {
@@ -14,68 +19,83 @@ const obtenerModoDelFiltro = (f) => {
         (f.sapResponse && f.sapResponse.body && f.sapResponse.body.crc) ||
         (f.clientRequest && f.clientRequest.body && f.clientRequest.body.codigoCliente && f.clientRequest.body.numeroPedidoOrigen) ||
         (f.numeroPedidoAgrupado)
-    ) ? 1 : 2;
+    ) ? 0 : 1;
 
 }
 
-const FormularioFiltros = (props) => {
 
-    console.log('RENDER');
-    const { filtros/*, onAceptar*/, onCancelar } = props
-    const [modo, setModo] = useState(obtenerModoDelFiltro(filtros));
+const MODOS = [
+    [GoKey, 'Buscar por campo clave'],
+    [GoDiff, 'Utilizar filtros']
+]
+
+const SelectorModoBusqueda = ({ modo, cambiarModo, ...props }) => {
+
+    return (
+        <Dropdown className="">
+            <Dropdown.Toggle variant="outline-primary" className="w-100 text-left mr-auto pr-4">
+                <span className="w-100 d-inline-block">
+                    <Icono icono={MODOS[modo][0]} posicion={[22,3]} className="mr-1" />{MODOS[modo][1]}
+                </span>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="w-100">
+                {
+                    MODOS.map((e, i) => {
+                        return (
+                            <Dropdown.Item key={i} href="#" onClick={() => cambiarModo(i)}>
+                                <Icono icono={e[0]} posicion={[22, 3]} className="mr-1" />{e[1]}
+                            </Dropdown.Item>
+                        )
+                    })
+                }
+            </Dropdown.Menu>
+        </Dropdown>
+    )
+}
+
+
+const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
+
+    const [modo, cambiarModo] = useState(obtenerModoDelFiltro(filtro));
+    const { handleSubmit, register, errors } = useForm();
 
     const descartarCambios = () => {
-        onCancelar()
+        if (onCancelar)
+            onCancelar()
     }
 
-    const aplicarCambios = () => {
-        /* onAceptar({ type: {$in: [10,14]}} ) */
-    }
+    const aplicarCambios = (valores) => {
+        if (onAceptar) {
 
-    const cambiarModo = (eventKey, event) => {
-        setModo(parseInt(eventKey));
+        }
+        console.log(valores);
     }
 
 
 
     return (<>
-        <Container fluid className="my-3 pt-2">
-            <h3>
-                <FiFilter className="mr-2" style={{ paddingBottom: '2px' }} />Filtrar trasmisiones
 
-                <Button variant="success" className="float-right ml-1" size="md" href="#" onClick={aplicarCambios}>
-                    <GoCheck size={22} className="mr-1" style={{ paddingBottom: '2px' }} />Aplicar
-                </Button>
-                <Button variant="secondary" className="float-right" size="md" href="#" onClick={descartarCambios}>
-                    <GoX size={22} className="mr-1" style={{ paddingBottom: '2px' }} />Descartar
-                </Button>
-            </h3>
-        </Container>
+        <CabeceraFormulario icono={FiFilter} texto="Filtrar transmisiones" onCancelar={descartarCambios} onAceptar={handleSubmit(aplicarCambios)} />
+
+
 
         <Container fluid className="pt-3">
-            <Nav justify variant="tabs" defaultActiveKey={modo} onSelect={cambiarModo}>
-                <Nav.Item>
-                    <Nav.Link eventKey={2}><b><GoDiff size={22} className="mr-1" style={{ paddingBottom: '2px' }} />Buscar con filtros</b></Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={1}><b><GoKey size={22} className="mr-1" style={{ paddingBottom: '2px' }} />Buscar por campo clave</b></Nav.Link>
-                </Nav.Item>
+            <SelectorModoBusqueda modo={modo} cambiarModo={cambiarModo} />
 
-            </Nav>
-            <Row className="border border-top-0 rounded-bottom mx-0 px-0 py-4">
+            <Row className="mx-0 px-0 py-4">
                 <Col>
-                    {modo === 1 && <BusquedaTransmisionUnica />}
-                    {modo === 2 && <BusquedaFiltrada />}
+                    {modo === 0 && <BusquedaTransmisionUnica register={register} errors={errors} />}
+                    {modo === 1 && <BusquedaFiltrada register={register} errors={errors} />}
                 </Col>
             </Row>
         </Container>
 
 
-
-        <Container fluid className="mt-5 pt-5">
-            <Row className="mt-5 pt-5">
+        <Container fluid className="mt-5">
+            <Row>
                 <Col>
-                    <ReactJson src={filtros} />
+                    <ReactJson src={filtro} />
                 </Col>
             </Row>
         </Container>
@@ -175,52 +195,6 @@ const BusquedaFiltrada = () => {
     )
 }
 
-const BusquedaTransmisionUnica = () => {
-    return (
-        <Container fluid>
-            <Row>
-                <Col lg={12} className="mt-2">
-                    <h5 className="text-muted">Campos clave</h5><hr />
-                </Col>
-                <Col lg={6}>
-                    <Form.Group controlId="bcTxId">
-                        <Form.Label>ID de transmisión</Form.Label>
-                        <Form.Control type="text" placeholder="_id" size="sm" />
-                    </Form.Group>
-                </Col>
-                <Col lg={6}>
-                    <Form.Group controlId="bcTxCrc">
-                        <Form.Label>CRC de transmisión / Número pedido Fedicom</Form.Label>
-                        <Form.Control type="text" placeholder="crc | sapResponse.body.crc" size="sm" />
-                    </Form.Group>
-                </Col>
-                <Col lg={6}>
-                    <Form.Group>
-                        <Form.Label>Número pedido origen</Form.Label>
-                        <Form.Row>
-                            <Col sm={6} lg={5}>
-                                <Form.Control type="text" placeholder="clientRequest.body.codigoCliente" size="sm" />
-                            </Col>
-                            <Col sm={6} lg={5}>
-                                <Form.Control type="text" placeholder="clientRequest.body.numeroPedidoOrigen" size="sm" />
-                            </Col>
-                        </Form.Row>
-                        <Form.Text className="text-muted">
-                            Requiere utilizar el mismo código de cliente transmitido.
-                                    </Form.Text>
-                    </Form.Group>
-                </Col>
-
-                <Col lg={6}>
-                    <Form.Group controlId="bcTxNumPedSap">
-                        <Form.Label>Número de pedido SAP</Form.Label>
-                        <Form.Control type="text" placeholder="numeroPedidoAgrupado | numerosPedidoSAP" size="sm" />
-                    </Form.Group>
-                </Col>
-            </Row>
-        </Container>
-    )
-}
 
 
 export default FormularioFiltros
