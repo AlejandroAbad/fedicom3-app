@@ -1,17 +1,17 @@
 .Etiqueta {
-  font-variant: small-caps;
-  padding: 4px 7px 6px 7px;
+	font-variant: small-caps;
+	padding: 4px 7px 6px 7px;
 }
 
 .EtiquetaTipo {
-  @extend .Etiqueta;
+	@extend .Etiqueta;
 }
 
 .EtiquetaEstado {
-  @extend .Etiqueta;
+	@extend .Etiqueta;
 }
 
 .EtiquetaFlag {
-  @extend .Etiqueta;
-  padding: 4px 7px 4px 7px;
+	@extend .Etiqueta;
+	padding: 4px 7px 4px 7px;
 }

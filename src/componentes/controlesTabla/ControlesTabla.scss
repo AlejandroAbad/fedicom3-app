@@ -1,21 +1,21 @@
 .ControlesTabla {
-  .GrupoBotones {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    border-radius: 0.25rem;
-  }
+	.GrupoBotones {
+		display: flex;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		border-radius: 0.25rem;
+	}
 
-  .BotonControl {
-    text-align: center !important;
-  }
+	.BotonControl {
+		text-align: center !important;
+	}
 
-  .EnlaceControl {
-    height: 40px;
-  }
+	.EnlaceControl {
+		height: 40px;
+	}
 
-  .enlace {
-    cursor: pointer;
-  }
+	.enlace {
+		cursor: pointer;
+	}
 }

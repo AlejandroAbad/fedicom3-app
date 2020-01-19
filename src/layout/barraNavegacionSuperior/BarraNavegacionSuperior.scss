@@ -2,35 +2,30 @@ $font-color: #212529;
 $primary-color: #007bff;
 
 .BarraSuperior {
+	box-shadow: 0 0 3px $font-color;
 
-    box-shadow: 0 0 3px $font-color;
+	.BotonNavegacion {
+		font-size: 16px;
+		.active {
+			color: $primary-color !important;
+		}
+		.TextoBotonNavegacion {
+			margin-left: 5px;
+		}
+		.dropdown-menu {
+			padding-left: 15px;
+			min-width: 18rem;
+		}
+	}
 
-    .BotonNavegacion {
-        font-size: 16px;
-        .active {
-            color: $primary-color !important;
-        }
-        .TextoBotonNavegacion {
-            margin-left: 5px;
-        }
-        .dropdown-menu {
-            padding-left: 15px;
-            min-width: 18rem;
-        }
-    }
-    
+	.MenuUsuario {
+		margin-right: 10px;
 
-    .MenuUsuario {
-        
-        margin-right: 10px;
-
-        .dropdown-item {
-            color: $font-color;
-            &:hover {
-                color: $font-color;
-            }
-        }
-    }
-
-
+		.dropdown-item {
+			color: $font-color;
+			&:hover {
+				color: $font-color;
+			}
+		}
+	}
 }
