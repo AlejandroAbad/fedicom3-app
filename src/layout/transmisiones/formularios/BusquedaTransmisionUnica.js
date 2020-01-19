@@ -43,8 +43,6 @@ const BusquedaTransmisionUnica = ({ filtro, register, errors, ...props }) => {
                             }
                         </Form.Control>
                     </Form.Group>
-                    
-
                 </Col>
 
                 <Col sm={12}>
