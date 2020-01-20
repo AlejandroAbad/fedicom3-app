@@ -2,8 +2,8 @@ import React from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import ReactJson from 'react-json-view';
 
-import { GoCheck, GoX } from 'react-icons/go';
 import { FaSortAmountDown, FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa'
+import CabeceraFormulario from './CabeceraFormulario';
 
 const FormularioOrden = (props) => {
 
@@ -19,18 +19,8 @@ const FormularioOrden = (props) => {
     }
 
     return (<>
-        <Container fluid className="my-3 pt-2">
-            <h3>
-                <FaSortAmountDown className="mr-2" style={{ paddingBottom: '2px' }} /> Orden de trasmisiones
-
-                <Button variant="success" className="float-right ml-1" size="md" href="#" onClick={aplicarCambios}>
-                    <GoCheck size={22} className="mr-1" style={{ paddingBottom: '2px' }} />Aplicar
-                </Button>
-                <Button variant="secondary" className="float-right" size="md" href="#" onClick={descartarCambios}>
-                    <GoX size={22} className="mr-1" style={{ paddingBottom: '2px' }} />Descartar
-                </Button>
-            </h3>
-        </Container>
+        <CabeceraFormulario icono={FaSortAmountDown} texto="Ordenar" onCancelar={descartarCambios} onAceptar={aplicarCambios} />
+        
 
         <Container fluid>
             <Row>

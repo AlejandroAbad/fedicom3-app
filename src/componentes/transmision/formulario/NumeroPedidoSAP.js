@@ -1,9 +1,9 @@
 import React from 'react'
-import { Form } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 
-const NumeroPedidoSAP = ({ reg, valor, errors, ...props }) => {
+const NumeroPedidoSAP = ({ filtro, register, errors, ...props }) => {
 
-    let referencia = reg({
+    let referencia = register({
         pattern: {
             value: /^[0-9]{1,12}$/i,
             message: "Número de pedido SAP no válido"
@@ -11,12 +11,14 @@ const NumeroPedidoSAP = ({ reg, valor, errors, ...props }) => {
     })
 
     return (
-        <Form.Group>
-            <Form.Label>Número de pedido SAP</Form.Label>
-            <Form.Control type="text" placeholder="numerosPedidoSAP | pedidoAgrupado" size="sm" name="numeroPedidoSAP" ref={referencia} />
-            <Form.Text className="text-danger">
+        <Form.Group as={Row} className="align-items-center">
+            <Form.Label column md="4">Número de pedido SAP</Form.Label>
+            <Col md="8">
+                <Form.Control type="text" placeholder="numerosPedidoSAP | pedidoAgrupado" size="sm" name="numeroPedidoSAP" ref={referencia} isInvalid={errors.numeroPedidoSAP} />
+            </Col>
+            <Form.Label column className="text-danger px-3 pt-0 mt-0">
                 {errors.numeroPedidoSAP && errors.numeroPedidoSAP.message}
-            </Form.Text>
+            </Form.Label >
         </Form.Group>
     )
 }

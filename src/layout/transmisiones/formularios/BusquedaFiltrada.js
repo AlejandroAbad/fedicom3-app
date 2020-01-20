@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container, Row, Col, Form } from 'react-bootstrap'
 
 const BusquedaFiltrada = ({ filtro, register, errors, ...props }) => {
 	return (

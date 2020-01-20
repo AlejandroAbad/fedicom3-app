@@ -1,9 +1,9 @@
 import React from 'react'
-import { Form } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 
-const NumeroPedidoFedicom = ({ reg, valor, errors, ...props }) => {
+const NumeroPedidoFedicom = ({ filtro, register, errors, ...props }) => {
 
-    let referencia = reg({
+    let referencia = register({
         pattern: {
             value: /^[A-F0-9]{24}$/i,
             message: "Número de pedido no válido"
@@ -11,12 +11,14 @@ const NumeroPedidoFedicom = ({ reg, valor, errors, ...props }) => {
     })
 
     return (
-        <Form.Group>
-            <Form.Label>Número pedido Fedicom</Form.Label>
-            <Form.Control type="text" placeholder="sR.b.crc" size="sm" name="numeroPedidoFedicom" ref={referencia} />
-            <Form.Text className="text-danger">
+        <Form.Group as={Row} className="align-items-center">
+            <Form.Label column md="4">Número pedido Fedicom</Form.Label>
+            <Col md="8">
+                <Form.Control type="text" placeholder="crc" size="sm" name="numeroPedidoFedicom" ref={referencia} isInvalid={errors.numeroPedidoFedicom} />
+            </Col>
+            <Form.Label column className="text-danger px-3 pt-0 mt-0">
                 {errors.numeroPedidoFedicom && errors.numeroPedidoFedicom.message}
-            </Form.Text>
+            </Form.Label>
         </Form.Group>
     )
 }

@@ -1,45 +1,20 @@
 import React from 'react'
 import { Form, Col, Row } from 'react-bootstrap';
 
-const NumeroPedidoOrigen = ({ reg, valor, errors, ...props }) => {
+const NumeroPedidoOrigen = ({ filtro, register, errors, ...props }) => {
 
-    let referenciaCliente = reg({
-        pattern: {
-            value: /^[0-9]{1,10}$/i,
-            message: "Código de cliente no válido"
-        }
-    })
-
-    let referenciaCodigo = reg({
-        pattern: {
-            require: "Campo obligatorio"
-        }
-    })
+    let referencia = register
 
     return (
-        <Row>
-            <Col md={4}>
-                <Form.Group>
-                    <Form.Label>Código del cliente</Form.Label>
-                    <Form.Control type="text" placeholder="cR.b.codigoCliente" size="sm" ref={referenciaCliente} name="codigoCliente" />
-                    <Form.Text className="text-muted">
-                        Requiere utilizar el mismo código de cliente transmitido.
-                    </Form.Text>
-                    <Form.Text className="text-danger">
-                        {errors.codigoCliente && errors.codigoCliente.message}
-                    </Form.Text>
-                </Form.Group>
+        <Form.Group as={Row} className="align-items-center">
+            <Form.Label column md="4">Número pedido Origen</Form.Label>
+            <Col md="8">
+                <Form.Control type="text" placeholder="cR.b.numeroPedidoOrigen" size="sm" name="numeroPedidoOrigen" ref={referencia} isInvalid={errors.numeroPedidoOrigen} />
             </Col>
-            <Col md={8}>
-                <Form.Group>
-                    <Form.Label>Número pedido origen</Form.Label>
-                    <Form.Control type="text" placeholder="cR.b.numeroPedidoOrigen" size="sm" ref={referenciaCodigo} name="numeroPedidoOrigen" />
-                    <Form.Text className="text-danger">
-                        {errors.numeroPedidoOrigen && errors.numeroPedidoOrigen.message}
-                    </Form.Text>
-                </Form.Group>
-            </Col>
-        </Row>
+            <Form.Label column className="text-danger px-3 pt-0 mt-0">
+                {errors.numeroPedidoOrigen && errors.numeroPedidoOrigen.message}
+            </Form.Label >
+        </Form.Group>
     )
 }
 

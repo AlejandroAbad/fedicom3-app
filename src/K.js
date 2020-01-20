@@ -81,7 +81,7 @@ const K = {
         '1020': [1020, 'Esperando incidencias', 'Transmisión enviada a SAP, a la espera de recibir incidencias.', 'secondary'],
         '1030': [1030, 'Incidencias recibidas', 'Transmisión procesada por SAP, pendiente responder al cliente.', 'secondary'],
         '3010': [3010, 'Fallo autenticación', 'La transmisión no se procesa porque falló la autenticación de la misma', 'warning'],
-        '3020': [3020, 'Petición incorrecta', 'La transmisión contiene errores, no se puede tramitar', 'danger'],
+        '3020': [3020, 'Petición incorrecta', 'La transmisión contiene errores, no se puede tramitar', 'warning'],
         '3110': [3110, 'No SAP', 'Transmisión aceptada y procesada en el concentrador, pero no se pudo contactar con SAP', 'danger'],
         '3120': [3120, 'Rechazado por SAP', 'SAP ha rechazado la transmisión y ha devuelto un error de precondición', 'warning'],
         '8010': [8010, 'Incidencias enviadas', 'Transmisión completada y faltas enviadas. A la espera de confirmación final por SAP.', 'success'],
