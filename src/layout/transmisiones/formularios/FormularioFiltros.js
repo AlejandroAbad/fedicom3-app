@@ -10,6 +10,9 @@ import CabeceraFormulario from './CabeceraFormulario'
 
 
 
+const exprimeValores = (valorSelect) => {
+    return valorSelect.map(v => v.value)
+}
 
 const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
 
@@ -30,14 +33,14 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
         if (valores.txid) filtro._id = valores.txid;
         if (valores.numeroPedidoFedicom) filtro.crc = valores.numeroPedidoFedicom;
         if (valores.numeroPedidoOrigen) filtro['clientRequest.body.numeroPedidoOrigen'] = valores.numeroPedidoOrigen;
-        if (valores.numeroPedidoSAP) filtro.numerosPedidoSAP = [valores.numeroPedidoSAP];
+        if (valores.numerosPedidoSAP) {
+            filtro.numerosPedidoSAP = { $in: exprimeValores(valores.numerosPedidoSAP) }
+        }
         if (valores.tipoTx) {
-            let val = valores.tipoTx.map( v => v.value )
-            filtro.type = { $in: val }
+            filtro.type = { $in: exprimeValores(valores.tipoTx) }
         }
         if (valores.estadoTx) {
-            let val = valores.estadoTx.map(v => v.value)
-            filtro.status = { $in: val }
+            filtro.status = { $in: exprimeValores(valores.estadoTx) }
         }
 
 

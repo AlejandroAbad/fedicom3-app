@@ -49,7 +49,7 @@ const EstadoTransmision = ({ setValue, filtro, register, errors, ...props }) => 
                     onChange={handleMultiChange}
                     className="estadoTx"
                     name="estadoTx"
-                    placeholder="Seleccione tipos de transmisión"
+                    placeholder="Seleccione estados"
                 />
             </Col>
         </Form.Group>

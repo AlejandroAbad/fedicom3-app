@@ -1,24 +1,81 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import CreatableSelect from 'react-select/creatable';
 import { Form, Row, Col } from 'react-bootstrap';
 
-const NumeroPedidoSAP = ({ filtro, register, errors, ...props }) => {
 
-    let referencia = register({
-        pattern: {
-            value: /^[0-9]{1,12}$/i,
-            message: "Número de pedido SAP no válido"
+const createOption = (label) => {
+    if (!label) return []
+
+    let r = label.split(/[\s\r\n,.-]+/).map(tag => ({ label: tag, value: tag }))
+    console.log(r)
+    return r
+
+}
+
+
+const NumeroPedidoSAP = ({ setValue, filtro, register, errors, ...props }) => {
+
+    let opcionesIniciales = [];
+
+    const [estado, setEstado] = useState({ inputValue: '', value: [] })
+
+    const handleChange = (value, actionMeta) => {
+        setValue("numerosPedidoSAP", value)
+        setEstado({ inputValue: '', value })
+    }
+
+    const handleInputChange = (inputValue) => {
+        setEstado({ inputValue: inputValue, value: estado.value })
+    }
+
+    const handleKeyDown = (event) => {
+        if (!estado.inputValue) return;
+        switch (event.key) {
+            case 'Enter':
+            case 'Tab':
+            case ' ':
+
+                // TODO: Filtrar repes, pero 
+                
+                let valoresActuales = estado.value || []
+
+
+                let nuevoArray = [...valoresActuales, ...createOption(estado.inputValue)];
+
+                let nuevoEstado = {
+                    inputValue: '',
+                    value: nuevoArray,
+                }
+
+                setEstado(nuevoEstado)
+                setValue("numerosPedidoSAP", nuevoEstado.value)
+                event.preventDefault();
         }
-    })
+    };
+
+    useEffect(() => {
+        register({ name: "numerosPedidoSAP" }); // custom register react-select 
+    }, [register])
 
     return (
         <Form.Group as={Row} className="align-items-center">
-            <Form.Label column md="4">Número de pedido SAP</Form.Label>
+            <Form.Label column md="4">Números de pedido SAP</Form.Label>
             <Col md="8">
-                <Form.Control type="text" placeholder="numerosPedidoSAP | pedidoAgrupado" size="sm" name="numeroPedidoSAP" ref={referencia} isInvalid={errors.numeroPedidoSAP} />
+                <CreatableSelect
+                    components={{ DropdownIndicator: null }}
+                    inputValue={estado.inputValue}
+                    isClearable
+                    isMulti
+                    menuIsOpen={false}
+                    onChange={handleChange}
+                    onInputChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder=""
+                    value={estado.value}
+                    className="numerosPedidoSAP"
+                    name="numerosPedidoSAP"
+                />
             </Col>
-            <Form.Label column className="text-danger px-3 pt-0 mt-0">
-                {errors.numeroPedidoSAP && errors.numeroPedidoSAP.message}
-            </Form.Label >
         </Form.Group>
     )
 }
