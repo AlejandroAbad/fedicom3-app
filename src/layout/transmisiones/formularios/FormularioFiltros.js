@@ -11,7 +11,14 @@ import CabeceraFormulario from './CabeceraFormulario'
 
 
 const exprimeValores = (valorSelect) => {
-    return valorSelect.map(v => v.value)
+    
+    let valores = [];
+    valorSelect.forEach( valor => {
+        if (!valor.error) {
+            valores.push(valor.value)
+        }  
+    })
+    return valores
 }
 
 const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
@@ -29,12 +36,26 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
 
         let filtro = {};
 
-        if (valores.crc) filtro['sapResponse.body.crc'] = valores.crc;
-        if (valores.txid) filtro._id = valores.txid;
-        if (valores.numeroPedidoFedicom) filtro.crc = valores.numeroPedidoFedicom;
-        if (valores.numeroPedidoOrigen) filtro['clientRequest.body.numeroPedidoOrigen'] = valores.numeroPedidoOrigen;
+        console.log(valores.crc)
+        if (valores.crc) {
+            let val = exprimeValores(valores.crc);
+            if (val.length) filtro['sapResponse.body.crc'] = { $in: val };
+        }
+        if (valores.txid) {
+            let val = exprimeValores(valores.txid);
+            if (val.length) filtro._id = { $in: val }
+        }
+        if (valores.numeroPedidoFedicom) {
+            let val = exprimeValores(valores.numeroPedidoFedicom);
+            if (val.length) filtro.crc = { $in: val }
+        }
+        if (valores.numeroPedidoOrigen) {
+            let val = exprimeValores(valores.numeroPedidoOrigen);
+            if (val.length) filtro['clientRequest.body.numeroPedidoOrigen'] = { $in: val };
+        }
         if (valores.numerosPedidoSAP) {
-            filtro.numerosPedidoSAP = { $in: exprimeValores(valores.numerosPedidoSAP) }
+            let val = exprimeValores(valores.numerosPedidoSAP);
+            if (val.length) filtro.numerosPedidoSAP = { $in: val }
         }
         if (valores.tipoTx) {
             filtro.type = { $in: exprimeValores(valores.tipoTx) }

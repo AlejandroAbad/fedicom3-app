@@ -1,21 +1,19 @@
 import React from 'react'
-import { Form, Col, Row } from 'react-bootstrap';
+import InputMolon from './InputMolon'
 
-const NumeroPedidoOrigen = ({ filtro, register, errors, ...props }) => {
 
-    let referencia = register
+
+const NumeroPedidoFedicom = (props) => {
 
     return (
-        <Form.Group as={Row} className="align-items-center">
-            <Form.Label column md="4">Número pedido Origen</Form.Label>
-            <Col md="8">
-                <Form.Control type="text" placeholder="cR.b.numeroPedidoOrigen" size="sm" name="numeroPedidoOrigen" ref={referencia} isInvalid={errors.numeroPedidoOrigen} />
-            </Col>
-            <Form.Label column className="text-danger px-3 pt-0 mt-0">
-                {errors.numeroPedidoOrigen && errors.numeroPedidoOrigen.message}
-            </Form.Label >
-        </Form.Group>
+        <InputMolon {...props}
+            regexSplit={/[\s\r\n,.-]+/}
+            //regexValidate={/^[0-9A-F]{24}$/i}
+            rutaFiltro="clientRequest.body.numeroPedidoOrigen"
+            nombre="numeroPedidoOrigen"
+            titulo="Número pedido Origen"
+        />
     )
 }
 
-export default NumeroPedidoOrigen
+export default NumeroPedidoFedicom
