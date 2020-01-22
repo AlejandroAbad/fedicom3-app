@@ -5,6 +5,7 @@ import NumeroPedidoOrigen from './NumeroPedidoOrigen'
 import NumeroPedidoSAP from './NumeroPedidoSAP'
 import TipoTransmision from './TipoTransmision'
 import EstadoTransmision from './EstadoTransmision'
+import FechaCreacion from './FechaCreacion'
 
 const Controles = {
     TxId,
@@ -13,7 +14,8 @@ const Controles = {
     NumeroPedidoFedicom,
     NumeroPedidoSAP,
     TipoTransmision,
-    EstadoTransmision
+    EstadoTransmision,
+    FechaCreacion
 }
 
 export default Controles

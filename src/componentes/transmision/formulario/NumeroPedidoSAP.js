@@ -10,7 +10,6 @@ const NumeroPedidoSAP = (props) => {
             regexSplit={/[\s\r\n,.-]+/}
             regexValidate={/^[0-9]{10}$/i}
             rutaFiltro="numerosPedidoSAP"
-            nombre="numerosPedidoSAP"
             titulo="Números de pedido SAP"
         />
     )

@@ -36,36 +36,14 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
 
         let filtro = {};
 
-        console.log(valores.crc)
-        if (valores.crc) {
-            let val = exprimeValores(valores.crc);
-            if (val.length) filtro['sapResponse.body.crc'] = { $in: val };
-        }
-        if (valores.txid) {
-            let val = exprimeValores(valores.txid);
-            if (val.length) filtro._id = { $in: val }
-        }
-        if (valores.numeroPedidoFedicom) {
-            let val = exprimeValores(valores.numeroPedidoFedicom);
-            if (val.length) filtro.crc = { $in: val }
-        }
-        if (valores.numeroPedidoOrigen) {
-            let val = exprimeValores(valores.numeroPedidoOrigen);
-            if (val.length) filtro['clientRequest.body.numeroPedidoOrigen'] = { $in: val };
-        }
-        if (valores.numerosPedidoSAP) {
-            let val = exprimeValores(valores.numerosPedidoSAP);
-            if (val.length) filtro.numerosPedidoSAP = { $in: val }
-        }
-        if (valores.tipoTx) {
-            filtro.type = { $in: exprimeValores(valores.tipoTx) }
-        }
-        if (valores.estadoTx) {
-            filtro.status = { $in: exprimeValores(valores.estadoTx) }
+        for (let key in valores) {
+            if (valores[key])
+                filtro[key.replace(/_DOT_/g, '.')] = valores[key]
         }
 
-
-        console.log(filtro)
+        console.group('Parseo filtro')
+        console.log(valores,filtro);
+        console.groupEnd()
 
         if (onAceptar) {
             onAceptar(filtro)
@@ -86,6 +64,7 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
             <Controles.NumeroPedidoSAP filtro={filtro} {...hookFormulario} />
             <Controles.TipoTransmision filtro={filtro} {...hookFormulario} />
             <Controles.EstadoTransmision filtro={filtro} {...hookFormulario} />
+            <Controles.FechaCreacion filtro={filtro} {...hookFormulario} />
 
         </Container>
 

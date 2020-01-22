@@ -27,7 +27,19 @@ const colourStyles = {
     }
 };
 
-const InputMolon = ({ nombre, titulo, rutaFiltro, regexSplit, regexValidate, filtro, setValue, register, errors, ...props }) => {
+
+const exprimeValores = (valorSelect) => {
+
+    let valores = [];
+    valorSelect.forEach(valor => {
+        if (!valor.error) {
+            valores.push(valor.value)
+        }
+    })
+    return valores
+}
+
+const InputMolon = ({ titulo, rutaFiltro, regexSplit, regexValidate, filtro, setValue, register, errors, ...props }) => {
 
     const trocearInputAOpciones = (label, regex) => {
         if (!label) return []
@@ -65,50 +77,71 @@ const InputMolon = ({ nombre, titulo, rutaFiltro, regexSplit, regexValidate, fil
         opcionesIniciales = valoresAOpciones(filtro[rutaFiltro].$in, regexValidate);
     }
 
- 
 
 
-    const [estado, setEstado] = useState({ inputValue: '', value: opcionesIniciales })
+
+    const [estado, setEstado] = useState( opcionesIniciales )
+    const [inputValue, setInputValue] = useState('')
 
 
     const handleChange = (value, actionMeta) => {
-        setValue(nombre, value)
-        setEstado({ inputValue: '', value })
+        setEstado(value)
     }
 
     const handleInputChange = (inputValue) => {
-        setEstado({ inputValue: inputValue, value: estado.value })
+        setInputValue(inputValue)
     }
 
     const handleKeyDown = (event) => {
-        if (!estado.inputValue) return;
+        if (!inputValue) return;
         switch (event.key) {
             case 'Enter':
             case 'Tab':
             case ' ':
-                let opcionesActuales = estado.value || []
-                let opcionesNuevas = trocearInputAOpciones(estado.inputValue, regexSplit);
+                let opcionesActuales = estado || []
+                let opcionesNuevas = trocearInputAOpciones(inputValue, regexSplit);
 
                 let valores = [...new Set([...opcionesAValores(opcionesActuales), ...opcionesAValores(opcionesNuevas)])];
 
-                let nuevoEstado = {
-                    inputValue: '',
-                    value: valoresAOpciones(valores, regexValidate)
-                }
-
+                let nuevoEstado = valoresAOpciones(valores, regexValidate);
+                
                 setEstado(nuevoEstado)
-                setValue(nombre, nuevoEstado.value)
-                event.preventDefault();
+                setInputValue('')
+                event.preventDefault()
                 break;
-            default: 
+            default:
         }
     };
 
+    const handleBlur = (event) => {
+        if (event.target.value) {
+            let opcionesActuales = estado || []
+            let opcionesNuevas = trocearInputAOpciones(event.target.value, regexSplit);
+
+            let valores = [...new Set([...opcionesAValores(opcionesActuales), ...opcionesAValores(opcionesNuevas)])];
+            
+            let nuevoEstado = valoresAOpciones(valores, regexValidate)
+            
+            setEstado(nuevoEstado)
+            setInputValue('')
+            //setValue(nombre, nuevoEstado)
+            event.preventDefault()
+            
+        }
+    }
+
     useEffect(() => {
-        register({ name: nombre })
-        setValue(nombre, estado.value)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [register])
+        register({ name: rutaFiltro.replace(/\./g,'_DOT_') })
+    }, [register, rutaFiltro])
+
+    useEffect( () => {
+        if (estado && estado.length) {
+            setValue(rutaFiltro.replace(/\./g, '_DOT_'), { $in: exprimeValores(estado) })
+        }
+        else {
+            setValue(rutaFiltro.replace(/\./g, '_DOT_'), null)
+        }
+    }, [setValue, rutaFiltro, estado])
 
     return (
         <Form.Group as={Row} className="align-items-center">
@@ -116,17 +149,18 @@ const InputMolon = ({ nombre, titulo, rutaFiltro, regexSplit, regexValidate, fil
             <Col md="8">
                 <CreatableSelect
                     components={{ DropdownIndicator: null }}
-                    inputValue={estado.inputValue}
+                    inputValue={inputValue}
                     isClearable
                     isMulti
                     menuIsOpen={false}
                     onChange={handleChange}
                     onInputChange={handleInputChange}
                     onKeyDown={handleKeyDown}
+                    onBlur={handleBlur}
                     placeholder=""
-                    value={estado.value}
-                    className={nombre}
-                    name={nombre}
+                    value={estado}
+                    //className={nombre}
+                    //name={nombre}
                     styles={colourStyles}
                 />
             </Col>

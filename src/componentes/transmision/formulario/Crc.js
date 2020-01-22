@@ -10,7 +10,6 @@ const Crc = (props) => {
             regexSplit={/[\s\r\n,.-]+/}
             regexValidate={/^[0-9A-F]{8}$/i}
             rutaFiltro="sapResponse.body.crc"
-            nombre="crc"
             titulo="CRC de transmisión"
         />
     )

@@ -10,7 +10,6 @@ const NumeroPedidoFedicom = (props) => {
             regexSplit={/[\s\r\n,.-]+/}
             regexValidate={/^[0-9A-F]{24}$/i}
             rutaFiltro="crc"
-            nombre="numeroPedidoFedicom"
             titulo="Número pedido Fedicom"
         />
     )

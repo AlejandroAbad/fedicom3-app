@@ -15,11 +15,24 @@ Object.values(K.ESTADOS_TRANSFERENCIA).forEach(tipo => {
     
 })
 
+
+
+const exprimeValores = (valorSelect) => {
+
+    let valores = [];
+    valorSelect.forEach(valor => {
+        if (!valor.error) {
+            valores.push(valor.value)
+        }
+    })
+    return valores
+}
+
 const EstadoTransmision = ({ setValue, filtro, register, errors, ...props }) => {
 
     let opcionesIniciales = [];
 
-    if (filtro && filtro.status && filtro.status.$in) {
+    if (filtro?.status?.$in) {
         opcionesIniciales = filtro.status.$in.map( tipo => {
             let datosEstado = K.ESTADOS_TRANSFERENCIA[tipo];
             return { value: datosEstado[0], label: datosEstado[1] }
@@ -29,14 +42,19 @@ const EstadoTransmision = ({ setValue, filtro, register, errors, ...props }) => 
     const [values, setReactSelectValue] = useState({ selectedOption: opcionesIniciales });
 
     const handleMultiChange = selectedOption => {
-        console.log(selectedOption)
-        setValue("estadoTx", selectedOption);
         setReactSelectValue({ selectedOption });
     }
 
     useEffect(() => {
-        register({ name: "estadoTx" }); // custom register react-select 
+        register({ name: "status" }); // custom register react-select 
     }, [register])
+
+    useEffect(() => {
+        if (values?.selectedOption?.length)
+            setValue("status", { $in: exprimeValores(values.selectedOption) })
+        else
+            setValue("status", null)
+    }, [values, setValue])
 
     return (
         <Form.Group as={Row} className="align-items-center">
@@ -47,9 +65,7 @@ const EstadoTransmision = ({ setValue, filtro, register, errors, ...props }) => 
                     defaultValue={values.selectedOption}
                     options={OPCIONES_SELECT}
                     onChange={handleMultiChange}
-                    className="estadoTx"
-                    name="estadoTx"
-                    placeholder="Seleccione estados"
+                    placeholder=""
                 />
             </Col>
         </Form.Group>
