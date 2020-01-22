@@ -1,14 +1,15 @@
 import React from 'react'
 import { GiMedicines } from 'react-icons/gi'
-import { MdControlPointDuplicate, MdBugReport, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
-import { FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation } from 'react-icons/fa'
-
+import { MdControlPointDuplicate, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
+import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation, FaDog } from 'react-icons/fa'
+import { IoIosApps } from 'react-icons/io'
+import { GoGitBranch } from 'react-icons/go'
 
 const K = {
     PRODUCCION: false,
     DESTINOS: {
         CORE: 'https://fedicom3-dev.hefame.es',
-        MONITOR: 'https://cpd25.hefame.es:8443'
+        MONITOR: 'https://f3dev.hefame.es:8443'
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
@@ -117,8 +118,13 @@ const K = {
         sqlite: { variante: "danger", titulo: "SQLite", icono: FaDatabase, descripcion: "La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB.", tecnico: true },
         retransUpd: { variante: "info", titulo: "Actualizado", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." },
         retransNoUpd: { variante: "danger", titulo: "Retransmitido", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." },
-        watchdog: { variante: "warning", titulo: "Recuperado", icono: MdBugReport, descripcion: "El estado del pedido ha sido recuperado por el WatchDog.", tecnico: true },
-        noSap: { variante: "danger", titulo: "Sin faltas", icono: MdPortableWifiOff, descripcion: "No se devolvieron faltas para este pedido." },
+        retransUpdWarn: { variante: "danger", titulo: "Modificado", icono: GoGitBranch, descripcion: "La respuesta del pedido se ha visto modificada con respecto a la que se le dió originalmente a la farmacia. Es posible que las faltas hayan variado." },
+        statusFix1: { variante: "warning", titulo: "Fix 1", icono: FaBug, descripcion: "mdb.js: CASO CONGESTION: SAP da numero de pedido antes que MDB haga commit", tecnico: true },
+        statusFix2: { variante: "warning", titulo: "Fix 2", icono: FaBug, descripcion: "mdb.js: ESPERA AGOTADA", tecnico: true},
+        statusFix3: { variante: "warning", titulo: "Fix 3", icono: FaBug, descripcion: "mdb.js: CONFIRMACION RECUPERADA: La confirmación del pedido se grabó antes que el propio pedido", tecnico: true},
+        watchdog: { variante: "primary", titulo: "WatchDog", icono: FaDog, descripcion: "El estado del mensaje ha sido cambiado por el WatchDog.", tecnico: true },
+        noSap: { variante: "warning", titulo: "Buffer", icono: IoIosApps, descripcion: "El mensaje no pudo ser entregado inmediatamente a SAP porque SAP no era alcanzable cuando se recibió." },
+        noFaltas: { variante: "danger", titulo: "No faltas", icono: MdPortableWifiOff, descripcion: "¡ No se devolvieron faltas a la farmacia !" },
         estupe: { variante: "success", titulo: "Estupe", icono: GiMedicines, descripcion: "El pedido contiene algún producto estupefaciente." },
         dupes: { variante: "warning", titulo: "Duplicados", icono: MdControlPointDuplicate, descripcion: "Esta transmisión se ha sido recibido varias veces. El resto de transmisiones se marcaron como duplicadas." },
         bonif: { variante: "success", titulo: "Bonificado", icono: FaPercentage, descripcion: "El pedido contiene líneas bonificadas." },
@@ -138,6 +144,7 @@ const K = {
         59: 'TEDIFARMA', // COFARES
         61: 'TEDIFARMA 2', // COFARES
         9000: 'PostMan',
+        9001: 'Fedicom App',
         9700: 'App Empleado',
         9800: 'F+Online',
         9991: 'SAP D01',
