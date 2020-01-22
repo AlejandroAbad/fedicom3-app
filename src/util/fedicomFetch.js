@@ -22,13 +22,14 @@ const jsonFetch = async (url, options = {}, body = null) => {
 }
 
 const fedicomFetch = (url, options = {}, token = null, body = null) => {
+    if (!options.headers) options.headers = {};
+
     if (token) {
         if (token.auth_token)
             token = token.auth_token;
-
-        if (!options.headers) options.headers = {};
         options.headers['Authorization'] = 'Bearer ' + token;
     }
+    options.headers['Software-ID'] = '9001';
     return jsonFetch(url, options, body);
 }
 
