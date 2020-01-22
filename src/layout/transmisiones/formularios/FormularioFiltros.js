@@ -8,21 +8,7 @@ import { FiFilter } from 'react-icons/fi'
 import Controles from 'componentes/transmision/formulario/Controles'
 import CabeceraFormulario from './CabeceraFormulario'
 
-
-
-const exprimeValores = (valorSelect) => {
-    
-    let valores = [];
-    valorSelect.forEach( valor => {
-        if (!valor.error) {
-            valores.push(valor.value)
-        }  
-    })
-    return valores
-}
-
 const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
-
 
     const hookFormulario = useForm();
 
@@ -42,7 +28,7 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
         }
 
         console.group('Parseo filtro')
-        console.log(valores,filtro);
+        console.log(valores, filtro);
         console.groupEnd()
 
         if (onAceptar) {
