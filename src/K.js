@@ -1,9 +1,9 @@
 import React from 'react'
 import { GiMedicines } from 'react-icons/gi'
 import { MdControlPointDuplicate, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
-import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation, FaDog } from 'react-icons/fa'
+import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation } from 'react-icons/fa'
 import { IoIosApps } from 'react-icons/io'
-import { GoGitBranch } from 'react-icons/go'
+import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
 const K = {
     PRODUCCION: false,
@@ -14,6 +14,7 @@ const K = {
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
         RG01: 'Santomera',
+        RG02: 'Borgino',
         RG03: 'Cartagena',
         RG04: 'Madrid',
         RG05: 'Barcelona viejo',
@@ -117,12 +118,16 @@ const K = {
     FLAGS: {
         sqlite: { variante: "danger", titulo: "SQLite", icono: FaDatabase, descripcion: "La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB.", tecnico: true },
         retransUpd: { variante: "info", titulo: "Actualizado", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." },
-        retransNoUpd: { variante: "danger", titulo: "Retransmitido", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." },
+        retransNoUpd: { variante: "info", titulo: "Retransmitido", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." },
         retransUpdWarn: { variante: "danger", titulo: "Modificado", icono: GoGitBranch, descripcion: "La respuesta del pedido se ha visto modificada con respecto a la que se le dió originalmente a la farmacia. Es posible que las faltas hayan variado." },
+
+        clon: { variante: "primary", titulo: "Clon", icono: GoGitPullRequest, descripcion: "Este pedido es un clon de otro pedido existente" },
+        clonado: { variante: "info", titulo: "Clonado", icono: GoRepoForked, descripcion: "Este pedido ha sido retransmitido y como resultado se han generado otros pedidos" },
+
         statusFix1: { variante: "warning", titulo: "Fix 1", icono: FaBug, descripcion: "mdb.js: CASO CONGESTION: SAP da numero de pedido antes que MDB haga commit", tecnico: true },
         statusFix2: { variante: "warning", titulo: "Fix 2", icono: FaBug, descripcion: "mdb.js: ESPERA AGOTADA", tecnico: true},
         statusFix3: { variante: "warning", titulo: "Fix 3", icono: FaBug, descripcion: "mdb.js: CONFIRMACION RECUPERADA: La confirmación del pedido se grabó antes que el propio pedido", tecnico: true},
-        watchdog: { variante: "primary", titulo: "WatchDog", icono: FaDog, descripcion: "El estado del mensaje ha sido cambiado por el WatchDog.", tecnico: true },
+        // watchdog: { variante: "primary", titulo: "WatchDog", icono: FaDog, descripcion: "El estado del mensaje ha sido cambiado por el WatchDog.", tecnico: true },
         noSap: { variante: "warning", titulo: "Buffer", icono: IoIosApps, descripcion: "El mensaje no pudo ser entregado inmediatamente a SAP porque SAP no era alcanzable cuando se recibió." },
         noFaltas: { variante: "danger", titulo: "No faltas", icono: MdPortableWifiOff, descripcion: "¡ No se devolvieron faltas a la farmacia !" },
         estupe: { variante: "success", titulo: "Estupe", icono: GiMedicines, descripcion: "El pedido contiene algún producto estupefaciente." },
@@ -145,6 +150,7 @@ const K = {
         61: 'TEDIFARMA 2', // COFARES
         9000: 'PostMan',
         9001: 'Fedicom App',
+        9002: 'Retransmisor',
         9700: 'App Empleado',
         9800: 'F+Online',
         9991: 'SAP D01',
