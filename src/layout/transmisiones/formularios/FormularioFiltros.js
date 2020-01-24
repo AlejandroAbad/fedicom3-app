@@ -27,6 +27,8 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
                 filtro[key.replace(/_DOT_/g, '.')] = valores[key]
         }
 
+        Controles.CodigoCliente.expandirOpciones(filtro)
+
         console.group('Parseo filtro')
         console.log(valores, filtro);
         console.groupEnd()
@@ -44,13 +46,16 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
         <Container fluid className="pt-3">
 
             <Controles.Crc filtro={filtro} {...hookFormulario} />
+            <Controles.FechaCreacion filtro={filtro} {...hookFormulario} />
+            <Controles.CodigoCliente filtro={filtro} {...hookFormulario} />
+            <hr />
             <Controles.TxId filtro={filtro} {...hookFormulario} />
             <Controles.NumeroPedidoFedicom filtro={filtro} {...hookFormulario} />
             <Controles.NumeroPedidoOrigen filtro={filtro} {...hookFormulario} />
             <Controles.NumeroPedidoSAP filtro={filtro} {...hookFormulario} />
             <Controles.TipoTransmision filtro={filtro} {...hookFormulario} />
             <Controles.EstadoTransmision filtro={filtro} {...hookFormulario} />
-            <Controles.FechaCreacion filtro={filtro} {...hookFormulario} />
+            
 
         </Container>
 

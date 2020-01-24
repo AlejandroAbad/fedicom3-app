@@ -1,5 +1,6 @@
-import K from 'K';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import K from 'K'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
+import clone from 'clone'
 //import moment from 'moment';
 // import update from 'immutability-helper';
 // import { Container, Row} from 'react-bootstrap';
@@ -64,8 +65,19 @@ const BuscadorTransmisiones = (props) => {
     if (resultado !== ultimoResultado.current) ultimoResultado.current = resultado;
 
     const construirQuery = useCallback(() => {
+
+        let clonedQuery = clone(query?.filter)
+        if (clonedQuery) {
+            for (let key in clonedQuery) {
+                if (key && key.startsWith('@')) 
+                    delete clonedQuery[key];       
+            }
+        }
+
+        console.log('LANZANDO QUERY', clonedQuery);
+
         return {
-            filter: query.filter,
+            filter: clonedQuery,
             proyection: PROYECCION,
             sort: query.sort,
             skip: parseInt(query.skip),
