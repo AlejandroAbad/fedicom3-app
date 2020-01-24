@@ -11,7 +11,7 @@ import Icono from 'componentes/icono/Icono';
 
 
 
-const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props}) => {
+const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
 
     expandirEn = expandirEn || 'md';
 
@@ -74,14 +74,14 @@ const MenuUsuario = ({ onLogout, ...props }) => {
 }
 
 
-const BotonNavegacion = ({ icono, className, esconderEn, mostrarEn, titulo, enlace, ...props}) => {
+const BotonNavegacion = ({ icono, className, esconderEn, mostrarEn, titulo, enlace, ...props }) => {
 
     let elementoIcono = icono ? <Icono icono={icono} posicion={[20, 3]} /> : null;
 
     let navClassName = 'BotonNavegacion ' + (className ?? '');
     let textClassName = 'TextoBotonNavegacion';
-    if (esconderEn)        textClassName += ' d-' + esconderEn + '-none';
-    if (mostrarEn)        textClassName += ' d-' + mostrarEn + '-inline-block';
+    if (esconderEn) textClassName += ' d-' + esconderEn + '-none';
+    if (mostrarEn) textClassName += ' d-' + mostrarEn + '-inline-block';
 
 
 
