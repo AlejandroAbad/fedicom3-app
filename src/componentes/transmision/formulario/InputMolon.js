@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import CreatableSelect from 'react-select/creatable';
-import { Form, Row, Col } from 'react-bootstrap';
+import CreatableSelect from 'react-select/creatable'
+import { Form, Row, Col } from 'react-bootstrap'
+import { FaLongArrowAltRight } from 'react-icons/fa'
+import Icono from 'componentes/icono/Icono';
 
 const colourStyles = {
     multiValue: (styles, { data }) => {
@@ -145,8 +147,12 @@ const InputMolon = ({ titulo, rutaFiltro, regexSplit, regexValidate, filtro, set
 
     return (
         <Form.Group as={Row} className="align-items-center">
-            <Form.Label column md="4">{titulo}</Form.Label>
-            <Col md="8">
+            <Form.Label column md="4">
+                {titulo} 
+                {(estado && estado.length > 0) && <Icono icono={FaLongArrowAltRight} class="float-right text-success" />}
+            </Form.Label>
+            <Col md="8" >
+                
                 <CreatableSelect
                     components={{ DropdownIndicator: null }}
                     inputValue={inputValue}

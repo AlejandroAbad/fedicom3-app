@@ -2,6 +2,8 @@ import K from 'K';
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
+import Icono from 'componentes/icono/Icono';
+import { FaLongArrowAltRight } from 'react-icons/fa';
 
 
 const OPCIONES_SELECT = [
@@ -34,8 +36,8 @@ const EstadoTransmision = ({ setValue, filtro, register, errors, ...props }) => 
 
     if (filtro?.status?.$in) {
         opcionesIniciales = filtro.status.$in.map( tipo => {
-            let datosEstado = K.ESTADOS_TRANSFERENCIA[tipo];
-            return { value: datosEstado[0], label: datosEstado[1] }
+            let datosEstado = K.ESTADOS_TRANSMISION[tipo];
+            return { value: datosEstado.codigo, label: datosEstado.titulo}
         })
     }
 
@@ -58,7 +60,10 @@ const EstadoTransmision = ({ setValue, filtro, register, errors, ...props }) => 
 
     return (
         <Form.Group as={Row} className="align-items-center">
-            <Form.Label column md="4">Estado de la transmisión</Form.Label>
+            <Form.Label column md="4">
+                Estado de la transmisión
+                {(values.selectedOption && values.selectedOption.length > 0) && <Icono icono={FaLongArrowAltRight} class="float-left float-md-right mr-3 mr-md-0 text-success" />}
+            </Form.Label>
             <Col md="8">
                 <Select 
                     isMulti 

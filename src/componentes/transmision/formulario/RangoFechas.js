@@ -5,6 +5,9 @@ import moment from 'moment'
 
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
+import { FaLongArrowAltRight } from 'react-icons/fa';
+import Icono from 'componentes/icono/Icono';
+import { MdDateRange } from 'react-icons/md';
 registerLocale('es-ES', es)
 
 const BotonInput = forwardRef(({ value, onClick, ...props }, ref) => {
@@ -18,7 +21,7 @@ const BotonInput = forwardRef(({ value, onClick, ...props }, ref) => {
 const MenuMomentosPredefinidos = ({ seleccionarMomento }) => (
     <Dropdown as={ButtonGroup}>
         <Dropdown.Toggle split variant="outline-primary"  >
-            <span className="pr-2">Seleccionar rango</span>
+            <span className="pr-2"><Icono icono={MdDateRange} posicion={[20,3]} /></span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
             <Dropdown.Item onClick={() => seleccionarMomento('hoy')}>Hoy</Dropdown.Item>
@@ -119,7 +122,11 @@ const RangoFechas = ({ titulo, filtro, rutaFiltro, setValue, register, errors, .
 
     return (
         <Form.Group as={Row} className="align-items-center">
-            <Form.Label column md="4">{titulo}</Form.Label>
+            <Form.Label column md="4">
+                {titulo}
+                <Icono icono={FaLongArrowAltRight} class="float-left float-md-right mr-3 mr-md-0 text-success" />
+            </Form.Label>
+            
             <Col md="8">
                 <DatePicker
                     selected={fecha.$gte}

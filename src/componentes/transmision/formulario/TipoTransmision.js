@@ -2,6 +2,8 @@ import K from 'K';
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
+import Icono from 'componentes/icono/Icono';
+import { FaLongArrowAltRight } from 'react-icons/fa';
 
 
 const OPCIONES_SELECT = [
@@ -57,8 +59,8 @@ const TipoTransmision = ({ setValue, filtro, register, errors, ...props }) => {
 
     if (filtro?.type?.$in) {
         opcionesIniciales = filtro.type.$in.map( tipo => {
-            let datosTipo = K.TIPOS_TRANSFERENCIA[tipo];
-            return { value: datosTipo[0], label: datosTipo[1] }
+            let datosTipo = K.TIPOS_TRANSMISION[tipo];
+            return { value: datosTipo.codigo, label: datosTipo.titulo }
         })
     }
 
@@ -81,7 +83,10 @@ const TipoTransmision = ({ setValue, filtro, register, errors, ...props }) => {
 
     return (
         <Form.Group as={Row} className="align-items-center">
-            <Form.Label column md="4">Tipo de transmisión</Form.Label>
+            <Form.Label column md="4">
+                Tipo de transmisión
+                {(values.selectedOption && values.selectedOption.length > 0) && <Icono icono={FaLongArrowAltRight} class="float-left float-md-right mr-3 mr-md-0 text-success" />}
+            </Form.Label>
             <Col md="8">
                 <Select 
                     isMulti 
