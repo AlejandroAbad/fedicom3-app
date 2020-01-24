@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiPackage, FiThumbsDown, FiThumbsUp } from 'react-icons/fi'
+import { FaListAlt } from 'react-icons/fa'
 
 import Icono from 'componentes/icono/Icono'
 
@@ -13,13 +13,13 @@ const Totales = ({ transmision, ...props }) => {
     if (t.cantidadBonificacion) {
         cantidad = (
             <>
-                <Icono icono={FiThumbsUp} className="text-success ml-3 mr-1" posicion={[16, 0]} />{t.cantidad}+{t.cantidadBonificacion}
+                {t.cantidad}+{t.cantidadBonificacion}
             </>
         )
     } else {
         cantidad = (
             <>
-                <Icono icono={FiThumbsUp} className="text-success ml-3 mr-1" posicion={[16, 0]} />{t.cantidad}
+                {t.cantidad}
             </>
         )
     }
@@ -28,22 +28,22 @@ const Totales = ({ transmision, ...props }) => {
     if (t.cantidadFalta || t.cantidadBonificacionFalta)
         if (t.cantidadBonificacionFalta) {
             faltas = (
-                <span className="text-danger">
-                    <Icono icono={FiThumbsDown} className="text-danger ml-2 mr-1" posicion={[16, 0]} />{t.cantidadFalta}+{t.cantidadBonificacionFalta}
-                </span>
+                <>
+                    {'/'}<span className="text-danger">{t.cantidadFalta}+{t.cantidadBonificacionFalta}</span>
+                </>
             )
         } else {
             faltas = (
-                <span className="text-danger">
-                    <Icono icono={FiThumbsDown} className="text-danger ml-2 mr-1" posicion={[16, 0]} />{t.cantidadFalta}
-                </span>
+                <>
+                    {'/'}<span className="text-danger">{t.cantidadFalta}</span>
+                </>
             )
         }
 
 
     return (
         <code className="text-reset">
-            <Icono icono={FiPackage} className="text-info mr-1" posicion={[16, 0]} />{t.lineas}{cantidad}{faltas}
+            <Icono icono={FaListAlt} className="text-info mr-1" posicion={[18, 2]} />{t.lineas} ({cantidad}{faltas})
         </code>
     )
 }
