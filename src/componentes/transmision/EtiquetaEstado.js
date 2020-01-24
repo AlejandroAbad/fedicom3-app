@@ -4,20 +4,25 @@ import { Badge, Popover, OverlayTrigger } from 'react-bootstrap'
 
 import './Transmision.scss'
 
-const getEstado = (estado) => {
-    return K.ESTADOS_TRANSFERENCIA[estado] || [estado, 'Desconocido', 'No se conoce el estado', 'danger']
+const getEstado = (codigoEstado) => {
+    return K.ESTADOS_TRANSMISION[codigoEstado] || { codigo: codigoEstado, 
+        filtrable: false, 
+        titulo: 'Desconocido', 
+        descripcion: 'No se conoce el estado.', 
+        variante: 'danger'
+    }
 }
 
 const popover = (estado) => {
-    let className = 'border border-' + estado[3]
+    let className = 'border border-' + estado.variante
     return (
         <Popover id="popover-basic" className={className}>
-            <Popover.Title as="h3" variant={estado[3]}>
-                {estado[1]}
-                <Badge className="float-right text-monospace" variant="dark">{estado[0]}</Badge>
+            <Popover.Title as="h3" variant={estado.variante}>
+                {estado.titulo}
+                <Badge className="float-right text-monospace" variant="dark">{estado.codigo}</Badge>
             </Popover.Title>
             <Popover.Content>
-                {estado[2]}
+                {estado.descripcion}
             </Popover.Content>
         </Popover>
     )
@@ -29,7 +34,7 @@ const EtiquetaEstado = ({ estado, ...props }) => {
 
     return (
         <OverlayTrigger trigger="hover" overlay={popover(datosEstado)} placement="bottom">
-            <Badge pill size="lg" variant={datosEstado[3]} className="EtiquetaEstado" >{datosEstado[1]}</Badge>
+            <Badge pill size="lg" variant={datosEstado.variante} className="EtiquetaEstado" >{datosEstado.titulo}</Badge>
         </OverlayTrigger>
     )
 }

@@ -24,16 +24,17 @@ const OPCIONES_SELECT = [
 ]
 
 
-Object.values(K.TIPOS_TRANSFERENCIA).forEach(tipo => {
+Object.values(K.TIPOS_TRANSMISION).forEach(tipo => {
+    if (! tipo.filtrable) return;
     let idx = 3;
-    if (tipo[0] === 0)
+    if (tipo.codigo === 0)
         idx = 0
-    else if (tipo[0] < 20)
+    else if (tipo.codigo < 20)
         idx = 1
-    else if (tipo[0] < 30)
+    else if (tipo.codigo < 30)
         idx = 2
         
-    OPCIONES_SELECT[idx].options.push( { value: tipo[0], label: tipo[1]} );
+    OPCIONES_SELECT[idx].options.push({ value: tipo.codigo, label: tipo.titulo} );
     
 })
 

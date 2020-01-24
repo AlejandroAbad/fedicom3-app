@@ -9,9 +9,9 @@ const OPCIONES_SELECT = [
 ]
 
 
-Object.values(K.ESTADOS_TRANSFERENCIA).forEach(tipo => {
-
-    OPCIONES_SELECT.push( { value: tipo[0], label: tipo[1]} );
+Object.values(K.ESTADOS_TRANSMISION).forEach(tipo => {
+    if (tipo.filtrable)
+        OPCIONES_SELECT.push( { value: tipo.codigo, label: tipo.titulo} );
     
 })
 
