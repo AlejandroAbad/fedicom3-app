@@ -7,6 +7,7 @@ import TipoTransmision from './TipoTransmision'
 import EstadoTransmision from './EstadoTransmision'
 import FechaCreacion from './FechaCreacion'
 import CodigoCliente from './CodigoCliente'
+import Flags from './Flags'
 
 const Controles = {
     TxId,
@@ -17,7 +18,8 @@ const Controles = {
     TipoTransmision,
     EstadoTransmision,
     FechaCreacion,
-    CodigoCliente
+    CodigoCliente,
+    Flags
 }
 
 export default Controles
