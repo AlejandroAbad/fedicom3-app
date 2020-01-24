@@ -7,22 +7,23 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { GoDashboard, GoDatabase, GoTelescope, GoPulse, GoRocket, GoGraph, GoGitMerge, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
+import Icono from 'componentes/icono/Icono';
 
 
 
-const BarraNavegacionSuperior = (props) => {
+const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props}) => {
 
-    let expandirEn = props.expandirEn || 'md';
+    expandirEn = expandirEn || 'md';
 
-    if (!props.jwt) {
+    if (!jwt) {
         return (
             <Navbar className="BarraSuperior" collapseOnSelect expand={expandirEn} bg="light" variant="light" fixed="top">
                 <Navbar.Brand ><b>Fedicom 3</b></Navbar.Brand>
                 <Navbar.Toggle aria-controls="barraSuperior-navegador" />
                 <Navbar.Collapse id="barraSuperior-navegador" >
                     <Nav className="ml-auto">
-                        {!K.PRODUCCION && <BotonNavegacion icon={GoSettings} title="Configuración" hideTextAt={expandirEn} />}
-                        <BotonNavegacion icon={GoInfo} title="Acerca de" hideTextAt={expandirEn} />
+                        {!K.PRODUCCION && <BotonNavegacion icono={GoSettings} titulo="Configuración" esconderEn={expandirEn} />}
+                        <BotonNavegacion icono={GoInfo} titulo="Acerca de" esconderEn={expandirEn} />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
@@ -35,22 +36,22 @@ const BarraNavegacionSuperior = (props) => {
             <Navbar.Toggle aria-controls="barraSuperior-navegador" />
             <Navbar.Collapse id="barraSuperior-navegador" >
                 <Nav className="mr-auto ml-10" >
-                    <BotonNavegacion to="/transmisiones" icon={GoRocket} title="Transmisiones" hideTextAt={expandirEn} />
-                    <BotonNavegacion icon={GoDashboard} title="Estado" hideTextAt={expandirEn}>
-                        <BotonNavegacion to="/status/mongodb" icon={GoDatabase} title="Base de datos" />
-                        <BotonNavegacion to="/status/concentradores" icon={GoPulse} title="Concentradores" />
-                        <BotonNavegacion to="/status/watchdog" icon={GoTelescope} title="Watchdog" />
-                        <BotonNavegacion to="/status/balanceadores" icon={GoGitMerge} title="Balanceadores" />
-                        <BotonNavegacion to="/status/estadisticas" icon={GoGraph} title="Estadísticas de pedidos" />
+                    <BotonNavegacion enlace="/transmisiones" icono={GoRocket} titulo="Transmisiones" esconderEn={expandirEn} mostrarEn="xl" />
+                    <BotonNavegacion icono={GoDashboard} titulo="Estado" esconderEn={expandirEn} mostrarEn="xl" >
+                        <BotonNavegacion enlace="/status/mongodb" icono={GoDatabase} titulo="Base de datos" />
+                        <BotonNavegacion enlace="/status/concentradores" icono={GoPulse} titulo="Concentradores" />
+                        <BotonNavegacion enlace="/status/watchdog" icono={GoTelescope} titulo="Watchdog" />
+                        <BotonNavegacion enlace="/status/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />
+                        <BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />
                     </BotonNavegacion>
 
                 </Nav>
                 <Nav>
-                    <MenuUsuario onLogout={props.onLogout} jwt={props.jwt} />
+                    <MenuUsuario onLogout={onLogout} jwt={jwt} />
                 </Nav>
                 <Nav>
-                    {!K.PRODUCCION && <BotonNavegacion icon={GoSettings} title="Configuración" hideTextAt={expandirEn} />}
-                    <BotonNavegacion icon={GoInfo} title="Acerca de" hideTextAt={expandirEn} />
+                    {!K.PRODUCCION && <BotonNavegacion icono={GoSettings} titulo="Configuración" esconderEn={expandirEn} />}
+                    <BotonNavegacion icono={GoInfo} titulo="Acerca de" esconderEn={expandirEn} />
                 </Nav>
             </Navbar.Collapse>
 
@@ -59,59 +60,49 @@ const BarraNavegacionSuperior = (props) => {
 }
 
 
-const MenuUsuario = (props) => {
+const MenuUsuario = ({ onLogout, ...props }) => {
 
     let jwt = props.jwt;
-
     if (!jwt) return null;
-
-
     return (
-        <BotonNavegacion icon={GoPerson} title={<>{jwt.data.sub}@{jwt.data.aud}&nbsp;</>} className="MenuUsuario mr-3 border rounded ">
-            <BotonNavegacion title="Cuenta" to="/usuario" icon={GoInfo} />
-            <BotonNavegacion title="Cerrar sesión" to="#" icon={GoSignOut} onClick={props.onLogout} />
+        <BotonNavegacion icono={GoPerson} titulo={<>{jwt.data.sub}@{jwt.data.aud}&nbsp;</>} className="MenuUsuario mr-3 border-lg rounded" esconderEn="md" mostrarEn="lg">
+            <BotonNavegacion titulo="Cuenta" enlace="/usuario" icono={GoInfo} />
+            <BotonNavegacion titulo="Cerrar sesión" enlace="#" icono={GoSignOut} onClick={onLogout} />
         </BotonNavegacion>
     )
 
 }
 
 
-const BotonNavegacion = (props) => {
-    let icon = null;
-    if (props.icon) {
-        icon = new props.icon({
-            size: '20px',
-            style: {
-                marginBottom: '3px'
-            }
-        });
-    }
+const BotonNavegacion = ({ icono, className, esconderEn, mostrarEn, titulo, enlace, ...props}) => {
 
-    let navClassName = 'BotonNavegacion ' + props.className;
+    let elementoIcono = icono ? <Icono icono={icono} posicion={[20, 3]} /> : null;
 
+    let navClassName = 'BotonNavegacion ' + (className ?? '');
     let textClassName = 'TextoBotonNavegacion';
-    if (props.hideTextAt)
-        textClassName += ' d-' + props.hideTextAt + '-none';
+    if (esconderEn)        textClassName += ' d-' + esconderEn + '-none';
+    if (mostrarEn)        textClassName += ' d-' + mostrarEn + '-inline-block';
 
 
 
     if (props.children) {
-        let uid = 'nav' + Math.floor(Math.random() * 1000000)
         return (
-            <Nav.Item className={navClassName} onClick={props.onClick}>
-                <NavDropdown rootCloseEvent='click' title={<span>{icon}<span className={textClassName}> {props.title}</span></span>} id={uid}>
+            <Nav.Item className={navClassName} {...props} >
+                <NavDropdown rootCloseEvent='click' title={<span>{elementoIcono}<span className={textClassName}> {titulo}</span></span>}>
                     {props.children}
                 </NavDropdown>
             </Nav.Item >
         );
     }
 
+    enlace = enlace ?? '#'
+
     return (
-        <Nav.Item className={navClassName} onClick={props.onClick}>
-            {props.to ?
-                <LinkContainer to={props.to}><Nav.Link>{icon}<span className={textClassName}> {props.title}</span></Nav.Link></LinkContainer>
+        <Nav.Item className={navClassName} {...props}>
+            {enlace ?
+                <LinkContainer to={enlace}><Nav.Link>{elementoIcono}<span className={textClassName}> {titulo}</span></Nav.Link></LinkContainer>
                 :
-                <Nav.Link>{icon}<span className={textClassName}> {props.title}</span></Nav.Link>
+                <Nav.Link>{elementoIcono}<span className={textClassName}> {titulo}</span></Nav.Link>
             }
         </Nav.Item>
     );
