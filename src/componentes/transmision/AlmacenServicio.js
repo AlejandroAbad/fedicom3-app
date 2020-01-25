@@ -19,41 +19,41 @@ const AlmacenServicio = ({ transmision, formato, ...props }) => {
 
         if (!nombreAlmacenElegido) {
             return (
-                <code className="text-reset">
+                <span className="text-monospace">
                     <Icono icono={FaWarehouse} posicion={[16, 0]} className="text-info mr-1" />
                     <abbr className="text-decoration-none text-warning" title="Desconocido">{almacenElegido}</abbr>
-                </code>
+                </span>
             )
         }
         return (
-            <code className="text-reset">
+            <span className="text-monospace">
                 <Icono icono={FaWarehouse} posicion={[16, 0]} className="text-info mr-1" />
                 <abbr className="text-decoration-none" title={nombreAlmacenElegido}>{almacenElegido}</abbr>
-            </code>
+            </span>
         )
     }
 
     if (!nombreAlmacenElegido) {
         return (
-            <code className="text-reset">
+            <span className="text-monospace">
                 <Icono icono={FaWarehouse} posicion={[16, 0]} className="text-info mr-1" />
                 <abbr className="text-decoration-none text-warning" title={almacenElegido}>Desconocido</abbr>
-            </code>
+            </span>
         )
     } else if (nombreAlmacenSolicitado && nombreAlmacenSolicitado !== nombreAlmacenElegido) {
         return (
-            <code className="text-reset">
+            <span className="text-monospace">
                 <Icono icono={FaWarehouse} posicion={[16, 0]} className="text-info mr-1" />
                 <abbr className="text-decoration-none" title={almacenElegido}>{nombreAlmacenElegido}</abbr>
                 <del className="ml-1 text-muted">{almacenSolicitado}</del>
-            </code>
+            </span>
         )
     }
     return (
-        <code className="text-reset">
+        <span className="text-monospace">
             <Icono icono={FaWarehouse} posicion={[16, 0]} className="text-info mr-1" />
             <abbr className="text-decoration-none" title={almacenElegido}>{nombreAlmacenElegido}</abbr>
-        </code>
+        </span>
     )
 
 

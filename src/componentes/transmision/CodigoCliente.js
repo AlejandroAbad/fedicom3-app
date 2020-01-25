@@ -115,49 +115,48 @@ export class CodigoCliente {
 export const TextoCodigoCliente = ({ codigoCliente, ...props }) => {
 
 
-    if (!codigoCliente.isLiteral) {
+    if (!codigoCliente?.isLiteral) {
         codigoCliente = new CodigoCliente(codigoCliente);
     }
 
 
     if (codigoCliente.isLiteral()) {
-        return <code className="text-reset">{codigoCliente.codigoCliente}</code>
+        return <span className="text-monospace">{codigoCliente.codigoCliente}</span>
     }
 
     if (codigoCliente.isSoloCliente()) {
         return (
-            <code className="text-reset">
+            <span className="text-monospace">
                 <TextoMuteado texto={codigoCliente.cerosIniciales} />
                 {codigoCliente.codigoCliente}
                 <TextoMuteado className="" texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
-            </code>
+            </span>
         )
     }
 
     if (codigoCliente.isClienteSociedad()) {
         return (
-            <code className="text-reset">
+            <span className="text-monospace">
                 <TextoMuteado texto={codigoCliente.cerosIniciales} />
                 <TextoSociedad codigo={codigoCliente.codigoSociedad} codigoSap={codigoCliente.codigoSociedadSap} nombre={codigoCliente.nombreSociedad} />
                 {codigoCliente.codigoCliente.padStart(5, '0')}
                 <TextoMuteado style={{ fontSize: '90%' }} texto={codigoCliente.acabaEnHefame ? '@hefame' : null} />
-            </code>
+            </span>
         )
     }
 
     if (codigoCliente.isLaboratorio()) {
         return (
             <>
-                <code className="text-reset">
+                <span className="text-monospace">
                     <abbr className="font-weight-bold text-dark text-decoration-none" title={codigoCliente.nombreTipoTransfer}>{codigoCliente.tipoTransfer}</abbr>
-                    {/*codigoCliente.codigoLaboratorio*/}
-                </code>&nbsp;<code>{codigoCliente.nombreLaboratorio}</code>
+                </span>&nbsp;<abbr className="text-monospace text-decoration-none" title={codigoCliente.codigoLaboratorio}>{codigoCliente.nombreLaboratorio}</abbr>
             </>
         )
 
     }
 
-    return <code className="text-reset text-muted font-italic" style={{ fontVariant: 'small-caps' }}>Sin identificar</code>;
+    return <span className="text-monospace text-muted font-italic" style={{ fontVariant: 'small-caps' }}>Sin identificar</span>;
 
 }
 

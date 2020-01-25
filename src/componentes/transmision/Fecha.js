@@ -37,9 +37,9 @@ const Fecha = ({ fecha, formato, ...props }) => {
     }
 
     return (
-        <code className="text-reset">
+        <span className="text-monospace">
             {icono}{cadena}
-        </code>
+        </span>
     )
 }
 
