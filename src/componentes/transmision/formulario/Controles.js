@@ -8,6 +8,7 @@ import EstadoTransmision from './EstadoTransmision'
 import FechaCreacion from './FechaCreacion'
 import CodigoCliente from './CodigoCliente'
 import Flags from './Flags'
+import SoftwareEmisor from './SoftwareEmisor'
 
 const Controles = {
     TxId,
@@ -19,7 +20,8 @@ const Controles = {
     EstadoTransmision,
     FechaCreacion,
     CodigoCliente,
-    Flags
+    Flags,
+    SoftwareEmisor
 }
 
 export default Controles

@@ -125,8 +125,8 @@ const K = {
         clonado: { variante: "info", titulo: "Clonado", icono: GoRepoForked, descripcion: "Este pedido ha sido retransmitido y como resultado se han generado otros pedidos" },
 
         statusFix1: { variante: "warning", titulo: "Fix 1", icono: FaBug, descripcion: "mdb.js: CASO CONGESTION: SAP da numero de pedido antes que MDB haga commit", tecnico: true },
-        statusFix2: { variante: "warning", titulo: "Fix 2", icono: FaBug, descripcion: "mdb.js: ESPERA AGOTADA", tecnico: true},
-        statusFix3: { variante: "warning", titulo: "Fix 3", icono: FaBug, descripcion: "mdb.js: CONFIRMACION RECUPERADA: La confirmación del pedido se grabó antes que el propio pedido", tecnico: true},
+        statusFix2: { variante: "warning", titulo: "Fix 2", icono: FaBug, descripcion: "mdb.js: ESPERA AGOTADA", tecnico: true },
+        statusFix3: { variante: "warning", titulo: "Fix 3", icono: FaBug, descripcion: "mdb.js: CONFIRMACION RECUPERADA: La confirmación del pedido se grabó antes que el propio pedido", tecnico: true },
         // watchdog: { variante: "primary", titulo: "WatchDog", icono: FaDog, descripcion: "El estado del mensaje ha sido cambiado por el WatchDog.", tecnico: true },
         noSap: { variante: "warning", titulo: "Buffer", icono: IoIosApps, descripcion: "El mensaje no pudo ser entregado inmediatamente a SAP porque SAP no era alcanzable cuando se recibió." },
         noFaltas: { variante: "danger", titulo: "No faltas", icono: MdPortableWifiOff, descripcion: "¡ No se devolvieron faltas a la farmacia !" },
@@ -139,24 +139,24 @@ const K = {
         demorado: { variante: "primary", titulo: "Demorado", icono: MdTimer, descripcion: (<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>) },
     },
     PROGRAMAS_FARMACIA: {
-        10: 'FARMABRAIN',
-        12: 'UNYCOPWIN', // UNYCOP
-        26: 'HEFAME',
-        28: 'FARMALOG',
-        36: 'NOVOPHAR',
-        38: 'FARMATIC', // CONSOFT
-        48: 'NIXFARMA', // PULSO
-        59: 'TEDIFARMA', // COFARES
-        61: 'TEDIFARMA 2', // COFARES
-        9000: 'PostMan',
-        9001: 'Fedicom App',
-        9002: 'Retransmisor',
-        9700: 'App Empleado',
-        9800: 'F+Online',
-        9991: 'SAP D01',
-        9992: 'SAP T01',
-        9993: 'SAP P01',
-        9999: 'Simulador'
+        10: { codigo: '10', nombre: 'FARMABRAIN', filtrable: true},
+        12: { codigo: '0012', nombre: 'UNYCOPWIN', apellidos: 'UNYCOP', filtrable: true },
+        26: { codigo: '26', nombre: 'HEFAME' },
+        28: { codigo: '28', nombre: 'FARMALOG', filtrable: true },
+        36: { codigo: '36', nombre: 'NOVOPHAR', apellidos: 'Quimfa', filtrable: true },
+        38: { codigo: '38', nombre: 'FARMATIC', apellidos: 'CONSOFT', filtrable: true},
+        48: { codigo: '48', nombre: 'NIXFARMA', apellidos: 'PULSO', filtrable: true },
+        59: { codigo: '59', nombre: 'TEDIFARMA', apellidos: 'COFARES', filtrable: true },
+        61: { codigo: '61', nombre: 'TEDIFARMA 2', apellidos: 'COFARES', filtrable: true },
+        9000: { codigo: '9000', nombre: 'PostMan', filtrable: true },
+        9001: { codigo: '9001', nombre: 'Fedicom App', filtrable: true },
+        9002: { codigo: '9002', nombre: 'Retransmisor' },
+        9700: { codigo: '9700', nombre: 'App Empleado', filtrable: true },
+        9800: { codigo: '9800', nombre: 'F+Online', filtrable: true },
+        9991: { codigo: '9991', nombre: 'SAP D01' },
+        9992: { codigo: '9992', nombre: 'SAP T01' },
+        9993: { codigo: '9993', nombre: 'SAP P01' },
+        9999: { codigo: '9999', nombre: 'SIM PHP', filtrable: true }
     }
 }
 

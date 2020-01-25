@@ -5,7 +5,7 @@ import { FaLaptopMedical } from 'react-icons/fa'
 import Icono from 'componentes/icono/Icono'
 
 const getNombreProgramaFarmacia = (idPrograma) => {
-    return K.PROGRAMAS_FARMACIA[parseInt(idPrograma)] || 'DESCONOCIDO'
+    return K.PROGRAMAS_FARMACIA[parseInt(idPrograma)] || {codigo: idPrograma, nombre: 'Desconocido'}
 }
 
 
@@ -19,7 +19,7 @@ const SoftwareEmisor = ({ softwareId, ...props }) => {
 
     return (<>
         <Icono icono={FaLaptopMedical} posicion={[16, 0]} className="text-info mr-1" />
-        <code className="text-reset"><abbr className="text-decoration-none" title={softwareId}>{getNombreProgramaFarmacia(softwareId)}</abbr></code>
+        <code className="text-reset"><abbr className="text-decoration-none" title={softwareId}>{getNombreProgramaFarmacia(softwareId).nombre}</abbr></code>
     </>);
 }
 

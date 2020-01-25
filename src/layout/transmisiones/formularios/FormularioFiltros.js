@@ -51,11 +51,13 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
             <Controles.Flags filtro={filtro} {...hookFormulario} />
             <hr />
             <Controles.TxId filtro={filtro} {...hookFormulario} />
+            <Controles.TipoTransmision filtro={filtro} {...hookFormulario} />
+            <Controles.EstadoTransmision filtro={filtro} {...hookFormulario} />
             <Controles.NumeroPedidoFedicom filtro={filtro} {...hookFormulario} />
             <Controles.NumeroPedidoOrigen filtro={filtro} {...hookFormulario} />
             <Controles.NumeroPedidoSAP filtro={filtro} {...hookFormulario} />
-            <Controles.TipoTransmision filtro={filtro} {...hookFormulario} />
-            <Controles.EstadoTransmision filtro={filtro} {...hookFormulario} />
+            <hr />
+            <Controles.SoftwareEmisor filtro={filtro} {...hookFormulario} />
             
 
         </Container>
