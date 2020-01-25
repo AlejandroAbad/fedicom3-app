@@ -1,6 +1,6 @@
 import K from 'K'
 import React from 'react'
-import { Badge, Popover, OverlayTrigger } from 'react-bootstrap'
+import { Badge, Popover, OverlayTrigger, Button } from 'react-bootstrap'
 
 
 import Icono from 'componentes/icono/Icono'
@@ -25,6 +25,19 @@ const FlagPopover = (icono, titulo, descripcion, variante) => {
 }
 
 export const BadgeFlag = ({ icono, titulo, descripcion, variante, tecnico, formato, ...props }) => {
+
+    if (formato === 'grande') {
+        let cl = "d-inline-block px-2 py-1 mr-1 mt-1 rounded badge-" + variante
+        let iconComponent = icono ? <Icono icono={icono} posicion={[22,2]} className="mr-1" /> : null
+        return (
+            <OverlayTrigger trigger="hover" overlay={FlagPopover(icono, titulo, descripcion, variante)} placement="bottom">
+                <span variant={variante} className={cl} {...props}>
+                    {iconComponent}
+                    {titulo}
+                </span>
+            </OverlayTrigger>
+        )
+    }
 
     let iconComponent = icono ? <Icono icono={icono} posicion={[14]} className={formato !== 'corto' ? 'mr-1' : ''} /> : null
 
