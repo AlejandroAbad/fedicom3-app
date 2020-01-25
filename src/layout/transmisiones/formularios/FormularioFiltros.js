@@ -28,6 +28,7 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
         }
 
         Controles.CodigoCliente.expandirOpciones(filtro)
+        Controles.Flags.expandirOpciones(filtro)
 
         console.group('Parseo filtro')
         console.log(valores, filtro);
