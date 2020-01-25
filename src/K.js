@@ -1,5 +1,5 @@
 import React from 'react'
-import { GiMedicines } from 'react-icons/gi'
+import { GiMedicines, GiCardExchange } from 'react-icons/gi'
 import { MdControlPointDuplicate, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
 import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation } from 'react-icons/fa'
 import { IoIosApps } from 'react-icons/io'
@@ -117,8 +117,8 @@ const K = {
     },
     FLAGS: {
         sqlite: { variante: "danger", titulo: "SQLite", icono: FaDatabase, descripcion: "La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB.", tecnico: true },
-        retransUpd: { variante: "info", titulo: "Actualizado", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." },
-        retransNoUpd: { variante: "info", titulo: "Retransmitido", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." },
+        retransUpd: { variante: "info", titulo: "Actualizado", icono: GiCardExchange, descripcion: "El pedido ha sido retransmitido a SAP y esto ha provocado que los datos de este varíen." },
+        retransNoUpd: { variante: "secondary", titulo: "Retransmitido", icono: FaRetweet, descripcion: "El pedido ha sido retransmitido a SAP, pero este no se ha visto modificado." },
         retransUpdWarn: { variante: "danger", titulo: "Modificado", icono: GoGitBranch, descripcion: "La respuesta del pedido se ha visto modificada con respecto a la que se le dió originalmente a la farmacia. Es posible que las faltas hayan variado." },
 
         clon: { variante: "primary", titulo: "Clon", icono: GoGitPullRequest, descripcion: "Este pedido es un clon de otro pedido existente" },
