@@ -12,7 +12,7 @@ import BootstrapMedia from 'componentes/debug/bootstrapMedia/BootstrapMedia';
 
 import BarraNavegacionSuperior from 'layout/barraNavegacionSuperior/BarraNavegacionSuperior';
 import FormularioLogin from 'layout/formularioLogin/FormularioLogin';
-import VisorTransmision from 'layout/transmisiones/VisorTransmision';
+import VisorTransmision from 'layout/transmisiones/visor/VisorTransmision';
 import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
 
 
