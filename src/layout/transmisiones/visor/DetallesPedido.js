@@ -39,7 +39,6 @@ const DetallesPedido = ({ transmision }) => {
 							</Col>
 						</Row>
 						<SeccionFlags tx={tx} />
-
 						<SeccionLineas tx={tx} />
 					</Container>
 				</Accordion.Collapse>
@@ -54,78 +53,29 @@ const SeccionLineas = ({ tx }) => {
 	let sum = tx.flags?.s
 
 	return (
-		<Accordion defaultActiveKey="1" className="my-3">
+		<Accordion defaultActiveKey="0" className="my-3">
 			<Card>
 				<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
 					Lineas del pedido
 				</Accordion.Toggle>
 
-				{sum &&
-					<Container fluid className="text-center">
-						<Row class="no-gutters">
-							<Col md={6} className="my-2 mx-2 mx-md-0">
-								<Row className="no-gutters border-bottom py-1">
-									<Col>Lineas</Col>
-								</Row>
-								<Row className="no-gutters border-bottom py-1">
-									<Col>
-										<Row className="no-gutters">
-											<Col xs={3}>Pedidas</Col>
-											<Col xs={3}>Falta</Col>
-											<Col xs={3}>Demoradas</Col>
-											<Col xs={3}>Estupe</Col>
-										</Row>
-									</Col>
-								</Row>
-								<Row className="no-gutters py-1">
-									<Col>
-										<Row className="no-gutters">
-											<Col xs={3}>{sum.lineas}</Col>
-											<Col xs={3}>{sum.lineasIncidencias}</Col>
-											<Col xs={3}>{sum.lineasDemorado}</Col>
-											<Col xs={3}>{sum.lineasEstupe}</Col>
-										</Row>
-									</Col>
-								</Row>
-							</Col>
-
-							<Col md={6} className="my-2 mx-2 mx-md-0">
-								<Row className="no-gutters border-bottom py-1">
-									<Col>Cantidad</Col>
-								</Row>
-								<Row className="no-gutters border-bottom py-1">
-									<Col>
-										<Row className="no-gutters">
-											<Col xs={4}>Pedida</Col>
-											<Col xs={4}>Servida</Col>
-											<Col xs={4}>Falta</Col>
-										</Row>
-									</Col>
-								</Row>
-								<Row className="no-gutters py-1">
-									<Col>
-										<Row className="no-gutters">
-											<Col xs={4}>{sum.cantidad}+{sum.cantidadBonificacion}</Col>
-											<Col xs={4}>{sum.cantidad - sum.cantidadFalta}+{sum.cantidadBonificacion - sum.cantidadBonificacionFalta}</Col>
-											<Col xs={4}>{sum.cantidadFalta}+{sum.cantidadBonificacionFalta}</Col>
-										</Row>
-									</Col>
-								</Row>
-							</Col>
-						</Row>
-
-					</Container>
-				}
 				<Accordion.Collapse eventKey="0">
-					<Container fluid className="border-top">
-						<Row className="pt-1">
-							<Col lg={6}>
-								asdasd
-							</Col>
-							<Col lg={6}>
-								asdasd
-							</Col>
-						</Row>
+					<Container fluid>
+						<SumatorioLineas sum={sum} />
+
+						<Accordion defaultActiveKey="1" className="my-3">
+							<Card>
+								<Accordion.Toggle as={Card.Header} eventKey="0" className="h5 bg-secondary text-white">
+									Detalle de líneas
+								</Accordion.Toggle>
+
+								<Accordion.Collapse eventKey="0">
+									<Container fluid className="border-top">
+										{tx.clientResponse.body.lineas.map((l, i) => <LineaPedido key={i} linea={l} />)}
+									</Container>
+								</Accordion.Collapse>
+							</Card>
+						</Accordion>
 					</Container>
 				</Accordion.Collapse>
 			</Card>
@@ -133,8 +83,133 @@ const SeccionLineas = ({ tx }) => {
 	)
 }
 
+const SumatorioLineas = ({ sum }) => {
+	if (!sum) return null
+
+	return (
+		<Container fluid className="text-center text-monospace">
+			<Row className="no-gutters">
+				<Col md={6} className="my-2 mx-2 mx-md-0">
+					<Row className="no-gutters border-bottom py-1">
+						<Col>Lineas</Col>
+					</Row>
+					<Row className="no-gutters border-bottom py-1">
+						<Col>
+							<Row className="no-gutters">
+								<Col xs={3}>Pedidas</Col>
+								<Col xs={3}>Falta</Col>
+								<Col xs={3}>Demora</Col>
+								<Col xs={3}>Estupe</Col>
+							</Row>
+						</Col>
+					</Row>
+					<Row className="no-gutters py-1">
+						<Col>
+							<Row className="no-gutters">
+								<Col xs={3}>{sum.lineas}</Col>
+								<Col xs={3}>{sum.lineasIncidencias}</Col>
+								<Col xs={3}>{sum.lineasDemorado}</Col>
+								<Col xs={3}>{sum.lineasEstupe}</Col>
+							</Row>
+						</Col>
+					</Row>
+				</Col>
+
+				<Col md={6} className="my-2 mx-2 mx-md-0">
+					<Row className="no-gutters border-bottom py-1">
+						<Col>Cantidad</Col>
+					</Row>
+					<Row className="no-gutters border-bottom py-1">
+						<Col>
+							<Row className="no-gutters">
+								<Col xs={4}>Pedida</Col>
+								<Col xs={4}>Servida</Col>
+								<Col xs={4}>Falta</Col>
+							</Row>
+						</Col>
+					</Row>
+					<Row className="no-gutters py-1">
+						<Col>
+							<Row className="no-gutters">
+								<Col xs={4}>{sum.cantidad}+{sum.cantidadBonificacion}</Col>
+								<Col xs={4}>{sum.cantidad - sum.cantidadFalta}+{sum.cantidadBonificacion - sum.cantidadBonificacionFalta}</Col>
+								<Col xs={4}>{sum.cantidadFalta}+{sum.cantidadBonificacionFalta}</Col>
+							</Row>
+						</Col>
+					</Row>
+				</Col>
+			</Row>
+		</Container>
+	)
+}
+
+const CodigoArticulo = ({ codigo }) => {
+	if (!codigo) return
+
+	if (codigo.length === 6)
+		return <>{codigo}</>
+	if (codigo.length === 7)
+		return <>{codigo.substring(0, 6)}.{codigo.substring(6, 7)}</>
+	if (codigo.length === 13)
+		return <>{codigo}</>
+
+	return codigo
+}
+
 const LineaPedido = ({ linea }) => {
 
+
+	return (
+		<Row className="text-monospace py-2 border-top no-gutters">
+			<Col md={1}>{linea.orden ? <>
+				<span className="d-md-none font-weight-bold tex">Orden: </span>
+				<span className="d-none d-md-inline text-muted">#</span>
+				{linea.orden}</> : '-'}
+			</Col>
+			<Col md={3}>
+				<strong><CodigoArticulo codigo={linea.codigoArticulo} /></strong>
+			</Col>
+			<Col md={6} className="text-truncate">
+				<code>{linea.descripcionArticulo || 'Artículo desconocido'}</code>
+			</Col>
+			<Col md={1} sm={6}>
+				<span className="d-md-none font-weight-bold">Cantidad: </span>{linea.cantidad}{linea.cantidadBonificacion > 0 && `+${linea.cantidadBonificacion}`}
+			</Col>
+			<Col md={1} sm={6}>
+				<span className="d-md-none font-weight-bold">Falta: </span> {linea.cantidadFalta ?? 0}{linea.cantidadBonificacionFalta > 0 && `+${linea.cantidadBonificacionFalta}`}
+			</Col>
+
+			{linea.codigoArticuloSustituyente &&
+				<Col md={4} sm={6}>
+					<code className="text-muted">Sustituye: <strong>{linea.codigoArticuloSustituyente}</strong></code>
+				</Col>
+			}
+			<Col md={4} sm={6}>
+				{linea.valeEstupefaciente && <code className="text-muted">Estupe: <strong>{linea.valeEstupefaciente}</strong></code>}
+			</Col>
+			<Col md={4} sm={6}>
+				{linea.codigoAlmacenServicio && <code className="text-muted">Almacén: <strong>{linea.codigoAlmacenServicio}</strong></code>}
+			</Col>
+
+			{linea.incidencias?.length > 0 &&
+				<>
+					<Col xs={12}>
+						<code className="mr-2 ml-0 mr-md-3">
+							<Icono icono={FaExclamation} posicion={[18, 2]} className="text-warning" />
+						</code>
+					<code className="text-dark font-weight-bold">{linea.incidencias[0].codigo}</code>
+						<code className="text-muted">
+							<span className="d-none d-md-inline"> - </span>
+							<span className="d-md-none"><br /></span>
+							<span className="ml-5 ml-md-0">{linea.incidencias[0].descripcion}</span>
+						</code>
+					</Col>
+				</>
+			}
+
+		</Row>
+
+	)
 }
 
 
@@ -163,8 +238,8 @@ const SeccionNumPedOrigen = ({ tx }) => {
 const SeccionTipoPedido = ({ tx }) => {
 	let valorTipoPedido = (
 		<span className="text-monospace">
-			{tx.clientRequest?.body?.tipoPedido ?? <span class="text-mutted">N/A</span>}<br />
-			<code className="text-secondary">SAP {tx.sapResponse?.body?.sap_tipopedido} - Motivo {tx.sapResponse?.body?.sap_motivo_pedido || <span class="text-mutted">N/A</span>}</code>
+			{tx.clientRequest?.body?.tipoPedido ?? <span className="text-mutted">N/A</span>}<br />
+			<code className="text-secondary">SAP {tx.sapResponse?.body?.sap_tipopedido} - Motivo {tx.sapResponse?.body?.sap_motivo_pedido || <span className="text-mutted">N/A</span>}</code>
 		</span>
 	)
 	return <ListGroupItem sm={4} k="Tipo pedido" v={valorTipoPedido} />
@@ -270,7 +345,7 @@ const SeccionFlags = ({ tx }) => {
 
 const ListGroupItem = ({ k, v, sm }) => {
 	k = k ?? <span>&nbsp;</span>
-	if (v !== null) {
+	if (v || v === 0) {
 		return (
 			<ListGroup.Item>
 				<Row className="no-gutters">
