@@ -12,6 +12,7 @@ import Icono from 'componentes/icono/Icono'
 import ReactJson from 'react-json-view';
 import EtiquetaEstado from 'componentes/transmision/EtiquetaEstado';
 
+import ListGroupItem from './ListGroupItem'
 
 
 const DetallesPedido = ({ transmision }) => {
@@ -156,10 +157,6 @@ const SeccionRetransmisiones = ({ tx }) => {
 
 const LineaRetransmision = ({ rtx }) => {
 	if (!rtx) return null
-
-	let tipo = 0
-	if (rtx.oldValues) tipo = 1
-	if (rtx.cloned) tipo = 2
 
 	// OPCIONES
 	let opciones = []
@@ -543,27 +540,6 @@ const SeccionFlags = ({ tx }) => {
 	)
 }
 
-const ListGroupItem = ({ k, v, sm }) => {
-	k = k ?? <span>&nbsp;</span>
-	if (v || v === 0) {
-		return (
-			<ListGroup.Item>
-				<Row className="no-gutters">
-					<Col sm={sm ?? 6}><strong>{k}</strong></Col>
-					<Col sm={sm ? 12 - sm : 6} className="text-sm-right ml-3 ml-sm-0">{v}</Col>
-				</Row>
-			</ListGroup.Item>
-		)
-	} else {
-		return (
-			<ListGroup.Item>
-				<Row className="no-gutters">
-					<Col xs={12}>{k}</Col>
-				</Row>
-			</ListGroup.Item>
-		)
-	}
-}
 
 
 export default DetallesPedido

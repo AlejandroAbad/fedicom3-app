@@ -1,6 +1,6 @@
 import K from 'K'
 import React from 'react'
-import { Badge, Popover, OverlayTrigger, Button } from 'react-bootstrap'
+import { Badge, Popover, OverlayTrigger } from 'react-bootstrap'
 
 
 import Icono from 'componentes/icono/Icono'

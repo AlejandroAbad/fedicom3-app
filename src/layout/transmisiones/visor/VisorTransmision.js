@@ -9,9 +9,11 @@ import fedicomFetch from 'util/fedicomFetch'
 import EtiquetaTipo from 'componentes/transmision/EtiquetaTipo'
 import EtiquetaEstado from 'componentes/transmision/EtiquetaEstado'
 import Fecha from 'componentes/transmision/Fecha'
-import {UsuarioTransmision} from 'componentes/transmision/CodigoCliente'
+import { UsuarioTransmision } from 'componentes/transmision/CodigoCliente'
 
 import DetallesPedido from './DetallesPedido'
+import DetallesHttp from './DetallesHttp'
+import DetallesSap from './DetallesSap'
 
 const VisorTransmision = (props) => {
 
@@ -44,7 +46,7 @@ const VisorTransmision = (props) => {
         let tx = resultado.datos.data[0]
         return (
             <>
-                <div className="container-xl">
+                <div className="container-fluid">
                     <Row>
                         <Col xs={12} className="text-monospace text-right"><strong>ID transmisión: </strong>{tx._id}</Col>
                     </Row>
@@ -66,11 +68,13 @@ const VisorTransmision = (props) => {
                             </Row>
                         </Col>
                     </Row>
-                    
+
                     <DetallesPedido transmision={tx} />
-
-
                 </div>
+
+                <DetallesHttp transmision={tx} />
+                <DetallesSap transmision={tx} />
+                
                 <Container fluid className="mt-5 pt-5">
                     <DepuradorAPI id='VisorTransmisiones' query={{ filter: { _id: txId } }} resultado={resultado} />)
                 </Container>
@@ -100,8 +104,8 @@ INFORMACION DE TRANSMISION
     + estado
     + fecha de inicio 
     ? fecha de fin
-    - ip
-    - software ID
+    + ip
+    + software ID
     - autenticacion
 
 
