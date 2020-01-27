@@ -3,9 +3,14 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Accordion, Card, ListGroup, Badge } from 'react-bootstrap'
 import { FaExclamation } from 'react-icons/fa'
+import { GoGitBranch } from 'react-icons/go'
+import { GiCardExchange } from 'react-icons/gi'
 import { TextoCodigoCliente, CodigoCliente } from 'componentes/transmision/CodigoCliente'
+import Fecha from 'componentes/transmision/Fecha'
 import Flags from 'componentes/transmision/Flags'
 import Icono from 'componentes/icono/Icono'
+import ReactJson from 'react-json-view';
+import EtiquetaEstado from 'componentes/transmision/EtiquetaEstado';
 
 
 
@@ -40,12 +45,208 @@ const DetallesPedido = ({ transmision }) => {
 						</Row>
 						<SeccionFlags tx={tx} />
 						<SeccionLineas tx={tx} />
+						<SeccionRetransmisiones tx={tx} />
+						<SeccionConfirmaciones tx={tx} />
+						<SeccionDuplicados tx={tx} />
 					</Container>
 				</Accordion.Collapse>
 			</Card>
 		</Accordion>
 	)
 
+}
+
+
+
+
+const SeccionDuplicados = ({ tx }) => {
+
+	const duplicados = tx.duplicates
+	if (!duplicados?.length > 0) return null
+
+	return (
+		<Accordion defaultActiveKey="1" className="my-3">
+			<Card>
+				<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
+					Duplicados del pedido<br />
+					<small className="font-weight-bold text-warning ml-3">&raquo; {duplicados.length} {duplicados.length === 1 ? 'duplicado' : 'duplicados'}</small>
+				</Accordion.Toggle>
+
+				<Accordion.Collapse eventKey="0">
+					<Container fluid>
+						{duplicados.map((d, i) => <LineaDuplicado key={i} duplicado={d} />)}
+					</Container>
+				</Accordion.Collapse>
+			</Card>
+		</Accordion>
+	)
+}
+
+const LineaDuplicado = ({ duplicado }) => {
+	if (!duplicado) return null
+
+	return (
+		<Row className="no-gutters border-top py-3">
+			<Col sm={6}><Fecha fecha={duplicado.timestamp} /></Col>
+			<Col sm={6}><Link to={`/transmisiones/${duplicado._id}`}>{duplicado._id}</Link></Col>
+		</Row>
+	)
+}
+
+
+
+const SeccionConfirmaciones = ({ tx }) => {
+
+	const confirmaciones = tx.sapConfirms
+	if (!confirmaciones?.length > 0) return null
+
+	return (
+		<Accordion defaultActiveKey="1" className="my-3">
+			<Card>
+				<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
+					Confirmaciones del pedido<br />
+					<small className="font-weight-bold text-success ml-3">&raquo; {confirmaciones.length} {confirmaciones.length === 1 ? 'confirmación' : 'confirmaciones'}</small>
+				</Accordion.Toggle>
+
+				<Accordion.Collapse eventKey="0">
+					<Container fluid>
+						{confirmaciones.map((c, i) => <LineaConfirmacion key={i} confirmacion={c} />)}
+					</Container>
+				</Accordion.Collapse>
+			</Card>
+		</Accordion>
+	)
+}
+
+const LineaConfirmacion = ({confirmacion}) => {
+	if (!confirmacion ) return null
+
+	return (
+		<Row className="no-gutters border-top py-3">
+			<Col md={5} sm={12}><Fecha fecha={confirmacion.timestamp} /></Col>
+			<Col md={5} sm={8}><Link to={`/transmisiones/${confirmacion.txId}`}>{confirmacion.txId}</Link></Col>
+			<Col md={2} sm={4}>{confirmacion.sapSystem}</Col>
+		</Row>
+	)
+}
+
+
+const SeccionRetransmisiones = ({ tx }) => {
+
+	const rtxs = tx.retransmissions
+	if (!rtxs?.length > 0) return null
+
+	return (
+		<Accordion defaultActiveKey="1" className="my-3">
+			<Card>
+				<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
+					Retransmisiones del pedido<br />
+					<small className="font-weight-bold text-primary ml-3">&raquo; {rtxs.length} {rtxs.length === 1 ? 'retransmisión' : 'retransmisiones'}</small>
+				</Accordion.Toggle>
+
+				<Accordion.Collapse eventKey="0">
+					<Container fluid>
+						{rtxs.map((r, i) => <LineaRetransmision key={i} rtx={r} />)}
+					</Container>
+				</Accordion.Collapse>
+			</Card>
+		</Accordion>
+	)
+}
+
+const LineaRetransmision = ({ rtx }) => {
+	if (!rtx) return null
+
+	let tipo = 0
+	if (rtx.oldValues) tipo = 1
+	if (rtx.cloned) tipo = 2
+
+	// OPCIONES
+	let opciones = []
+	rtx.options?.force && opciones.push(<Badge key={opciones.length} variant="warning ml-1" >Forzado</Badge>)
+	rtx.options?.noActualizarOriginal && opciones.push(<Badge key={opciones.length} variant="secondary ml-1" >Evita actualizar</Badge>)
+	rtx.options?.forzarAlmacen && opciones.push(<Badge key={opciones.length} variant="primary ml-1" >Almacén: {rtx.options.forzarAlmacen}</Badge>)
+	rtx.options?.sistemaSAP && opciones.push(<Badge key={opciones.length} variant="info ml-1" >Sistema SAP: {rtx.options.sistemaSAP}</Badge>)
+
+	// VALORES ACTUALIZADOS
+	let campoCambios = null
+	let opcionesJson = {
+		collapsed: true,
+		name: false,
+		iconStyle: "square",
+		displayDataTypes: false,
+		displayObjectSize: false
+	}
+
+	if (rtx.oldValues && rtx.newValues) {
+		campoCambios = (
+			<>
+				<Col md={6} className="border rounded  py-2 px-4 mt-2">
+					<strong className="text-monospace d-block border-bottom">Valores viejos:</strong>
+					<ReactJson src={rtx.oldValues} {...opcionesJson} />
+				</Col>
+				<Col md={6} className="border rounded py-2 px-4 mt-2">
+					<strong className="text-monospace d-block border-bottom">Valores nuevos:</strong>
+					<ReactJson src={rtx.newValues} {...opcionesJson} />
+				</Col>
+			</>
+		)
+	} else if (rtx.newValues) {
+		campoCambios = (
+			<>
+				<Col md={6} className="border rounded py-2 px-4 mt-2">
+					<strong className="text-monospace d-block border-bottom">Valores nuevos:</strong>
+					<ReactJson src={rtx.newValues} {...opcionesJson} />
+				</Col>
+			</>
+		)
+	}
+
+
+
+	return (
+		<Row className="px-2 pt-5 border-top mx-3 mb-5">
+			<Col md={6} className="mb-1">
+				<Fecha fecha={rtx.timestamp} />
+			</Col>
+			<Col md={6} className="text-monospace mb-1">
+				<strong className="d-none d-sm-inline mr-1">RTX Id:</strong>{rtx._id}
+			</Col>
+
+			<Col md={2} className="mb-1">
+				<EtiquetaEstado className="text-reset" estado={rtx.status} />
+			</Col>
+			{
+				(opciones.length > 0) &&
+				<Col md={10} className="text-monospace mb-1">
+					<strong className="mr-2">Opciones:</strong>{opciones}
+				</Col>
+			}
+			{
+				rtx.options?.ctxId &&
+				<Col md={12}>
+					<span className="text-monospace mb-1">
+						<Icono icono={GoGitBranch} posicion={[22, 2]} className="text-primary mr-3" />
+						Se generó un clon con ID <Link to={`/transmisiones/${rtx.options.ctxId}`} className="">{rtx.options.ctxId.toUpperCase()}</Link>.
+					</span>
+				</Col>
+			}
+			{
+				rtx.oldValues &&
+				<Col md={12}>
+					<span className="text-monospace mb-1">
+						<Icono icono={GiCardExchange} posicion={[22, 2]} className="text-danger mr-3" />
+						Se actualizaron los datos de la transmisión original.
+					</span>
+				</Col>
+			}
+
+			{campoCambios}
+
+
+
+		</Row>
+	)
 }
 
 const SeccionLineas = ({ tx }) => {
@@ -71,7 +272,7 @@ const SeccionLineas = ({ tx }) => {
 
 								<Accordion.Collapse eventKey="0">
 									<Container fluid className="border-top">
-										{tx.clientResponse.body.lineas.map((l, i) => <LineaPedido key={i} linea={l} />)}
+										{tx.clientResponse?.body?.lineas?.map((l, i) => <LineaPedido key={i} linea={l} />)}
 									</Container>
 								</Accordion.Collapse>
 							</Card>
@@ -197,7 +398,7 @@ const LineaPedido = ({ linea }) => {
 						<code className="mr-2 ml-0 mr-md-3">
 							<Icono icono={FaExclamation} posicion={[18, 2]} className="text-warning" />
 						</code>
-					<code className="text-dark font-weight-bold">{linea.incidencias[0].codigo}</code>
+						<code className="text-dark font-weight-bold">{linea.incidencias[0].codigo}</code>
 						<code className="text-muted">
 							<span className="d-none d-md-inline"> - </span>
 							<span className="d-md-none"><br /></span>
@@ -211,7 +412,6 @@ const LineaPedido = ({ linea }) => {
 
 	)
 }
-
 
 const SeccionCrc = ({ tx }) => {
 	return <ListGroupItem k="CRC" v={<span className="text-monospace">{tx.crc?.substring(0, 8).toUpperCase()}</span>} />

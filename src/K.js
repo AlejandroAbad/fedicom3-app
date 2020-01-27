@@ -97,7 +97,11 @@ const K = {
         '9120': { codigo: 9120, filtrable: false, titulo: 'Duplicado', descripcion: 'La transmisión es un duplicado de otra anterior', variante: 'primary' },
         '9130': { codigo: 9130, filtrable: false, titulo: 'Confirmacion recuperada', descripcion: 'La confirmación se ha recuperado y se ha actualizado el pedido que confirma', variante: 'success' },
         '9140': { codigo: 9140, filtrable: true, titulo: 'Sin número de pedido', descripcion: 'El pedido ha entrado en SAP, pero este no ha devuelto un número de pedido', variante: 'danger' },
-        '9900': { codigo: 9900, filtrable: true, titulo: 'Ok', descripcion: 'Transmisión procesada con éxito', variante: 'success' }
+        '9900': { codigo: 9900, filtrable: true, titulo: 'Ok', descripcion: 'Transmisión procesada con éxito', variante: 'success' },
+
+        19001: { codigo: 19001, filtrable: false, titulo: 'RTX OK', descripcion: 'Retransmisión lanzada con éxito', variante: 'success'},
+        19002: { codigo: 19002, filtrable: false, titulo: 'RTX IMPONSIBLE', descripcion: 'El estado de la transmisión original no permite la retransmisión de la misma', variante: 'warning' },
+        19003: { codigo: 19003, filtrable: false, titulo: 'RTX SIN FORZAR', descripcion: 'El estado de la transmisión original no permite la retransmisión de la misma salvo que se fuerce la retransmisión', variante: 'primary' }
     },
     TIPOS_TRANSMISION: {
         999: { codigo: 999, filtrable: true, titulo: 'Inválido', descripcion: 'Transmisión de tipo desconocido', variante: 'danger' },

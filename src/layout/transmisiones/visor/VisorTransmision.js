@@ -99,7 +99,7 @@ INFORMACION DE TRANSMISION
     + tipo
     + estado
     + fecha de inicio 
-    - fecha de fin
+    ? fecha de fin
     - ip
     - software ID
     - autenticacion
@@ -111,37 +111,37 @@ INFORMACION DE PEDIDO
     + numeros pedido sap / agrupado
     + codigo de cliente
     + codigo cliente SAP
-    - punto de entrega
+    + punto de entrega
     + tipo de pedido
     + almacen de servicio
     + BAPI - tipo pedido
     + BAPI - motivo pedido
-    - incidencias
+    - incidencias cabecera
     - direccion envio
     - aplazamiento
     - lineas:
-        - orden
-        - codigo articulo
-        - codigo articulo sustituyente
-        - nombre articulo
-        - cantidad pedida + bonificada
-        - cantidad servida + bonificada ??
-        - cantidad falta + bonificada
-        - almacen
-        - estupefaciente
-        - incidencias
+        + orden
+        + codigo articulo
+        + codigo articulo sustituyente
+        + nombre articulo
+        + cantidad pedida + bonificada
+        ? cantidad servida + bonificada
+        + cantidad falta + bonificada
+        + almacen
+        + estupefaciente
+        + incidencias
         - serviciodemorado
 
-    - confirmaciones del pedido
+    + confirmaciones del pedido
         - id
         - hora
         - sistema sap
 
-    - duplicados del pedido
+    + duplicados del pedido
         - id
         - hora
 
-    - retransmisiones del pedido
+    + retransmisiones del pedido
         - id
         - hora
         - estado
