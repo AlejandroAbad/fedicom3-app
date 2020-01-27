@@ -73,9 +73,6 @@ const BuscadorTransmisiones = (props) => {
                     delete clonedQuery[key];       
             }
         }
-
-        console.log('LANZANDO QUERY', clonedQuery);
-
         return {
             filter: clonedQuery,
             proyection: PROYECCION,
@@ -189,7 +186,7 @@ const BuscadorTransmisiones = (props) => {
 
     return (
         <>
-            <div className="container-xl">
+            <div className={formato === 'compacto' ? "container-xl" : "container-fluid px-xl-5"} >
                 {contenidoPagina}
             </div>
             {/*<DepuradorAPI id='BuscadorTransmisiones' query={construirQuery()} resultado={resultado} />*/}
