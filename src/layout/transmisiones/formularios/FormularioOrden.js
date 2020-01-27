@@ -19,10 +19,12 @@ const FormularioOrden = (props) => {
     }
 
     return (<>
-        <CabeceraFormulario icono={FaSortAmountDown} texto="Ordenar" onCancelar={descartarCambios} onAceptar={aplicarCambios} />
-        
 
-        <Container fluid>
+
+
+        <Container className="pt-3 container-xl">
+            <CabeceraFormulario icono={FaSortAmountDown} texto="Ordenar" onCancelar={descartarCambios} onAceptar={aplicarCambios} />
+
             <Row>
                 <Col lg={2} className="mt-2 text-center">
                     <h5 className="text-muted">Orden</h5>

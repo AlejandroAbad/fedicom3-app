@@ -1,7 +1,6 @@
 import React from 'react'
 import { useForm } from "react-hook-form"
-import { Container, Row, Col } from 'react-bootstrap'
-import ReactJson from 'react-json-view'
+import { Container } from 'react-bootstrap'
 
 import { FiFilter } from 'react-icons/fi'
 
@@ -18,7 +17,6 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
     }
 
     const aplicarCambios = (valores) => {
-        console.log(valores)
 
         let filtro = {};
 
@@ -30,10 +28,6 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
         Controles.CodigoCliente.expandirOpciones(filtro)
         Controles.Flags.expandirOpciones(filtro)
 
-        console.group('Parseo filtro')
-        console.log(valores, filtro);
-        console.groupEnd()
-
         if (onAceptar) {
             onAceptar(filtro)
         }
@@ -42,9 +36,10 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
 
 
     return (<>
-        <CabeceraFormulario icono={FiFilter} texto="Filtrar" onCancelar={descartarCambios} onAceptar={hookFormulario.handleSubmit(aplicarCambios)} />
+        
 
-        <Container fluid className="pt-3">
+        <Container className="pt-3 container-xl">
+            <CabeceraFormulario icono={FiFilter} texto="Filtrar" onCancelar={descartarCambios} onAceptar={hookFormulario.handleSubmit(aplicarCambios)} />
 
             <Controles.Crc filtro={filtro} {...hookFormulario} />
             <Controles.FechaCreacion filtro={filtro} {...hookFormulario} />
@@ -63,13 +58,6 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
 
         </Container>
 
-        <Container fluid className="mt-5">
-            <Row>
-                <Col>
-                    <ReactJson src={filtro} />
-                </Col>
-            </Row>
-        </Container>
 
     </>)
 }
