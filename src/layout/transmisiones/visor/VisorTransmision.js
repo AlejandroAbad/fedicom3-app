@@ -9,9 +9,8 @@ import fedicomFetch from 'util/fedicomFetch'
 import EtiquetaTipo from 'componentes/transmision/EtiquetaTipo'
 import EtiquetaEstado from 'componentes/transmision/EtiquetaEstado'
 import Fecha from 'componentes/transmision/Fecha'
-import { UsuarioTransmision } from 'componentes/transmision/CodigoCliente'
 
-import DetallesPedido from './DetallesPedido'
+import DetallesPedido from './detallesPedido/DetallesPedido'
 import DetallesHttp from './DetallesHttp'
 import DetallesSap from './DetallesSap'
 
@@ -46,25 +45,25 @@ const VisorTransmision = (props) => {
         let tx = resultado.datos.data[0]
         return (
             <>
-                <div className="container-fluid">
-                    <Row>
-                        <Col xs={12} className="text-monospace text-right"><strong>ID transmisión: </strong>{tx._id}</Col>
-                    </Row>
+                <div className="container-xl">
+                    
                     <Row className="mt-1">
-                        <Col md={4} sm={6}>
-                            <Row>
-                                <Col xs={12}><Fecha fecha={tx.createdAt} /></Col>
+                        <Col lg={4} sm={8}>
+                            <Row className="text-monospace">
+                                <Col xs={12}><strong>Entrada:</strong> <Fecha fecha={tx.createdAt} formato='largo' /></Col>
+                                <Col xs={12}><small><strong>Modificado:</strong> <Fecha fecha={tx.modifiedAt} formato='largo' /></small></Col>
                             </Row>
                         </Col>
-                        <Col md={4} sm={6}>
-                            <Row>
-                                <Col xs={12}><EtiquetaTipo tipo={tx.type} /></Col>
-                                <Col xs={12}><EtiquetaEstado estado={tx.status} /></Col>
+                        <Col lg={4} sm={4}>
+                            <Row className="text-sm-right text-lg-center py-1 py-sm-0">
+                                <Col xs="auto" sm={12}><EtiquetaTipo tipo={tx.type} /></Col>
+                                <Col xs="auto" sm={12}><EtiquetaEstado estado={tx.status} /></Col>
                             </Row>
                         </Col>
-                        <Col md={4}>
-                            <Row>
-                                <Col xs={12}><UsuarioTransmision transmision={tx} /></Col>
+                        <Col lg={4}>
+                            <Row className="text-monospace text-lg-right">
+                                <Col xs={12}><strong>TxID: </strong>{tx._id}</Col>
+                                <Col xs={12}><small><strong>Instancia: </strong>{tx.iid || <span className="text-danger">N/A</span>}</small> <small><strong>DbVers: </strong>{tx.flags?.v ?? <span className="text-muted">n/a</span>}</small></Col>
                             </Row>
                         </Col>
                     </Row>
@@ -74,10 +73,7 @@ const VisorTransmision = (props) => {
 
                 <DetallesHttp transmision={tx} />
                 <DetallesSap transmision={tx} />
-                
-                <Container fluid className="mt-5 pt-5">
-                    <DepuradorAPI id='VisorTransmisiones' query={{ filter: { _id: txId } }} resultado={resultado} />)
-                </Container>
+
             </>
         )
     } else {
@@ -97,7 +93,7 @@ INFORMACION TECNICA:
     - txId
     - iid
     - tx version
-    - flags
+    + flags
 
 INFORMACION DE TRANSMISION
     + tipo
@@ -123,6 +119,8 @@ INFORMACION DE PEDIDO
     - incidencias cabecera
     - direccion envio
     - aplazamiento
+    - observaciones
+    - notificaciones
     - lineas:
         + orden
         + codigo articulo

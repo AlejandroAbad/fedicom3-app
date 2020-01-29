@@ -24,13 +24,28 @@ const dateToHumanCorto = (date) => {
 
 }
 
+
+const dateToHumanLargo = (date) => {
+    date = new Date(date)
+
+    return <>
+        {dateToHuman(date)}<span className="text-muted">.{date.getMilliseconds()}</span>
+    </>
+        
+
+}
+
 const Fecha = ({ fecha, formato, ...props }) => {
+
+    if (!fecha) return <span className="text-muted">N/A</span>
 
     let cadena = ''
     let icono = null
 
     if (formato === 'corto') {
         cadena = dateToHumanCorto(fecha)
+    } else if (formato === 'largo') {
+        cadena = dateToHumanLargo(fecha)
     } else {
         cadena = dateToHuman(fecha);
         icono = <Icono icono={MdAccessTime} posicion={[16, 0]} className="text-info mr-1" />

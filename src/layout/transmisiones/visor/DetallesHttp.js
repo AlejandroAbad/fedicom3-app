@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import {  Row, Col } from 'react-bootstrap'
 
 import DetallesPeticionHttp from './DetallesPeticionHttp'
 import DetallesRespuestaHttp from './DetallesRespuestaHttp'
@@ -12,7 +12,7 @@ const DetallesHttp = ({ transmision }) => {
     if (!tx) return null    
 
     return (
-        <Container fluid className="mt-5 px-lg-5">
+        <div className="mt-5 container-xl">
             <h4 className="border-bottom pb-1">
                 Comunicación HTTP<br/>
                 <small className="text-muted"><small>Detalle de lo que se ha transmitido entre el cliente de farmacia y el concentrador</small></small>
@@ -25,7 +25,7 @@ const DetallesHttp = ({ transmision }) => {
                     <DetallesRespuestaHttp res={tx.clientResponse} />
                 </Col>
             </Row>
-        </Container>
+        </div>
     )
 
 }

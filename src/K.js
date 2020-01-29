@@ -105,15 +105,18 @@ const K = {
     },
     TIPOS_TRANSMISION: {
         999: { codigo: 999, filtrable: true, titulo: 'Inválido', descripcion: 'Transmisión de tipo desconocido', variante: 'danger' },
-        0: { codigo: 0, filtrable: true, titulo: 'Autenticación', descripcion: 'Solicitud de autenticación de usuario', variante: 'success' },
+        0: { codigo: 0, filtrable: true, titulo: 'Autenticación', descripcion: 'Solicitud de autenticación de usuario', variante: 'light' },
         10: { codigo: 10, filtrable: true, titulo: 'Crear pedido', descripcion: 'Creación de un nuevo pedido', variante: 'primary' },
+        20: { codigo: 20, filtrable: true, titulo: 'Crear devolucion', descripcion: 'Creación de una devolución', variante: 'dark' },
+        
+        13: { codigo: 13, filtrable: true, titulo: 'Confirmación Pedido', descripcion: 'SAP confirma la creación del pedido', variante: 'light' },
+        14: { codigo: 14, filtrable: false, titulo: 'Retransmitir Pedido', descripcion: 'Reenvío a SAP de un pedido', variante: 'light' },
+
+        12: { codigo: 12, filtrable: true, titulo: 'Pedido duplicado', descripcion: 'Pedido duplicado', variante: 'secondary' },
+        22: { codigo: 22, filtrable: true, titulo: 'Devolución duplicada', descripcion: 'Devolución duplicada', variante: 'secondary' },
+
         11: { codigo: 11, filtrable: true, titulo: 'Consulta pedido', descripcion: 'Consulta de un pedido', variante: 'info' },
-        12: { codigo: 12, filtrable: true, titulo: 'Pedido duplicado', descripcion: 'Pedido duplicado', variante: 'info' },
-        13: { codigo: 13, filtrable: true, titulo: 'Confirmación Pedido', descripcion: 'SAP confirma la creación del pedido', variante: 'info' },
-        14: { codigo: 14, filtrable: false, titulo: 'Retransmitir Pedido', descripcion: 'Reenvío a SAP de un pedido', variante: 'info' },
-        20: { codigo: 20, filtrable: true, titulo: 'Crear devolucion', descripcion: 'Creación de una devolución', variante: 'secondary' },
         21: { codigo: 21, filtrable: true, titulo: 'Consulta devolucion', descripcion: 'Consulta de una devolución', variante: 'info' },
-        22: { codigo: 22, filtrable: true, titulo: 'Devolución duplicada', descripcion: 'Devolución duplicada', variante: 'info' },
         30: { codigo: 30, filtrable: false, titulo: 'Búsqueda de albaranes', descripcion: 'Búsqueda de albaranes', variante: 'info' },
         31: { codigo: 31, filtrable: false, titulo: 'Consulta albarán', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
         40: { codigo: 40, filtrable: false, titulo: 'Búsqueda de facturas', descripcion: 'Búsqueda de facturas', variante: 'info' },
