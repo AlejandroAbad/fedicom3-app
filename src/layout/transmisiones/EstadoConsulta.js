@@ -4,13 +4,13 @@ import { GoSync } from 'react-icons/go';
 
 
 
-const EstadoConsulta = (props) => {
+const EstadoConsulta = ({resultado, onRetry}) => {
 
-    const { datos, error, cargando } = props.resultado;
+    const { datos, error, cargando } = resultado;
 
     if (cargando) {
         return (
-            <Alert variant='primary' className="text-center">
+            <Alert variant='primary' className="text-center mt-3">
                 <Spinner animation="border" variant="primary" className="mt-2" />
                 <h5 className="pt-2">Cargando datos ...</h5>
             </Alert>
@@ -20,11 +20,11 @@ const EstadoConsulta = (props) => {
 
 
     if (!error || error.length === 0) {
-        if (datos && datos.length === 0) {
+        if (datos?.data?.length === 0) {
             return (
 
-                <Alert variant='warning'>
-                    <Button variant='dark' onClick={props.onRetry} className="float-right" size="sm">
+                <Alert variant='warning' className="mt-3">
+                    <Button variant='dark' onClick={onRetry} className="float-right" size="sm">
                         <GoSync size={18} style={{ paddingBottom: '3px' }} /> Reintentar
                     </Button>
                     <Alert.Heading className="mt-1">Sin resultados</Alert.Heading>
@@ -50,7 +50,7 @@ const EstadoConsulta = (props) => {
 
     return (
         <Alert variant='danger'>
-            <Button variant='dark' onClick={props.onRetry} className="float-right" size="sm">
+            <Button variant='dark' onClick={onRetry} className="float-right" size="sm">
                 <GoSync size={18} style={{ paddingBottom: '3px' }} /> Reintentar
             </Button>
 

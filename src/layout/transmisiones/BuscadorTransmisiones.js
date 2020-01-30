@@ -16,6 +16,7 @@ import EstadoConsulta from './EstadoConsulta';
 import FilaTransmision from './FilaTransmision';
 import FormularioOrden from './formularios/FormularioOrden';
 import FormularioFiltros from './formularios/FormularioFiltros';
+import { Container } from 'react-bootstrap';
 
 const PROYECCION = {
     _id: 1,
@@ -178,7 +179,7 @@ const BuscadorTransmisiones = (props) => {
                 onPaginaCambiada={cambiarPagina}
                 onFormatoCambiado={setFormato}
                 onFuncionCambiada={setFuncion} />
-            {(resultado.cargando || !filas.length) && <EstadoConsulta query={construirQuery()} resultado={resultado} onRetry={ejecutarConsulta} />}
+            {(resultado.cargando || !filas.length) && <EstadoConsulta resultado={resultado} onRetry={ejecutarConsulta} />}
             {filas}
         </>);
 
@@ -186,10 +187,9 @@ const BuscadorTransmisiones = (props) => {
 
     return (
         <>
-            <div className={formato === 'compacto' ? "container-xl" : "container-fluid px-xl-5"} >
+            <Container >
                 {contenidoPagina}
-            </div>
-            {/*<DepuradorAPI id='BuscadorTransmisiones' query={construirQuery()} resultado={resultado} />*/}
+            </Container>
         </>
     )
 }
