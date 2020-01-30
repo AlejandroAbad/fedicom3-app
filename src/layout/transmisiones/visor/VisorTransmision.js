@@ -14,6 +14,7 @@ import DetallesPedido from './detallesPedido/DetallesPedido'
 import DetallesHttp from './DetallesHttp'
 import DetallesSap from './DetallesSap'
 import DetallesDuplicado from './detallesDuplicado/DetallesDuplicado'
+import DetallesConfirmacion from './detallesConfirmacion/DetallesConfirmacion'
 
 const VisorTransmision = (props) => {
 
@@ -71,6 +72,7 @@ const VisorTransmision = (props) => {
 
                     <DetallesPedido transmision={tx} />
                     <DetallesDuplicado transmision={tx} />
+                    <DetallesConfirmacion transmision={tx} />
                 </div>
 
                 <DetallesHttp transmision={tx} />
