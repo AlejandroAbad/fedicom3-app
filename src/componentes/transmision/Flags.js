@@ -28,7 +28,7 @@ export const BadgeFlag = ({ icono, titulo, descripcion, variante, tecnico, forma
 
     if (formato === 'grande') {
         let cl = "d-inline-block px-2 py-1 mr-1 mt-1 rounded badge-" + variante
-        let iconComponent = icono ? <Icono icono={icono} posicion={[22,2]} className="mr-1" /> : null
+        let iconComponent = icono ? <Icono icono={icono} posicion={[22, 2]} className="mr-1" /> : null
         return (
             <OverlayTrigger trigger="hover" overlay={FlagPopover(icono, titulo, descripcion, variante)} placement="bottom">
                 <span variant={variante} className={cl} {...props}>
@@ -55,6 +55,8 @@ export const BadgeFlag = ({ icono, titulo, descripcion, variante, tecnico, forma
 const Flags = ({ flags, formato, ...props }) => {
 
     if (!flags) return null;
+
+    if (!formato && Object.keys(flags).length > 7) formato = 'corto'
 
     let index = 0;
     let flagBadges = [];
