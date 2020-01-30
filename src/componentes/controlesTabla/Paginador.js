@@ -2,6 +2,7 @@ import React from 'react'
 import { AiOutlineEllipsis } from 'react-icons/ai'
 import BotonControl from './BotonControl'
 
+import './ControlesTabla.scss'
 
 const Paginador = ({ min, max, actual, onPaginaCambiada, className, ...props }) => {
 

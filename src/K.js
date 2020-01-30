@@ -158,6 +158,7 @@ const K = {
         9000: { codigo: '9000', nombre: 'PostMan', filtrable: true },
         9001: { codigo: '9001', nombre: 'Fedicom App', filtrable: true },
         9002: { codigo: '9002', nombre: 'Retransmisor' },
+        9100: { codigo: '9100', nombre: 'F2 Translator', filtrable: true },
         9700: { codigo: '9700', nombre: 'App Empleado', filtrable: true },
         9800: { codigo: '9800', nombre: 'F+Online', filtrable: true },
         9991: { codigo: '9991', nombre: 'SAP D01' },

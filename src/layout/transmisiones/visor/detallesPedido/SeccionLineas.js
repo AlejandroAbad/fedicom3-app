@@ -1,14 +1,27 @@
-import React from 'react'
-import { Container, Row, Col, Accordion, Card, Alert } from 'react-bootstrap'
+import React, { useState }from 'react'
+import { Row, Col, Alert } from 'react-bootstrap'
 import { FaExclamation } from 'react-icons/fa'
 
 import Icono from 'componentes/icono/Icono'
+import Paginador from 'componentes/controlesTabla/Paginador'
+
 
 const SeccionLineas = ({ tx }) => {
 
 	let sum = tx.flags?.s
 
+	const [ pagina, setPagina ] = useState(1);
+	
 	let lineas = tx.clientResponse?.body?.lineas?.length > 0 ? tx.clientResponse.body.lineas : tx.clientRequest?.body?.lineas;
+
+	let componentesLineas = []
+
+	let inicio = (pagina - 1) * 10
+	let fin = Math.min(pagina * 10, lineas.length)
+	for (let i = inicio; i < fin; i++) {
+		componentesLineas.push(<LineaPedido key={i} linea={lineas[i]} /> )
+	}
+	
 
 	return (
 		<>
@@ -18,10 +31,23 @@ const SeccionLineas = ({ tx }) => {
 
 			<SumatorioLineas sum={sum} />
 
-
-
-			{lineas?.map((l, i) => <LineaPedido key={i} linea={l} />)}
-
+			{lineas.length > 10 &&
+				<Row className="ControlesTabla d-flex justify-content-center mb-2">
+					<Col xs="auto" className="">
+						<Paginador min={1} max={Math.ceil(lineas.length / 10)} actual={pagina} onPaginaCambiada={setPagina} />
+					</Col>
+				</Row>
+			}
+			{componentesLineas}
+			<Col sm={12} className="border-top mt-1 mb-3"></Col>
+			{lineas.length > 10 &&
+				<Row className="ControlesTabla d-flex justify-content-center mt-1 mb-2">
+					<Col xs="auto" className="">
+						<Paginador min={1} max={Math.ceil(lineas.length / 10)} actual={pagina} onPaginaCambiada={setPagina} />
+					</Col>
+				</Row>
+			}
+			
 
 		</>
 	)
@@ -52,8 +78,8 @@ const SumatorioLineas = ({ sum }) => {
 					<Col className="font-weight-bold"><u>Total cantidades</u></Col>
 					<Col className="m-0 p-0">
 						<Row className="no-gutters">
-							<Col lg={4} md={6} sm={4} xs={6}>Pedida: {sum.cantidad}{sum.cantidadBonificacion > 0 ? `+${sum.cantidadBonificacion}` : ''}</Col>
-							<Col lg={4} md={6} sm={4} xs={6}>Servida: {sum.cantidad - sum.cantidadFalta}{sum.cantidadBonificacion ? `+${sum.cantidadBonificacion - sum.cantidadBonificacionFalta}` : ''}</Col>
+							<Col lg={4} md={6} sm={4} xs={12}>Pedida: {sum.cantidad}{sum.cantidadBonificacion > 0 ? `+${sum.cantidadBonificacion}` : ''}</Col>
+							<Col lg={4} md={6} sm={4} xs={12}>Servida: {sum.cantidad - sum.cantidadFalta}{sum.cantidadBonificacion ? `+${sum.cantidadBonificacion - sum.cantidadBonificacionFalta}` : ''}</Col>
 							<Col lg={4} md={12} sm={4} xs={12}>Falta: {sum.cantidadFalta}{sum.cantidadBonificacion > 0 ? `+${sum.cantidadBonificacionFalta}` : ''}</Col>
 						</Row>
 					</Col>
@@ -66,7 +92,7 @@ const SumatorioLineas = ({ sum }) => {
 
 const CodigoArticulo = ({ codigo }) => {
 	if (!codigo) return
-	let original = codigo
+	// let original = codigo
 	let extendido = codigo;
 
 	if (codigo.length === 6)
@@ -83,8 +109,7 @@ const CodigoArticulo = ({ codigo }) => {
 
 
 	return <>
-		<span className="d-none">{original}</span>
-		<span className="">{extendido}</span>
+		<span>{extendido}</span>
 	</>
 }
 

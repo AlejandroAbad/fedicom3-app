@@ -89,7 +89,10 @@ const SeccionTipoPedido = ({ tx }) => {
 	let valorTipoPedido = (
 		<span className="text-monospace">
 			{tx.clientRequest?.body?.tipoPedido ?? <span className="text-mutted">N/A</span>}<br />
-			<code className="text-secondary">SAP {tx.sapResponse?.body?.sap_tipopedido} - Motivo: {tx.sapResponse?.body?.sap_motivo_pedido || <span className="text-mutted"><i>&lt;vacío&gt;</i></span>}</code>
+			<code className="text-secondary">
+				Tipo SAP: {tx.sapResponse?.body?.sap_tipopedido ?? <span className="text-mutted"><i>&lt;vacío&gt;</i></span>} | 
+				Motivo: {tx.sapResponse?.body?.sap_motivo_pedido || <span className="text-mutted"><i>&lt;vacío&gt;</i></span>}
+			</code>
 		</span>
 	)
 	return <ListGroupItem sm={4} k="Tipo pedido" v={valorTipoPedido} />
@@ -150,7 +153,7 @@ const SeccionAlmacen = ({ tx }) => {
 
 const SeccionNumPedSAP = ({ tx }) => {
 	let valorNumerosPedidoSAP = <Badge variant='warning'>N/A</Badge>
-	if (tx.numerosPedidoSAP) {
+	if (tx.numerosPedidoSAP?.length > 0) {
 
 		valorNumerosPedidoSAP = tx.numerosPedidoSAP.map((npedSap, i) => {
 			return <span key={i} variant='light' className="border rounded text-monospace ml-1 px-1">{npedSap}</span>
@@ -184,9 +187,9 @@ const SeccionFlags = ({ tx }) => {
 			</Alert>
 		}
 
-		<Row className="pt-1">
-			<Col xs={12}>
-				<ListGroup>
+		<Row >
+			<Col xs={12} >
+				<ListGroup variant="flush" className="border-top">
 					<ListGroupItem sm={1} k="Flags" v={<Flags flags={tx.flags} formato="grande" />} />
 				</ListGroup>
 			</Col>
