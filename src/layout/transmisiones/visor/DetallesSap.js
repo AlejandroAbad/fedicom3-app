@@ -18,10 +18,10 @@ const DetallesSap = ({ transmision }) => {
                 <small className="text-muted"><small>Detalle de lo que se ha transmitido entre SAP y el concentrador</small></small>
             </h4>
             <Row>
-                <Col lg={6}>
+                <Col lg={tx.sapResponse ? 6 : 12}>
                     <DetallesPeticionHttp req={tx.sapRequest} />
                 </Col>
-                <Col lg={6}>
+                <Col lg={tx.sapRequest ? 6 : 12}>
                     <DetallesRespuestaHttp res={tx.sapResponse} />
                 </Col>
             </Row>
