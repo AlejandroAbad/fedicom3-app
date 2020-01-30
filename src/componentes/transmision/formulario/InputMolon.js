@@ -149,7 +149,7 @@ const InputMolon = ({ titulo, rutaFiltro, regexSplit, regexValidate, filtro, set
         <Form.Group as={Row} className="align-items-center">
             <Form.Label column md="4">
                 {titulo} 
-                {(estado && estado.length > 0) && <Icono icono={FaLongArrowAltRight} class="float-right text-success" />}
+                {(estado && estado.length > 0) && <Icono icono={FaLongArrowAltRight} className="float-right text-success" />}
             </Form.Label>
             <Col md="8" >
                 

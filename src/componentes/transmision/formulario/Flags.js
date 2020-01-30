@@ -49,7 +49,7 @@ const Flags = ({ setValue, filtro, register, errors, ...props }) => {
         <Form.Group as={Row} className="align-items-center">
             <Form.Label column md="4">
                 Flags
-                {(Object.keys(valores).length > 0) && <Icono icono={FaLongArrowAltRight} class="float-left float-md-right mr-3 mr-md-0 text-success" />}
+                {(Object.keys(valores).length > 0) && <Icono icono={FaLongArrowAltRight} className="float-left float-md-right mr-3 mr-md-0 text-success" />}
             </Form.Label>
             <Col md="8" >
                 {flagCheckboxes}

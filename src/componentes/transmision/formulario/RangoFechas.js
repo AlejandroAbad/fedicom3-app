@@ -124,7 +124,7 @@ const RangoFechas = ({ titulo, filtro, rutaFiltro, setValue, register, errors, .
         <Form.Group as={Row} className="align-items-center">
             <Form.Label column md="4">
                 {titulo}
-                <Icono icono={FaLongArrowAltRight} class="float-left float-md-right mr-3 mr-md-0 text-success" />
+                <Icono icono={FaLongArrowAltRight} className="float-left float-md-right mr-3 mr-md-0 text-success" />
             </Form.Label>
             
             <Col md="8">
