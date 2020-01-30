@@ -21,6 +21,7 @@ import useStateLocalStorage from 'util/useStateLocalStorage';
 
 import ContenedorDeTostadas from 'componentes/tostadas/ContenedorDeTostadas';
 import TostadaExpiracionJwt from 'componentes/tostadas/TostadaExpiracionJwt';
+import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
 
 const App = () => {
 
@@ -41,6 +42,10 @@ const App = () => {
         <Route
           path="/transmisiones"
           render={(props) => <BuscadorTransmisiones {...props} jwt={jwt} />} />
+
+        <Route
+          path="/estado/procesos"
+          render={(props) => <EstadoProcesos {...props} jwt={jwt} />} />
 
         <Route path="/usuario">
           <h3>Tu JWT</h3>

@@ -39,7 +39,7 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                     <BotonNavegacion enlace="/transmisiones" icono={GoRocket} titulo="Transmisiones" esconderEn={expandirEn} mostrarEn="xl" />
                     <BotonNavegacion icono={GoDashboard} titulo="Estado" esconderEn={expandirEn} mostrarEn="xl" >
                         <BotonNavegacion enlace="/status/mongodb" icono={GoDatabase} titulo="Base de datos" />
-                        <BotonNavegacion enlace="/status/concentradores" icono={GoPulse} titulo="Concentradores" />
+                        <BotonNavegacion enlace="/estado/procesos" icono={GoPulse} titulo="Procesos" />
                         <BotonNavegacion enlace="/status/watchdog" icono={GoTelescope} titulo="Watchdog" />
                         <BotonNavegacion enlace="/status/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />
                         <BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />
