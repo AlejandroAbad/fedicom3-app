@@ -13,6 +13,7 @@ import Fecha from 'componentes/transmision/Fecha'
 import DetallesPedido from './detallesPedido/DetallesPedido'
 import DetallesHttp from './DetallesHttp'
 import DetallesSap from './DetallesSap'
+import DetallesDuplicado from './detallesDuplicado/DetallesDuplicado'
 
 const VisorTransmision = (props) => {
 
@@ -69,6 +70,7 @@ const VisorTransmision = (props) => {
                     </Row>
 
                     <DetallesPedido transmision={tx} />
+                    <DetallesDuplicado transmision={tx} />
                 </div>
 
                 <DetallesHttp transmision={tx} />
@@ -89,73 +91,20 @@ const VisorTransmision = (props) => {
 }
 
 /*
-INFORMACION TECNICA:
-    - txId
-    - iid
-    - tx version
-    + flags
+
 
 INFORMACION DE TRANSMISION
-    + tipo
-    + estado
-    + fecha de inicio 
-    ? fecha de fin
-    + ip
-    + software ID
     - autenticacion
 
 
 INFORMACION DE PEDIDO
-    + numero pedido origen
-    + numero pedido fedicom / CRC
-    + numeros pedido sap / agrupado
-    + codigo de cliente
-    + codigo cliente SAP
-    + punto de entrega
-    + tipo de pedido
-    + almacen de servicio
-    + BAPI - tipo pedido
-    + BAPI - motivo pedido
-    - incidencias cabecera
     - direccion envio
     - aplazamiento
     - observaciones
     - notificaciones
     - lineas:
-        + orden
-        + codigo articulo
-        + codigo articulo sustituyente
-        + nombre articulo
-        + cantidad pedida + bonificada
-        ? cantidad servida + bonificada
-        + cantidad falta + bonificada
-        + almacen
-        + estupefaciente
-        + incidencias
         - serviciodemorado
 
-    + confirmaciones del pedido
-        - id
-        - hora
-        - sistema sap
-
-    + duplicados del pedido
-        - id
-        - hora
-
-    + retransmisiones del pedido
-        - id
-        - hora
-        - estado
-        - opciones
-        - mensaje de error (si no se pudo retransmitir)
-        - newValues vs oldValues
-
-
-
-INFORMACION HTTP CON EL CLIENTE
-
-INFORMACION HTTP CON SAP
 
 BENCHMARKING
 
