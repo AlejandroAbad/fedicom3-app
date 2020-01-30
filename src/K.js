@@ -8,8 +8,8 @@ import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 const K = {
     PRODUCCION: false,
     DESTINOS: {
-        CORE: 'https://cpd25.hefame.es:5000',
-        MONITOR: 'https://cpd25.hefame.es:8443'
+        CORE: 'https://fedicom3-dev.hefame.es',
+        MONITOR: 'https://f3dev.hefame.es:8443'
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {

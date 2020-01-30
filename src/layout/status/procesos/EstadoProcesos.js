@@ -1,11 +1,12 @@
 import K from 'K'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import fedicomFetch from 'util/fedicomFetch'
-import { Container } from 'react-bootstrap'
+import { Container, ProgressBar } from 'react-bootstrap'
 import DepuradorAPI from 'componentes/debug/depuradorApi/DepuradorApi'
 import DataTable from 'react-data-table-component'
 import Fecha from 'componentes/transmision/Fecha'
 import moment from 'moment'
+import useInterval from 'util/useInterval'
 
 console.log('locale', moment.locale('sp'));
 
@@ -50,9 +51,12 @@ const columns = [
 		sortable: true,
 		cell: row => {
 			let duration = moment.duration(moment().diff(moment(row.timestamp, 'x')));
-			return <>
+			let durSecs = duration.asSeconds() 
+
+			
+			return <span className={durSecs > 15 ? 'text-danger font-weight-bold' : 'text-success'}>
 				{duration.toISOString().substring(2).toLowerCase()}
-			</>
+			</span>
 		}
 	},
 	{
@@ -97,15 +101,17 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 		ejecutarConsulta()
 	}, [ejecutarConsulta])
 
+	useInterval(ejecutarConsulta, 5000)
+
 
 
 	return <>
 		<Container>
 			<DataTable
-				title="Movie List"
+
 				columns={columns}
 				data={resultado?.datos?.data}
-				defaultSortField="type"
+				defaultSortField="host"
 			/*selectableRows={selectableRows}
 			selectableRowsNoSelectAll={noSelectAll}
 			selectableRowsHighlight={selectableRowsHighlight}
