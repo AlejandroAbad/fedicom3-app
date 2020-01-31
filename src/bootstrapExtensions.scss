@@ -35,4 +35,31 @@
   }
 }
 
+.bg-primary-soft {
+    background-color: #cce5ff;
+}
+.bg-secondary-soft {
+    background-color: #e2e3e5;
+}
+.bg-success-soft {
+    background-color: #d4edda;
+}
+.bg-danger-soft {
+    background-color: #f8d7da;
+}
+.bg-warning-soft {
+    background-color: #fff3cd;
+}
+.bg-info-soft {
+    background-color: #d1ecf1;
+}
+.bg-light-soft {
+    background-color: #fefefe;
+}
+.bg-dark-soft {
+    background-color: #fdfdfe;
+}
+
+
+
 @import "bootstrap/scss/_print";
