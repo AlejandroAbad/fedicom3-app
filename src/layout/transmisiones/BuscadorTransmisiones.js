@@ -12,7 +12,7 @@ import useStateLocalStorage from 'util/useStateLocalStorage';
 // import DepuradorAPI from 'componentes/debug/depuradorApi/DepuradorApi';
 import ControlesTabla from 'componentes/controlesTabla/ControlesTabla';
 
-import EstadoConsulta from './EstadoConsulta';
+import EstadoConsulta from '../../componentes/estadoConsulta/EstadoConsulta';
 import FilaTransmision from './FilaTransmision';
 import FormularioOrden from './formularios/FormularioOrden';
 import FormularioFiltros from './formularios/FormularioFiltros';

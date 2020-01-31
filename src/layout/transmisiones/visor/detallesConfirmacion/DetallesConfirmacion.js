@@ -2,10 +2,7 @@ import K from 'K'
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Accordion, Card, ListGroup, Badge, Alert } from 'react-bootstrap'
-import { FaExclamation } from 'react-icons/fa'
 import { TextoCodigoCliente, CodigoCliente } from 'componentes/transmision/CodigoCliente'
-import Flags from 'componentes/transmision/Flags'
-import Icono from 'componentes/icono/Icono'
 
 import ListGroupItem from '../ListGroupItem'
 
@@ -173,34 +170,6 @@ const SeccionNumPedSAP = ({ numerosPedido }) => {
 		})
 	}
 	return <ListGroupItem sm={4} k="Números pedido SAP" v={valorNumerosPedidoSAP} />
-}
-
-const SeccionFlags = ({ tx }) => {
-
-	if (!tx.flags) return null;
-	const FLAGS_EXCL = ['s', 'v', 'pt', 't']
-	let numeroFlags = Object.keys(tx.flags).filter(e => !FLAGS_EXCL.includes(e)).length
-	if (!numeroFlags) return null;
-
-	return (<>
-		{
-			tx.originalTxId &&
-			<Alert variant='primary' className="text-monospace">
-				<Icono icono={FaExclamation} posicion={[22, 2]} className="text-primary mr-3" />
-				Este pedido fué creado a raíz de la retransmisión del pedido con ID <Link to={`/transmisiones/${tx.originalTxId}`}>{tx.originalTxId?.toUpperCase()}</Link>
-			</Alert>
-		}
-
-		<Row >
-			<Col xs={12} >
-				<ListGroup variant="flush" className="border-top">
-					<ListGroupItem sm={1} k="Flags" v={<Flags flags={tx.flags} formato="grande" />} />
-				</ListGroup>
-			</Col>
-		</Row>
-
-	</>
-	)
 }
 
 

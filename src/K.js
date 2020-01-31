@@ -8,8 +8,8 @@ import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 const K = {
     PRODUCCION: false,
     DESTINOS: {
-        CORE: 'https://fedicom3-dev.hefame.es',
-        MONITOR: 'https://f3dev.hefame.es:8443'
+        CORE: 'https://fedicom3.hefame.es',
+        MONITOR: 'https://f3bcn.hefame.es:8443'
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
@@ -142,7 +142,7 @@ const K = {
         bonif: { variante: "success", titulo: "Bonificado", icono: FaPercentage, descripcion: "El pedido contiene líneas bonificadas." },
         transfer: { variante: "primary", titulo: "Transfer", icono: MdAirplanemodeActive, descripcion: "El pedido lo realiza un laboratorio." },
         faltaTotal: { variante: "secondary", titulo: "Falta Total", icono: FaCreativeCommonsNc, descripcion: "Todas las líneas del pedido son falta total. No se servirá nada." },
-        formato: { variante: "warning", titulo: "Formato", icono: FaRadiation, descripcion: (<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>), tecnico: true },
+        //formato: { variante: "warning", titulo: "Formato", icono: FaRadiation, descripcion: (<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>), tecnico: true },
         demorado: { variante: "primary", titulo: "Demorado", icono: MdTimer, descripcion: (<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>) },
     },
     PROGRAMAS_FARMACIA: {

@@ -1,4 +1,4 @@
-import React, { useState }from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Alert } from 'react-bootstrap'
 import { FaExclamation } from 'react-icons/fa'
 
@@ -10,8 +10,8 @@ const SeccionLineas = ({ tx }) => {
 
 	let sum = tx.flags?.s
 
-	const [ pagina, setPagina ] = useState(1);
-	
+	const [pagina, setPagina] = useState(1);
+
 	let lineas = tx.clientResponse?.body?.lineas?.length > 0 ? tx.clientResponse.body.lineas : tx.clientRequest?.body?.lineas;
 
 	let componentesLineas = []
@@ -19,9 +19,9 @@ const SeccionLineas = ({ tx }) => {
 	let inicio = (pagina - 1) * 10
 	let fin = Math.min(pagina * 10, lineas.length)
 	for (let i = inicio; i < fin; i++) {
-		componentesLineas.push(<LineaPedido key={i} linea={lineas[i]} /> )
+		componentesLineas.push(<LineaPedido key={i} linea={lineas[i]} />)
 	}
-	
+
 
 	return (
 		<>
@@ -47,7 +47,7 @@ const SeccionLineas = ({ tx }) => {
 					</Col>
 				</Row>
 			}
-			
+
 
 		</>
 	)
@@ -147,10 +147,12 @@ const LineaPedido = ({ linea }) => {
 							<Col xs={12} sm={6} md={12}>
 								Pedido: <span className="font-weight-bold">{linea.cantidad}{linea.cantidadBonificacion > 0 && `+${linea.cantidadBonificacion}`}</span>
 							</Col>
-							<Col xs={12} sm={6} md={12}>
-								<span className="d-none d-sm-inline">&nbsp;</span>
-								Falta: <span className="font-weight-bold">{linea.cantidadFalta ?? 0}{linea.cantidadBonificacionFalta > 0 && `+${linea.cantidadBonificacionFalta}`}</span>
-							</Col>
+							{(linea.cantidadFalta > 0 || linea.cantidadBonificacionFalta > 0) &&
+								<Col xs={12} sm={6} md={12}>
+									<span className="d-none d-sm-inline">&nbsp;</span>
+									Falta: <span className="font-weight-bold text-danger">{linea.cantidadFalta ?? 0}{linea.cantidadBonificacionFalta > 0 && `+${linea.cantidadBonificacionFalta}`}</span>
+								</Col>
+							}
 						</Row>
 					</Col>
 
