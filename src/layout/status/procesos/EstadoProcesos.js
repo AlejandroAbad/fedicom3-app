@@ -158,10 +158,22 @@ class Proc {
 	}
 
 	extra() {
-		if (this.priority) {
-			return <small><strong>Prioridad: </strong>{this.priority}</small>
+		if (this.type === 'watchdog') {
+			let badge = null;
+			switch (this.maestro) {
+				case 3:
+					badge = <Badge variant="success">PRIMARIO</Badge>
+					break;
+				case 0:
+					badge = <Badge variant="secondary">SECUNDARIO</Badge>
+					break;
+				default:
+					badge = <Badge variant="primary">ADQUIRIENDO {this.maestro}/3</Badge>
+					break;
+			}
+			return <>{badge}<small className="ml-2"><strong>Prioridad: </strong>{this.priority}</small></>
 		}
-		return null
+		return null;
 	}
 }
 
@@ -204,7 +216,7 @@ class ProcHost {
 		let wD = (this.watchdogProc && this.watchdogProc.isDead())
 		if (wD) return 'warning'
 
-		this.workerProcs.forEach( wP => {
+		this.workerProcs.forEach(wP => {
 			if (!wP || wP.isDead()) {
 				return 'warning'
 			}
