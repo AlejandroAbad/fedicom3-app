@@ -6,7 +6,9 @@ import './BarraNavegacionSuperior.scss';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { GoDashboard, GoDatabase, GoTelescope, GoPulse, GoRocket, GoGraph, GoGitMerge, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
+import { GoDashboard, GoDatabase, GoRocket, GoPulse, GoGraph, GoGitMerge, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
+import { FaPaperPlane, FaMeteor, FaFlask, FaQuora } from 'react-icons/fa'
+import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
 
 
@@ -36,13 +38,18 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
             <Navbar.Toggle aria-controls="barraSuperior-navegador" />
             <Navbar.Collapse id="barraSuperior-navegador" >
                 <Nav className="mr-auto ml-10" >
-                    <BotonNavegacion enlace="/transmisiones" icono={GoRocket} titulo="Transmisiones" esconderEn={expandirEn} mostrarEn="xl" />
+                    <BotonNavegacion enlace="/transmisiones" icono={FaPaperPlane} titulo="Transmisiones" esconderEn={expandirEn} mostrarEn="xl" />
                     <BotonNavegacion icono={GoDashboard} titulo="Estado" esconderEn={expandirEn} mostrarEn="xl" >
                         <BotonNavegacion enlace="/status/mongodb" icono={GoDatabase} titulo="Base de datos" />
                         <BotonNavegacion enlace="/estado/procesos" icono={GoPulse} titulo="Procesos" />
-                        <BotonNavegacion enlace="/status/watchdog" icono={GoTelescope} titulo="Watchdog" />
                         <BotonNavegacion enlace="/status/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />
                         <BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />
+                    </BotonNavegacion>
+                    <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
+                        <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />
+                        <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />
+                        <BotonNavegacion enlace="/simulador/consultas" icono={FaQuora} titulo="Consultas" />
+                        <BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />
                     </BotonNavegacion>
 
                 </Nav>

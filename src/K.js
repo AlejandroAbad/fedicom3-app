@@ -1,15 +1,15 @@
 import React from 'react'
 import { GiMedicines, GiCardExchange } from 'react-icons/gi'
 import { MdControlPointDuplicate, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
-import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaRadiation } from 'react-icons/fa'
+import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc } from 'react-icons/fa'
 import { IoIosApps } from 'react-icons/io'
 import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
 const K = {
     PRODUCCION: false,
     DESTINOS: {
-        CORE: 'https://fedicom3.hefame.es',
-        MONITOR: 'https://f3bcn.hefame.es:8443'
+        CORE: 'https://fedicom3-dev.hefame.es',
+        MONITOR: 'https://f3dev.hefame.es:8443'
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {

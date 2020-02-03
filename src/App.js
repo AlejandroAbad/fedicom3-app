@@ -7,21 +7,20 @@ import 'App.scss';
 
 
 import ReactJson from 'react-json-view';
-
+import useStateLocalStorage from 'util/useStateLocalStorage';
 import BootstrapMedia from 'componentes/debug/bootstrapMedia/BootstrapMedia';
 
 import BarraNavegacionSuperior from 'layout/barraNavegacionSuperior/BarraNavegacionSuperior';
 import FormularioLogin from 'layout/formularioLogin/FormularioLogin';
-import VisorTransmision from 'layout/transmisiones/visor/VisorTransmision';
-import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
-
-
-import useStateLocalStorage from 'util/useStateLocalStorage';
-
-
 import ContenedorDeTostadas from 'componentes/tostadas/ContenedorDeTostadas';
 import TostadaExpiracionJwt from 'componentes/tostadas/TostadaExpiracionJwt';
+
+
+import VisorTransmision from 'layout/transmisiones/visor/VisorTransmision';
+import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
 import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
+import SimuladorPedidos from 'layout/simuladores/pedidos/SimuladorPedidos';
+
 
 const App = () => {
 
@@ -42,6 +41,10 @@ const App = () => {
         <Route
           path="/transmisiones"
           render={(props) => <BuscadorTransmisiones {...props} jwt={jwt} />} />
+
+        <Route
+          path="/simulador/pedidos"
+          render={(props) => <SimuladorPedidos {...props} jwt={jwt} />} />
 
         <Route
           path="/estado/procesos"
