@@ -65,29 +65,23 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 	}, [codigoCliente, tipoPedido, almacen, setValue])
 
 	return (<>
-		<Row>
-			<Col className="h6 d-inline mt-4 pt-1 bg-primary-soft">
-				<Icono icono={FiChevronsRight} posicion={[22, 4]} className="text-secondary" /> Datos básicos
-			</Col>
-		</Row>
-
 		<Form.Group as={Row} className="align-items-center">
 			<Form.Label column md={4} lg={3}>
 				Código de cliente
 			</Form.Label>
 			<Col md={4} lg={3}>
-				<Form.Control type="text" placeholder="- Cliente -" className="text-center" defaultValue={codigoCliente} onBlur={e => setCodigoCliente(e.target.value)} />
+				<Form.Control size="sm" type="text" placeholder="- Cliente -" className="text-center" defaultValue={codigoCliente} onBlur={e => setCodigoCliente(e.target.value)} />
 			</Col>
-			{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
-                
-            </Form.Label>*/}
+			{<Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
+				<small>Nota: Los transfers utilizan códigos de cliente cortos (p.e: 117, 4607)</small>
+			</Form.Label>}
 		</Form.Group>
 		<Form.Group as={Row} className="align-items-center">
 			<Form.Label column md={4} lg={3}>
 				Tipo de pedido
 			</Form.Label>
 			<Col md={3} lg={2}>
-				<Form.Control type="text" placeholder="- Tipo -" className="text-center" defaultValue={tipoPedido} onBlur={e => setTipoPedido(e.target.value)} />
+				<Form.Control size="sm" type="text" placeholder="- Tipo -" className="text-center" defaultValue={tipoPedido} onBlur={e => setTipoPedido(e.target.value)} />
 			</Col>
 			{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -98,7 +92,7 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 				Almacén de servicio
 			</Form.Label>
 			<Col md={3} lg={2}>
-				<Form.Control type="text" placeholder="- RG## -" className="text-center" defaultValue={almacen} onBlur={e => setAlmacen(e.target.value)} />
+				<Form.Control type="text" size="sm" placeholder="- RG## -" className="text-center" defaultValue={almacen} onBlur={e => setAlmacen(e.target.value)} />
 			</Col>
 			{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -154,7 +148,7 @@ const DatosExtraPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
 							onChange={setFechaServicio}
 							minDate={new Date()}
 							timeInputLabel="Hora inicio"
-							customInput={<Form.Control type="text" className="text-center" />}
+							customInput={<Form.Control type="text" className="text-center" size="sm" />}
 							locale={es}
 							dateFormat="dd/MM/yyyy HH:mm"
 							showTimeInput
@@ -162,8 +156,8 @@ const DatosExtraPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
 							shouldCloseOnSelect={true}
 						/>
 						<InputGroup.Append>
-							<Button variant="outline-danger" onClick={() => setFechaServicio(null)}>
-								<Icono icono={FaRegCalendarTimes} posicion={[20, 2]} /> Limpiar
+							<Button size="sm" variant="outline-danger" onClick={() => setFechaServicio(null)}>
+								<Icono icono={FaRegCalendarTimes} posicion={[18, 4]} /> Limpiar
 							</Button>
 						</InputGroup.Append>
 					</InputGroup>
@@ -178,7 +172,7 @@ const DatosExtraPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
 					Dirección de envío
 			</Form.Label>
 				<Col md={8} lg={9}>
-					<Form.Control type="text" placeholder="- Dirección -" defaultValue={direccionEnvio} onBlur={(e) => setDireccionEnvio(e.target.value)} />
+					<Form.Control size="sm" type="text" placeholder="- Dirección -" defaultValue={direccionEnvio} onBlur={(e) => setDireccionEnvio(e.target.value)} />
 				</Col>
 				{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -189,7 +183,7 @@ const DatosExtraPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
 					Observaciones
 			</Form.Label>
 				<Col md={8} lg={9}>
-					<Form.Control type="text" placeholder="" defaultValue={observaciones} onBlur={(e) => setObservaciones(e.target.value)} />
+					<Form.Control size="sm" type="text" placeholder="" defaultValue={observaciones} onBlur={(e) => setObservaciones(e.target.value)} />
 				</Col>
 				{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -207,7 +201,6 @@ const DatosExtraTransfer = ({ setValue, register, /*errors,*/ valorActual }) => 
 	let aplazamientoInicial = valorActual?.aplazamiento ?? ""
 
 	const [aplazamiento, setAplazamiento] = useState(aplazamientoInicial)
-	const [mostrar, setMostrar] = useStateLocalStorage('simulador.pedidos.transferShow', false)
 
 	useEffect(() => {
 		register({ name: 'aplazamiento' })
@@ -218,24 +211,19 @@ const DatosExtraTransfer = ({ setValue, register, /*errors,*/ valorActual }) => 
 	}, [aplazamiento, setValue])
 
 	return (<>
-		<Row>
-			<Col className="h6 d-inline mt-4 pt-1 bg-warning-soft" onClick={() => setMostrar(!mostrar)}>
-				<Icono icono={mostrar ? FiChevronsRight : FiChevronsDown} posicion={[22, 4]} className="text-secondary" /> Datos Transfer
+
+		<Form.Group as={Row} className="align-items-center">
+			<Form.Label column md={4} lg={3}>
+				Aplazamiento de cargo
+				</Form.Label>
+			<Col md={4} lg={2}>
+				<Form.Control size="sm" type="text" placeholder="" className="text-center" defaultValue={aplazamiento} onBlur={(e) => setAplazamiento(e.target.value)} />
 			</Col>
-		</Row>
-		<div style={{ display: mostrar ? 'block' : 'none' }}>
-			<Form.Group as={Row} className="align-items-center">
-				<Form.Label column md={4} lg={3}>
-					Aplazamiento de cargo
-				</Form.Label>
-				<Col md={4} lg={2}>
-					<Form.Control type="text" placeholder="" className="text-center" defaultValue={aplazamiento} onBlur={(e) => setAplazamiento(e.target.value)} />
-				</Col>
-				<Form.Label column className="px-3 pt-0 mt-0 text-muted">
-					<small>Días que se aplaza el cargo.</small>
-				</Form.Label>
-			</Form.Group>
-		</div>
+			<Form.Label column className="px-3 pt-0 mt-0 text-muted">
+				<small>Días que se aplaza el cargo.</small>
+			</Form.Label>
+		</Form.Group>
+
 	</>
 	)
 

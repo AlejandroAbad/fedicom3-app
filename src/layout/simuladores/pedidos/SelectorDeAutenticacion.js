@@ -6,7 +6,6 @@ import Icono from 'componentes/icono/Icono'
 
 import { GoPerson } from 'react-icons/go'
 import { FaFlask, FaGooglePlusG, FaClinicMedical } from 'react-icons/fa'
-import { FiChevronsRight } from 'react-icons/fi'
 
 
 const getIconoDeDominio = (dominio) => {
@@ -37,7 +36,7 @@ const SelectorDeAutenticacion = (props) => {
 
 
 	let selector = (
-		<Col md={6}>
+		<Col lg={4} md={8}>
 			<InputGroup className="my-2">
 				<InputGroup.Prepend>
 					<InputGroup.Text><Icono icono={getIconoDeDominio(dominio)} /></InputGroup.Text>
@@ -64,14 +63,14 @@ const SelectorDeAutenticacion = (props) => {
 	}
 
 	return <>
-		<Row>
-			<Col className="h6 d-inline mt-4 pt-1 bg-success-soft">
-				<Icono icono={FiChevronsRight} posicion={[22, 4]} className="text-secondary" /> ¿ Quién realiza el pedido ?
-			</Col>
-		</Row>
-		<Row className="d-flex align-items-end">
-			{selector}{extra}
-		</Row>
+		<Form.Group as={Row} className="align-items-center">
+			<Form.Label column md={4} lg={3}>
+				Emisor del pedido
+			</Form.Label>
+				{selector}
+				<Col md={4} className="d-none d-md-inline-block d-lg-none text-white">_</Col>
+				{extra}
+		</Form.Group>
 	</>
 
 }
@@ -93,10 +92,10 @@ const ExtraFedicom = ({ valorActual, setValue, register, errors }) => {
 	}, [usuario, setValue])
 
 	return (
-		<Col lg={4} md={6}>
+		<Col lg={5} md={8}>
 
 			<InputGroup className="my-2">
-				<FormControl placeholder="Usuario" defaultValue={usuario} onBlur={(e) => { setUsuario(e.target.value) }} className="text-center" />
+				<FormControl placeholder="Usuario (YVCLIENTES_FEDI)" defaultValue={usuario} onBlur={(e) => { setUsuario(e.target.value) }} className="text-center" />
 				<InputGroup.Append>
 					<InputGroup.Text>@hefame</InputGroup.Text>
 				</InputGroup.Append>
@@ -126,7 +125,7 @@ const ExtraLaboratorio = ({ valorActual, setValue, register, errors }) => {
 	}, [tipoTransfer, codigoLaboratorio, setValue])
 
 	return (
-		<Col md={6}>
+		<Col lg={5} md={8}>
 			<InputGroup className="my-2">
 				<InputGroup.Prepend>
 					<Form.Control as="select" value={tipoTransfer} onChange={(e) => { setTipoTransfer(e.target.value) }} >
