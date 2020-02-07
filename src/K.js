@@ -5,11 +5,13 @@ import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc } from 
 import { IoIosApps } from 'react-icons/io'
 import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
+const PRODUCCION = true
+
 const K = {
-    PRODUCCION: false,
+    PRODUCCION: PRODUCCION,
     DESTINOS: {
-        CORE: 'https://fedicom3-dev.hefame.es',
-        MONITOR: 'https://f3dev.hefame.es:8443'
+        CORE: PRODUCCION ? 'https://fedicom3.hefame.es' : 'https://fedicom3-dev.hefame.es',
+        MONITOR: PRODUCCION ? 'https://f3san.hefame.es:8443' : 'https://f3dev.hefame.es:8443'
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
@@ -83,6 +85,7 @@ const K = {
         '1020': { codigo: 1020, filtrable: true, titulo: 'Esperando incidencias', descripcion: 'Transmisión enviada a SAP, a la espera de recibir incidencias.', variante: 'secondary' },
         '1030': { codigo: 1030, filtrable: true, titulo: 'Incidencias recibidas', descripcion: 'Transmisión procesada por SAP, pendiente responder al cliente.', variante: 'secondary' },
         '3010': { codigo: 3010, filtrable: true, titulo: 'Fallo autenticación', descripcion: 'La transmisión no se procesa porque falló la autenticación de la misma', variante: 'warning' },
+        '3011': { codigo: 3011, filtrable: true, titulo: 'No autorizado', descripcion: 'La transmisión no se procesa porque el usuario no tiene permisos para ejecutarla', variante: 'warning' },
         '3020': { codigo: 3020, filtrable: true, titulo: 'Petición incorrecta', descripcion: 'La transmisión contiene errores, no se puede tramitar', variante: 'warning' },
         '3110': { codigo: 3110, filtrable: true, titulo: 'No SAP', descripcion: 'Transmisión aceptada y procesada en el concentrador, pero no se pudo contactar con SAP', variante: 'danger' },
         '3120': { codigo: 3120, filtrable: true, titulo: 'Rechazado por SAP', descripcion: 'SAP ha rechazado la transmisión y ha devuelto un error de precondición', variante: 'warning' },
@@ -156,11 +159,11 @@ const K = {
         59: { codigo: '59', nombre: 'TEDIFARMA', apellidos: 'COFARES', filtrable: true },
         61: { codigo: '61', nombre: 'TEDIFARMA 2', apellidos: 'COFARES', filtrable: true },
         9000: { codigo: '9000', nombre: 'PostMan', filtrable: true },
-        9001: { codigo: '9001', nombre: 'Fedicom App', filtrable: true },
-        9002: { codigo: '9002', nombre: 'Retransmisor' },
-        9100: { codigo: '9100', nombre: 'F2 Translator', filtrable: true },
-        9700: { codigo: '9700', nombre: 'App Empleado', filtrable: true },
-        9800: { codigo: '9800', nombre: 'F+Online', filtrable: true },
+        9001: { codigo: '9001', nombre: 'SIM REACT', filtrable: true },
+        9002: { codigo: '9002', nombre: 'RERTANSMISOR' },
+        9100: { codigo: '9100', nombre: 'TRADUCTOR F2', filtrable: true },
+        9700: { codigo: '9700', nombre: 'APP EMPLEADO', filtrable: true },
+        9800: { codigo: '9800', nombre: 'F+ONLINE', filtrable: true },
         9991: { codigo: '9991', nombre: 'SAP D01' },
         9992: { codigo: '9992', nombre: 'SAP T01' },
         9993: { codigo: '9993', nombre: 'SAP P01' },

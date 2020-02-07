@@ -20,6 +20,7 @@ import VisorTransmision from 'layout/transmisiones/visor/VisorTransmision';
 import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
 import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
 import SimuladorPedidos from 'layout/simuladores/pedidos/SimuladorPedidos';
+import K from 'K';
 
 
 const App = () => {
@@ -42,10 +43,11 @@ const App = () => {
           path="/transmisiones"
           render={(props) => <BuscadorTransmisiones {...props} jwt={jwt} />} />
 
-        <Route
-          path="/simulador/pedidos"
-          render={(props) => <SimuladorPedidos {...props} jwt={jwt} />} />
-
+        {!K.PRODUCCION &&
+          <Route
+            path="/simulador/pedidos"
+            render={(props) => <SimuladorPedidos {...props} jwt={jwt} />} />
+        }
         <Route
           path="/estado/procesos"
           render={(props) => <EstadoProcesos {...props} jwt={jwt} />} />

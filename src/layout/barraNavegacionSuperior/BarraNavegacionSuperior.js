@@ -40,17 +40,19 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                 <Nav className="mr-auto ml-10" >
                     <BotonNavegacion enlace="/transmisiones" icono={FaPaperPlane} titulo="Transmisiones" esconderEn={expandirEn} mostrarEn="xl" />
                     <BotonNavegacion icono={GoDashboard} titulo="Estado" esconderEn={expandirEn} mostrarEn="xl" >
-                        <BotonNavegacion enlace="/status/mongodb" icono={GoDatabase} titulo="Base de datos" />
+                        {/*<BotonNavegacion enlace="/status/mongodb" icono={GoDatabase} titulo="Base de datos" />*/}
                         <BotonNavegacion enlace="/estado/procesos" icono={GoPulse} titulo="Procesos" />
-                        <BotonNavegacion enlace="/status/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />
-                        <BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />
+                        {/*<BotonNavegacion enlace="/status/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />*/}
+                        {/*<BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />*/}
                     </BotonNavegacion>
-                    <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
-                        <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />
-                        <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />
-                        <BotonNavegacion enlace="/simulador/consultas" icono={FaQuora} titulo="Consultas" />
-                        <BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />
-                    </BotonNavegacion>
+                    {!K.PRODUCCION &&
+                        <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
+                            <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />
+                            {/*<BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />
+                            <BotonNavegacion enlace="/simulador/consultas" icono={FaQuora} titulo="Consultas" />
+                            <BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
+                        </BotonNavegacion>
+                    }
 
                 </Nav>
                 <Nav>
@@ -58,7 +60,7 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                 </Nav>
                 <Nav>
                     {!K.PRODUCCION && <BotonNavegacion icono={GoSettings} titulo="Configuración" esconderEn={expandirEn} />}
-                    <BotonNavegacion icono={GoInfo} titulo="Acerca de" esconderEn={expandirEn} />
+                    {!K.PRODUCCION && <BotonNavegacion icono={GoInfo} titulo="Acerca de" esconderEn={expandirEn} />}
                 </Nav>
             </Navbar.Collapse>
 
