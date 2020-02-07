@@ -45,7 +45,7 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 		ejecutarConsulta()
 	}, [ejecutarConsulta])
 
-	useInterval(ejecutarConsulta, 1000)
+	useInterval(ejecutarConsulta, 5000)
 
 
 	let procesos = resultado?.datos?.data;
