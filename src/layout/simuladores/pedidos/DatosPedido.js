@@ -22,7 +22,7 @@ const DatosPedido = (props) => {
 			<Col xs={12}>
 				<DatosBasicosPedido {...props} />
 			</Col>
-			{(dominio === 'TRANSFER') &&
+			{(dominio === 'transfer_laboratorio') &&
 				<Col xs={12}>
 					<DatosExtraTransfer {...props} />
 				</Col>
@@ -55,13 +55,13 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 	useEffect(() => {
 		register({ name: 'codigoCliente' })
 		register({ name: 'tipoPedido' })
-		register({ name: 'almacen' })
+		register({ name: 'codigoAlmacenServicio' })
 	}, [register])
 
 	useEffect(() => {
 		setValue('codigoCliente', codigoCliente)
 		setValue('tipoPedido', tipoPedido)
-		setValue('almacen', almacen)
+		setValue('codigoAlmacenServicio', almacen)
 	}, [codigoCliente, tipoPedido, almacen, setValue])
 
 	return (<>
@@ -70,7 +70,7 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 				Código de cliente
 			</Form.Label>
 			<Col md={4} lg={3}>
-				<Form.Control size="sm" type="text" placeholder="- Cliente -" className="text-center" defaultValue={codigoCliente} onBlur={e => setCodigoCliente(e.target.value)} />
+				<Form.Control size="sm" type="text" className="text-center" defaultValue={codigoCliente} onBlur={e => setCodigoCliente(e.target.value)} />
 			</Col>
 			{<Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
 				<small>Nota: Los transfers utilizan códigos de cliente cortos (p.e: 117, 4607)</small>
@@ -81,7 +81,7 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 				Tipo de pedido
 			</Form.Label>
 			<Col md={3} lg={2}>
-				<Form.Control size="sm" type="text" placeholder="- Tipo -" className="text-center" defaultValue={tipoPedido} onBlur={e => setTipoPedido(e.target.value)} />
+				<Form.Control size="sm" type="text" className="text-center" defaultValue={tipoPedido} onBlur={e => setTipoPedido(e.target.value)} />
 			</Col>
 			{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -92,7 +92,7 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 				Almacén de servicio
 			</Form.Label>
 			<Col md={3} lg={2}>
-				<Form.Control type="text" size="sm" placeholder="- RG## -" className="text-center" defaultValue={almacen} onBlur={e => setAlmacen(e.target.value)} />
+				<Form.Control type="text" size="sm" className="text-center" defaultValue={almacen} onBlur={e => setAlmacen(e.target.value)} />
 			</Col>
 			{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -172,7 +172,7 @@ const DatosExtraPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
 					Dirección de envío
 			</Form.Label>
 				<Col md={8} lg={9}>
-					<Form.Control size="sm" type="text" placeholder="- Dirección -" defaultValue={direccionEnvio} onBlur={(e) => setDireccionEnvio(e.target.value)} />
+					<Form.Control size="sm" type="text" defaultValue={direccionEnvio} onBlur={(e) => setDireccionEnvio(e.target.value)} />
 				</Col>
 				{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -183,7 +183,7 @@ const DatosExtraPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
 					Observaciones
 			</Form.Label>
 				<Col md={8} lg={9}>
-					<Form.Control size="sm" type="text" placeholder="" defaultValue={observaciones} onBlur={(e) => setObservaciones(e.target.value)} />
+					<Form.Control size="sm" type="text" defaultValue={observaciones} onBlur={(e) => setObservaciones(e.target.value)} />
 				</Col>
 				{/*<Form.Label column className="text-danger px-3 pt-0 mt-0">
                 
@@ -217,7 +217,7 @@ const DatosExtraTransfer = ({ setValue, register, /*errors,*/ valorActual }) => 
 				Aplazamiento de cargo
 				</Form.Label>
 			<Col md={4} lg={2}>
-				<Form.Control size="sm" type="text" placeholder="" className="text-center" defaultValue={aplazamiento} onBlur={(e) => setAplazamiento(e.target.value)} />
+				<Form.Control size="sm" type="text" className="text-center" defaultValue={aplazamiento} onBlur={(e) => setAplazamiento(e.target.value)} />
 			</Col>
 			<Form.Label column className="px-3 pt-0 mt-0 text-muted">
 				<small>Días que se aplaza el cargo.</small>

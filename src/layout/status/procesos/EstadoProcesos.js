@@ -173,6 +173,9 @@ class Proc {
 			}
 			return <>{badge}<small className="ml-2"><strong>Prioridad: </strong>{this.priority}</small></>
 		}
+		if (this.type === 'core-master') {
+			return <><small className="ml-2"><strong>Workers: </strong>{this.childrens}</small></>
+		}
 		return null;
 	}
 }

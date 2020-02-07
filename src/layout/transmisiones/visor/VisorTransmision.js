@@ -16,14 +16,14 @@ import DetallesSap from './DetallesSap'
 import DetallesDuplicado from './detallesDuplicado/DetallesDuplicado'
 import DetallesConfirmacion from './detallesConfirmacion/DetallesConfirmacion'
 
-const VisorTransmision = (props) => {
+const VisorTransmision = ({ jwt, txId, ...props }) => {
 
     const [resultado, setResultado] = useState({ datos: null, error: null, cargando: false });
-    let txId = props.match.params.txId;
+    if (props?.match?.params?.txId) txId = props.match.params.txId;
 
     const ejecutarConsulta = useCallback(() => {
         setResultado({ datos: null, error: null, cargando: false })
-        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, { filter: { _id: txId } })
+        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, jwt, { filter: { _id: txId } })
             .then(response => {
                 if (response) {
                     if (response.ok) {
@@ -36,11 +36,11 @@ const VisorTransmision = (props) => {
             .catch(err => {
                 setResultado({ datos: null, error: err, cargando: false });
             })
-    }, [setResultado, props.jwt, txId])
+    }, [setResultado, jwt, txId])
 
     useEffect(() => {
         ejecutarConsulta()
-    }, [ejecutarConsulta, props.jwt, txId])
+    }, [ejecutarConsulta, jwt, txId])
 
 
     if (resultado?.datos?.data?.length > 0) {

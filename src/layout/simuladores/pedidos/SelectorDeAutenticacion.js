@@ -39,13 +39,13 @@ const SelectorDeAutenticacion = (props) => {
 		<Col lg={4} md={8}>
 			<InputGroup className="my-2">
 				<InputGroup.Prepend>
-					<InputGroup.Text><Icono icono={getIconoDeDominio(dominio)} /></InputGroup.Text>
+					<InputGroup.Text><Icono icono={getIconoDeDominio(dominio)} posicion={[16]}/></InputGroup.Text>
 				</InputGroup.Prepend>
-				<Form.Control id="selectorDominio" as="select" value={dominio} onChange={(e) => { setDominio(e.target.value) }}>
+				<Form.Control size="sm" id="selectorDominio" as="select" value={dominio} onChange={(e) => { setDominio(e.target.value) }}>
 					<option value="FEDICOM">Un programa de farmacia</option>
-					<option value="TRANSFER">Un transfer de laboratorio</option>
-					<option value="EMPLEADO">La aplicación móvil del empleado</option>
-					<option value="F+ONLINE">Un servidor F+Online</option>
+					<option value="transfer_laboratorio">Un transfer de laboratorio</option>
+					<option value="empleado">La aplicación móvil del empleado</option>
+					<option value="FMAS">Un servidor F+Online</option>
 				</Form.Control>
 			</InputGroup>
 		</Col>
@@ -56,7 +56,7 @@ const SelectorDeAutenticacion = (props) => {
 		case "FEDICOM":
 			extra = <ExtraFedicom  {...props} />
 			break;
-		case "TRANSFER":
+		case "transfer_laboratorio":
 			extra = <ExtraLaboratorio {...props} />
 			break;
 		default:
@@ -95,9 +95,9 @@ const ExtraFedicom = ({ valorActual, setValue, register, errors }) => {
 		<Col lg={5} md={8}>
 
 			<InputGroup className="my-2">
-				<FormControl placeholder="Usuario (YVCLIENTES_FEDI)" defaultValue={usuario} onBlur={(e) => { setUsuario(e.target.value) }} className="text-center" />
+				<FormControl size="sm"  placeholder="Usuario (YVCLIENTES_FEDI)" defaultValue={usuario} onBlur={(e) => { setUsuario(e.target.value) }} className="text-center" />
 				<InputGroup.Append>
-					<InputGroup.Text>@hefame</InputGroup.Text>
+					<InputGroup.Text className="form-control-sm" style={{ fontSize: '14px' }} >@hefame</InputGroup.Text>
 				</InputGroup.Append>
 			</InputGroup>
 		</Col>
@@ -128,13 +128,13 @@ const ExtraLaboratorio = ({ valorActual, setValue, register, errors }) => {
 		<Col lg={5} md={8}>
 			<InputGroup className="my-2">
 				<InputGroup.Prepend>
-					<Form.Control as="select" value={tipoTransfer} onChange={(e) => { setTipoTransfer(e.target.value) }} >
+					<Form.Control size="sm" as="select" value={tipoTransfer} onChange={(e) => { setTipoTransfer(e.target.value) }} >
 						<option value="TR">TR</option>
 						<option value="TG">TG</option>
 						<option value="TP">TP</option>
 					</Form.Control>
 				</InputGroup.Prepend>
-				<Form.Control as="select" value={codigoLaboratorio} onChange={(e) => { setCodigoLaboratorio(e.target.value) }} >
+				<Form.Control size="sm" as="select" value={codigoLaboratorio} onChange={(e) => { setCodigoLaboratorio(e.target.value) }} >
 					{
 						Object.keys(K.LABORATORIOS).map((cod, i) => {
 							return <option value={cod} key={i}>{K.LABORATORIOS[cod]} ({cod})</option>

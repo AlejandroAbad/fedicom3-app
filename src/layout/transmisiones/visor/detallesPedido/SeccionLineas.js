@@ -91,7 +91,7 @@ const SumatorioLineas = ({ sum }) => {
 }
 
 const CodigoArticulo = ({ codigo }) => {
-	if (!codigo) return
+	if (!codigo) return <span className="text-danger" >n/a</span>;
 	// let original = codigo
 	let extendido = codigo;
 

@@ -17,7 +17,8 @@ const jsonFetch = async (url, options = {}, body = null) => {
     return ({
         ok: (r.status >= 200 && r.status < 300),
         status: r.status,
-        body: data
+        body: data,
+        headers: r.headers
     });
 }
 

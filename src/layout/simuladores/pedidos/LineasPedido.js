@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import clone from 'clone'
 import Icono from 'componentes/icono/Icono'
-import { FiChevronsRight } from 'react-icons/fi'
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { GoPlus, GoTrashcan } from 'react-icons/go'
@@ -119,7 +118,6 @@ const CreadorLineas = ({ onLineaCreada }) => {
 
 const Linea = ({ linea, posicion, onEliminar }) => {
 
-	console.log(linea)
 	return (
 		<Row className="border rounded-bottom pb-1 pt-2 pl-2 no-gutters">
 
