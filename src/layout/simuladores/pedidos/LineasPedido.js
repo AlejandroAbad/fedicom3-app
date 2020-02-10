@@ -35,7 +35,6 @@ const LineasPedido = (props) => {
 	}
 
 	const lineaActualizada = (posicion, nuevaLinea) => {
-		console.log('UPDATE', posicion, nuevaLinea)
 		let nuevasLineas = clone(lineas)
 		nuevasLineas[posicion] = nuevaLinea
 		setLineas(nuevasLineas)
@@ -133,8 +132,6 @@ const Linea = ({ linea, posicion, onEliminar, onActualizar }) => {
 	const refServicioDemorado = useRef()
 
 	const actualizar = (e) => {
-
-		console.log(refServicioDemorado)
 		
 		let nuevosDatos = {
 			codigoArticulo: refCodigoArticulo.current.value,
