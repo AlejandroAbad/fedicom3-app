@@ -37,6 +37,7 @@ const generarTramaPedido = (valores) => {
 	if (pedido.direccionEnvio === "") delete pedido.direccionEnvio;
 	if (pedido.observaciones === "") delete pedido.observaciones;
 	if (pedido.aplazamiento === "") delete pedido.aplazamiento;
+	else if (pedido.aplazamiento != null) pedido.aplazamiento = parseInt(pedido.aplazamiento)
 
 	pedido.lineas.forEach( (linea) => {
 		if (linea.cantidad === "") delete linea.cantidad;
