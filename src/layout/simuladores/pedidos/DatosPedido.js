@@ -36,11 +36,24 @@ const DatosPedido = (props) => {
 		</Row>
 
 	)
-
-
 }
 
-const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => {
+const getNotaCodigoCliente = (dominio) => {
+	switch (dominio) {
+		case 'FEDICOM': return 'Los programas de farmacia utilizan códigos de cliente cortos (p.e: 117, 4607)'
+		case 'transfer_laboratorio': return 'Los laboratorios utilizan códigos de cliente cortos (p.e: 117, 4607)'
+		case 'empleado': return 'La APP del empleado utiliza el código del empleado precedido de 001990 (p.e: 0019909710, 0019901578)'
+		case 'FMAS': return 'Los pedidos de FMAS se realizan con los códigos de cliente completos de 10 dígitos (p.e: 0010101879)'
+		default:
+			return null;
+	}
+}
+
+const DatosBasicosPedido = ({ watch, setValue, register, /*errors,*/ valorActual }) => {
+
+
+	let dominio = watch('auth.dominio')
+
 
 	let codigoClienteInicial = valorActual?.codigoCliente ?? ""
 	let tipoPedidoInicial = valorActual?.tipoPedido ?? ""
@@ -49,6 +62,9 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 	const [codigoCliente, setCodigoCliente] = useState(codigoClienteInicial)
 	const [tipoPedido, setTipoPedido] = useState(tipoPedidoInicial)
 	const [almacen, setAlmacen] = useState(almacenInicial)
+
+	let notaCodigoCliente = getNotaCodigoCliente(dominio)
+
 
 
 
@@ -72,8 +88,9 @@ const DatosBasicosPedido = ({ setValue, register, /*errors,*/ valorActual }) => 
 			<Col md={4} lg={3}>
 				<Form.Control size="sm" type="text" className="text-center" defaultValue={codigoCliente} onBlur={e => setCodigoCliente(e.target.value)} />
 			</Col>
-			{<Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
-				<small>Nota: Los transfers utilizan códigos de cliente cortos (p.e: 117, 4607)</small>
+			{notaCodigoCliente &&
+			 <Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
+				<small>Nota: {notaCodigoCliente}</small>
 			</Form.Label>}
 		</Form.Group>
 		<Form.Group as={Row} className="align-items-center">
