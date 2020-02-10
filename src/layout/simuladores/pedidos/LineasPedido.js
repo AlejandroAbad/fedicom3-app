@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import clone from 'clone'
 import Icono from 'componentes/icono/Icono'
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap'
@@ -34,10 +34,17 @@ const LineasPedido = (props) => {
 		setLineas(lineas.filter((e, i) => (i !== posicion)))
 	}
 
+	const lineaActualizada = (posicion, nuevaLinea) => {
+		console.log('UPDATE', posicion, nuevaLinea)
+		let nuevasLineas = clone(lineas)
+		nuevasLineas[posicion] = nuevaLinea
+		setLineas(nuevasLineas)
+	}
+
 	return <>
 		<CreadorLineas onLineaCreada={agregarLinea} />
 		{lineas.length > 0 ?
-			lineas.map((linea, i) => { return (<Linea key={i} linea={linea} posicion={i} onEliminar={eliminarLinea} />) })
+			lineas.map((linea, i) => { return (<Linea key={i} linea={linea} posicion={i} onEliminar={eliminarLinea} onActualizar={lineaActualizada} />) })
 			:
 			<Alert variant="secondary mt-2">
 				<Alert.Heading>No se han definido posiciones</Alert.Heading>
@@ -116,29 +123,53 @@ const CreadorLineas = ({ onLineaCreada }) => {
 }
 
 
-const Linea = ({ linea, posicion, onEliminar }) => {
+const Linea = ({ linea, posicion, onEliminar, onActualizar }) => {
+
+	const refCodigoArticulo = useRef()
+	const refCantidad = useRef()
+	const refCantidadBonificacion = useRef()
+	const refValeEstupefaciente = useRef()
+	const refDescuentoPorcentaje = useRef()
+	const refServicioDemorado = useRef()
+
+	const actualizar = (e) => {
+
+		console.log(refServicioDemorado)
+		
+		let nuevosDatos = {
+			codigoArticulo: refCodigoArticulo.current.value,
+			cantidad: refCantidad.current.value,
+			cantidadBonificacion: refCantidadBonificacion.current.value,
+			valeEstupefaciente: refValeEstupefaciente.current.value,
+			descuentoPorcentaje: refDescuentoPorcentaje.current.value,
+			servicioDemorado: refServicioDemorado.current.checked
+		}
+
+		onActualizar(posicion, nuevosDatos)
+		
+	}
 
 	return (
 		<Row className="border rounded-bottom pb-1 pt-2 pl-2 no-gutters">
 
 			<Col sm={6} md={3} lg={2}>
-				<Form.Control value={linea.codigoArticulo} size="sm" type="text" className="text-center" onChange={() => { }} />
+				<Form.Control defaultValue={linea.codigoArticulo} ref={refCodigoArticulo} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={3} md={2} lg={2}>
-				<Form.Control value={linea.cantidad} size="sm" type="text" className="text-center" onChange={() => { }} />
+				<Form.Control defaultValue={linea.cantidad} ref={refCantidad} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={3} md={2} lg={2}>
-				<Form.Control value={linea.cantidadBonificacion} size="sm" type="text" className="text-center" onChange={() => { }} />
+				<Form.Control defaultValue={linea.cantidadBonificacion} ref={refCantidadBonificacion} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={6} md={3} lg={2}>
-				<Form.Control value={linea.valeEstupefaciente} size="sm" type="text" className="text-center" onChange={() => { }} />
+				<Form.Control defaultValue={linea.valeEstupefaciente} ref={refValeEstupefaciente} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={3} md={1} lg={2}>
-				<Form.Control value={linea.descuentoPorcentaje} size="sm" type="text" className="text-center" onChange={() => { }} />
+				<Form.Control defaultValue={linea.descuentoPorcentaje} ref={refDescuentoPorcentaje} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={3} md={1} lg={1} className="text-center">
 				<small>
-					<Form.Check custom disabled checked={linea.servicioDemorado} type="checkbox" label={<span className="d-md-none pt-2">Demorado</span>} id={`demorados-${posicion}`} className="pt-1" />
+					<Form.Check custom defaultChecked={linea.servicioDemorado} ref={refServicioDemorado}  type="checkbox" label={<span className="d-md-none pt-2">Demorado</span>} id={`demorados-${posicion}`} className="pt-1" onChange={actualizar} />
 				</small>
 			</Col>
 
