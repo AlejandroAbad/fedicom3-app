@@ -5,13 +5,14 @@ import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc } from 
 import { IoIosApps } from 'react-icons/io'
 import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
-const PRODUCCION = true
+const PRODUCCION = process.env.REACT_APP_F3_PRODUCCION === "true" ? true : false;
+const BASE_URL = process.env.REACT_APP_F3_BASEURL
 
 const K = {
     PRODUCCION: PRODUCCION,
     DESTINOS: {
-        CORE: PRODUCCION ? 'https://fedicom3.hefame.es' : 'https://fedicom3-dev.hefame.es',
-        MONITOR: PRODUCCION ? 'https://f3san.hefame.es:8443' : 'https://f3dev.hefame.es:8443'
+        CORE: BASE_URL,
+        MONITOR: BASE_URL + '/monitor'
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
