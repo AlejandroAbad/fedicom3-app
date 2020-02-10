@@ -8,6 +8,7 @@ import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 const PRODUCCION = process.env.REACT_APP_F3_PRODUCCION === "true" ? true : false;
 const BASE_URL = process.env.REACT_APP_F3_BASEURL
 
+
 const K = {
     PRODUCCION: PRODUCCION,
     DESTINOS: {

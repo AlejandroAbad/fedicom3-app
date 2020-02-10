@@ -6,9 +6,9 @@ import './BarraNavegacionSuperior.scss';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { GoDashboard, GoDatabase, GoRocket, GoPulse, GoGraph, GoGitMerge, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
-import { FaPaperPlane, FaMeteor, FaFlask, FaQuora } from 'react-icons/fa'
-import { IoMdPlanet } from 'react-icons/io'
+import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
+import { FaPaperPlane, FaFlask } from 'react-icons/fa'
+//import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
 
 
@@ -17,10 +17,13 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
 
     expandirEn = expandirEn || 'md';
 
+    let temaBarra = "BarraSuperior bg-dark-soft"
+    let titulo = <b>Fedicom 3</b>
+
     if (!jwt) {
         return (
-            <Navbar className="BarraSuperior" collapseOnSelect expand={expandirEn} bg="light" variant="light" fixed="top">
-                <Navbar.Brand ><b>Fedicom 3</b></Navbar.Brand>
+            <Navbar className={temaBarra} collapseOnSelect expand={expandirEn} variant="light" fixed="top">
+                <Navbar.Brand >{titulo}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="barraSuperior-navegador" />
                 <Navbar.Collapse id="barraSuperior-navegador" >
                     <Nav className="ml-auto">
@@ -33,8 +36,8 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
     }
 
     return (
-        <Navbar className="BarraSuperior" collapseOnSelect expand={expandirEn} bg="light" variant="light" fixed="top">
-            <Navbar.Brand ><b>Fedicom 3</b></Navbar.Brand>
+        <Navbar className={temaBarra} collapseOnSelect expand={expandirEn} variant="light" fixed="top">
+            <Navbar.Brand >{titulo}</Navbar.Brand>
             <Navbar.Toggle aria-controls="barraSuperior-navegador" />
             <Navbar.Collapse id="barraSuperior-navegador" >
                 <Nav className="mr-auto ml-10" >

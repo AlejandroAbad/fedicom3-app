@@ -11,13 +11,25 @@ const BootstrapMedia = () => {
     // Nunca vamos a mostrar el elemento en producción
     if (K.PRODUCCION) return null;
 
+    let cartelDesarrollo = <code className="ml-2 font-weight-bold">ENTORNO DE DESARROLLO</code>
+
     return (
         <div className="BootstrapMedia">
-            <Badge variant='primary' className='d-inline-block d-sm-none'>XS</Badge>
-            <Badge variant='secondary' className='d-none d-sm-inline-block d-md-none'>SM</Badge>
-            <Badge variant='success' className='d-none d-md-inline-block d-lg-none'>MD</Badge>
-            <Badge variant='warning' className='d-none d-lg-inline-block d-xl-none'>LG</Badge>
-            <Badge variant='danger' className='d-none d-xl-inline-block'>XL</Badge>
+            <div className='d-inline-block d-sm-none text-monospace'>
+                <Badge variant='primary'>XS</Badge>{cartelDesarrollo}
+            </div>
+            <div className='d-none d-sm-inline-block d-md-none text-monospace'>
+                <Badge variant='secondary'>SM</Badge>{cartelDesarrollo}
+            </div>
+            <div className='d-none d-md-inline-block d-lg-none text-monospace'>
+                <Badge variant='success'>MD</Badge>{cartelDesarrollo}
+            </div >
+            <div className='d-none d-lg-inline-block d-xl-none text-monospace'>
+                <Badge variant='warning'>LG</Badge>{cartelDesarrollo}
+            </div >
+            <div className='d-none d-xl-inline-block text-monospace'>
+                <Badge variant='danger'>XL</Badge>{cartelDesarrollo}
+            </div >
         </div>
     );
 }
