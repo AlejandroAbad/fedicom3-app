@@ -1,7 +1,5 @@
 import K from 'K';
-
 import React from 'react';
-import { Badge } from 'react-bootstrap';
 
 
 import './BootstrapMedia.scss';
@@ -11,24 +9,27 @@ const BootstrapMedia = () => {
     // Nunca vamos a mostrar el elemento en producción
     if (K.PRODUCCION) return null;
 
-    let cartelDesarrollo = <code className="ml-2 font-weight-bold">ENTORNO DE DESARROLLO</code>
+    let cartelDesarrollo = <>
+        <code className="ml-2 font-weight-bold text-reset">ENTORNO DE DESARROLLO</code>
+        <br /><small className="text-muted"><small>{K.DESTINOS.CORE}</small></small>
+    </>
 
     return (
-        <div className="BootstrapMedia">
+        <div className="BootstrapMedia text-center" style={{lineHeight: '10px'}}>
             <div className='d-inline-block d-sm-none text-monospace'>
-                <Badge variant='primary'>XS</Badge>{cartelDesarrollo}
+                <code className='text-monospace text-primary'>XS</code>{cartelDesarrollo}
             </div>
             <div className='d-none d-sm-inline-block d-md-none text-monospace'>
-                <Badge variant='secondary'>SM</Badge>{cartelDesarrollo}
+                <code className='text-monospace text-secondary'>SM</code>{cartelDesarrollo}
             </div>
             <div className='d-none d-md-inline-block d-lg-none text-monospace'>
-                <Badge variant='success'>MD</Badge>{cartelDesarrollo}
+                <code className='text-monospace text-success'>MD</code>{cartelDesarrollo}
             </div >
             <div className='d-none d-lg-inline-block d-xl-none text-monospace'>
-                <Badge variant='warning'>LG</Badge>{cartelDesarrollo}
+                <code className='text-monospace text-warning'>LG</code>{cartelDesarrollo}
             </div >
             <div className='d-none d-xl-inline-block text-monospace'>
-                <Badge variant='danger'>XL</Badge>{cartelDesarrollo}
+                <code className='text-monospace text-danger'>XL</code>{cartelDesarrollo}
             </div >
         </div>
     );
