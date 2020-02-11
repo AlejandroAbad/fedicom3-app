@@ -21,7 +21,6 @@ const DepuradorAPI = ({ id, query, resultado, onQueryChanged, ...props }) => {
 
     const { cargando, datos, error, respuesta } = resultado
 
-    console.log(respuesta)
     let estado = null
     if (cargando)
         estado = <ProgressBar animated now={100} label="Cargando ..." className="my-3" />
