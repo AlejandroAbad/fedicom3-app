@@ -106,7 +106,9 @@ const K = {
 
         19001: { codigo: 19001, filtrable: false, titulo: 'RTX OK', descripcion: 'Retransmisión lanzada con éxito', variante: 'success'},
         19002: { codigo: 19002, filtrable: false, titulo: 'RTX IMPONSIBLE', descripcion: 'El estado de la transmisión original no permite la retransmisión de la misma', variante: 'warning' },
-        19003: { codigo: 19003, filtrable: false, titulo: 'RTX SIN FORZAR', descripcion: 'El estado de la transmisión original no permite la retransmisión de la misma salvo que se fuerce la retransmisión', variante: 'primary' }
+        19003: { codigo: 19003, filtrable: false, titulo: 'RTX SIN FORZAR', descripcion: 'El estado de la transmisión original no permite la retransmisión de la misma salvo que se fuerce la retransmisión', variante: 'primary' },
+
+        29000: { codigo: 29000, filtrable: false, titulo: 'PARCIAL', descripcion: 'Alguna líneas eran incorrectas, por lo que se realizó una devolución parcial', variante: 'primary' }
     },
     TIPOS_TRANSMISION: {
         999: { codigo: 999, filtrable: true, titulo: 'Inválido', descripcion: 'Transmisión de tipo desconocido', variante: 'danger' },

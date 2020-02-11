@@ -8,7 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
 import { FaPaperPlane, FaFlask } from 'react-icons/fa'
-//import { IoMdPlanet } from 'react-icons/io'
+import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
 
 
@@ -51,8 +51,8 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                     {!K.PRODUCCION &&
                         <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
                             <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />
-                            {/*<BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />
-                            <BotonNavegacion enlace="/simulador/consultas" icono={FaQuora} titulo="Consultas" />
+                            <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />
+                        {/*<BotonNavegacion enlace="/simulador/consultas" icono={FaQuora} titulo="Consultas" />
                             <BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
                         </BotonNavegacion>
                     }

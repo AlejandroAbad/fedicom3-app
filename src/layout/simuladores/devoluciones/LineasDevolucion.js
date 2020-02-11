@@ -6,10 +6,7 @@ import { useForm } from 'react-hook-form'
 import { GoPlus, GoTrashcan } from 'react-icons/go'
 
 
-
-
-
-const LineasPedido = (props) => {
+const LineasDevolucion = (props) => {
 	const { setValue, register, /*errors,*/ valorActual } = props
 
 	let valorInicial = valorActual?.lineas ?? []
@@ -41,7 +38,9 @@ const LineasPedido = (props) => {
 	}
 
 	return <>
+		
 		<h5 className="mt-2">Posiciones</h5>
+		
 		<CreadorLineas onLineaCreada={agregarLinea} />
 		{lineas.length > 0 ?
 			lineas.map((linea, i) => { return (<Linea key={i} linea={linea} posicion={i} onEliminar={eliminarLinea} onActualizar={lineaActualizada} />) })
@@ -66,6 +65,9 @@ const CreadorLineas = ({ onLineaCreada }) => {
 	return (
 		<>
 			<Row className="border rounded-top pb-1 pt-2 pl-2 d-none d-md-flex no-gutters">
+				<Col sm={3} md={1} lg={1} className="text-center">
+					<small>codigoMotivo</small>
+				</Col>
 				<Col sm={6} md={3} lg={2} className="text-center">
 					<small>Artículo</small>
 				</Col>
@@ -73,42 +75,51 @@ const CreadorLineas = ({ onLineaCreada }) => {
 					<small>Cantidad</small>
 				</Col>
 				<Col sm={3} md={2} lg={2} className="text-center">
-					<small>Bonificado</small>
+					<small>numeroAlbaran</small>
 				</Col>
 				<Col sm={6} md={3} lg={2} className="text-center">
-					<small>Vale estupe</small>
+					<small>fechaAlbaran</small>
 				</Col>
 				<Col sm={3} md={1} lg={2} className="text-center">
-					<small>%<span className="d-none d-lg-inline"> Descuento</span></small>
+					<small>lote</small>
 				</Col>
 				<Col sm={3} md={1} lg={1} className="text-center">
-					<small>Demora</small>
+					<small>fechaCaducidad</small>
 				</Col>
+				<Col sm={3} md={1} lg={1} className="text-center">
+					<small>estupe</small>
+				</Col>
+
 
 			</Row>
 
 			<Row className="border rounded-bottom pb-1 pt-2 pl-2 no-gutters bg-success-soft">
 
-				<Col sm={6} md={3} lg={2}>
-					<Form.Control name="codigoArticulo" size="sm" type="text" placeholder="Artículo" className="text-center" ref={register} />
-				</Col>
-				<Col sm={3} md={2} lg={2}>
-					<Form.Control name="cantidad" size="sm" type="text" placeholder="Cant." className="text-center" ref={register} />
-				</Col>
-				<Col sm={3} md={2} lg={2}>
-					<Form.Control name="cantidadBonificacion" size="sm" type="text" placeholder="Bonif." className="text-center" ref={register} />
+				<Col sm={3} md={1} lg={2}>
+					<Form.Control name="codigoMotivo" size="sm" type="text" placeholder="codigoMotivo" className="text-center" ref={register} />
 				</Col>
 				<Col sm={6} md={3} lg={2}>
-					<Form.Control name="valeEstupefaciente" size="sm" type="text" placeholder="Estupe" className="text-center" ref={register} />
+					<Form.Control name="codigoArticulo" size="sm" type="text" placeholder="codigoArticulo" className="text-center" ref={register} />
+				</Col>
+				<Col sm={3} md={2} lg={2}>
+					<Form.Control name="cantidad" size="sm" type="text" placeholder="cantidad" className="text-center" ref={register} />
+				</Col>
+				<Col sm={3} md={2} lg={2}>
+					<Form.Control name="numeroAlbaran" size="sm" type="text" placeholder="numeroAlbaran" className="text-center" ref={register} />
+				</Col>
+				<Col sm={6} md={3} lg={2}>
+					<Form.Control name="fechaAlbaran" size="sm" type="text" placeholder="fechaAlbaran" className="text-center" ref={register} />
 				</Col>
 				<Col sm={3} md={1} lg={2}>
-					<Form.Control name="descuentoPorcentaje" size="sm" type="text" placeholder="%" className="text-center" ref={register} />
+					<Form.Control name="lote" size="sm" type="text" placeholder="lote" className="text-center" ref={register} />
 				</Col>
-				<Col sm={3} md={1} lg={1} className="text-center">
-					<small>
-						<Form.Check custom name="servicioDemorado" type="checkbox" label={<span className="d-md-none pt-2">Demorado</span>} id={`demorados`} className="pt-1" ref={register} />
-					</small>
+				<Col sm={3} md={1} lg={2}>
+					<Form.Control name="fechaCaducidad" size="sm" type="text" placeholder="fechaCaducidad" className="text-center" ref={register} />
 				</Col>
+				<Col sm={3} md={1} lg={2}>
+					<Form.Control name="valeEstupefaciente" size="sm" type="text" placeholder="valeEstupefaciente" className="text-center" ref={register} />
+				</Col>
+
 
 				<Col md={12} lg={1} className="text-center  mt-2 mt-lg-0">
 					<Button size="sm" variant='success' onClick={handleSubmit(crearLinea)}>
@@ -125,22 +136,28 @@ const CreadorLineas = ({ onLineaCreada }) => {
 
 const Linea = ({ linea, posicion, onEliminar, onActualizar }) => {
 
+	const refCodigoMotivo = useRef()
 	const refCodigoArticulo = useRef()
 	const refCantidad = useRef()
-	const refCantidadBonificacion = useRef()
+	const refNumeroAlbaran = useRef()
+	
+	const refFechaAlbaran = useRef()
+	const refLote = useRef()
+	const refFechaCaducidad = useRef()
+
 	const refValeEstupefaciente = useRef()
-	const refDescuentoPorcentaje = useRef()
-	const refServicioDemorado = useRef()
 
 	const actualizar = (e) => {
 		
 		let nuevosDatos = {
+			codigoMotivo: refCodigoMotivo.current.value,
 			codigoArticulo: refCodigoArticulo.current.value,
 			cantidad: refCantidad.current.value,
-			cantidadBonificacion: refCantidadBonificacion.current.value,
-			valeEstupefaciente: refValeEstupefaciente.current.value,
-			descuentoPorcentaje: refDescuentoPorcentaje.current.value,
-			servicioDemorado: refServicioDemorado.current.checked
+			numeroAlbaran: refNumeroAlbaran.current.value,
+			fechaAlbaran: refFechaAlbaran.current.value,
+			lote: refLote.current.value,
+			fechaCaducidad: refFechaCaducidad.current.value,
+			valeEstupefaciente: refValeEstupefaciente.current.value
 		}
 
 		onActualizar(posicion, nuevosDatos)
@@ -149,7 +166,9 @@ const Linea = ({ linea, posicion, onEliminar, onActualizar }) => {
 
 	return (
 		<Row className="border rounded-bottom pb-1 pt-2 pl-2 no-gutters">
-
+			<Col sm={6} md={3} lg={2}>
+				<Form.Control defaultValue={linea.codigoMotivo} ref={refCodigoMotivo} size="sm" type="text" className="text-center" onBlur={actualizar} />
+			</Col>
 			<Col sm={6} md={3} lg={2}>
 				<Form.Control defaultValue={linea.codigoArticulo} ref={refCodigoArticulo} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
@@ -157,19 +176,21 @@ const Linea = ({ linea, posicion, onEliminar, onActualizar }) => {
 				<Form.Control defaultValue={linea.cantidad} ref={refCantidad} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={3} md={2} lg={2}>
-				<Form.Control defaultValue={linea.cantidadBonificacion} ref={refCantidadBonificacion} size="sm" type="text" className="text-center" onBlur={actualizar} />
+				<Form.Control defaultValue={linea.numeroAlbaran} ref={refNumeroAlbaran} size="sm" type="text" className="text-center" onBlur={actualizar} />
+			</Col>
+			<Col sm={3} md={1} lg={2}>
+				<Form.Control defaultValue={linea.fechaAlbaran} ref={refFechaAlbaran} size="sm" type="text" className="text-center" onBlur={actualizar} />
+			</Col>
+			<Col sm={3} md={1} lg={2}>
+				<Form.Control defaultValue={linea.lote} ref={refLote} size="sm" type="text" className="text-center" onBlur={actualizar} />
+			</Col>
+			<Col sm={3} md={1} lg={2}>
+				<Form.Control defaultValue={linea.fechaCaducidad} ref={refFechaCaducidad} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
 			<Col sm={6} md={3} lg={2}>
 				<Form.Control defaultValue={linea.valeEstupefaciente} ref={refValeEstupefaciente} size="sm" type="text" className="text-center" onBlur={actualizar} />
 			</Col>
-			<Col sm={3} md={1} lg={2}>
-				<Form.Control defaultValue={linea.descuentoPorcentaje} ref={refDescuentoPorcentaje} size="sm" type="text" className="text-center" onBlur={actualizar} />
-			</Col>
-			<Col sm={3} md={1} lg={1} className="text-center">
-				<small>
-					<Form.Check custom defaultChecked={linea.servicioDemorado} ref={refServicioDemorado}  type="checkbox" label={<span className="d-md-none pt-2">Demorado</span>} id={`demorados-${posicion}`} className="pt-1" onChange={actualizar} />
-				</small>
-			</Col>
+
 
 			<Col md={12} lg={1} className="text-center  mt-2 mt-lg-0">
 				<Button size="sm" variant='danger' onClick={() => onEliminar(posicion)}>
@@ -185,4 +206,4 @@ const Linea = ({ linea, posicion, onEliminar, onActualizar }) => {
 
 
 
-export default LineasPedido
+export default LineasDevolucion

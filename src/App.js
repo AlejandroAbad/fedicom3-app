@@ -21,6 +21,7 @@ import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
 import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
 import SimuladorPedidos from 'layout/simuladores/pedidos/SimuladorPedidos';
 import K from 'K';
+import SimuladorDevoluciones from 'layout/simuladores/devoluciones/SimuladorDevoluciones';
 
 
 const App = () => {
@@ -48,6 +49,12 @@ const App = () => {
             path="/simulador/pedidos"
             render={(props) => <SimuladorPedidos {...props} jwt={jwt} />} />
         }
+        {!K.PRODUCCION &&
+          <Route
+            path="/simulador/devoluciones"
+            render={(props) => <SimuladorDevoluciones {...props} jwt={jwt} />} />
+        }
+
         <Route
           path="/estado/procesos"
           render={(props) => <EstadoProcesos {...props} jwt={jwt} />} />
