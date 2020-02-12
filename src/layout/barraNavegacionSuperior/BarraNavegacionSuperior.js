@@ -6,7 +6,7 @@ import './BarraNavegacionSuperior.scss';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson } from 'react-icons/go';
+import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson, GoGitMerge } from 'react-icons/go';
 import { FaPaperPlane, FaFlask } from 'react-icons/fa'
 import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
@@ -45,7 +45,7 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                     <BotonNavegacion icono={GoDashboard} titulo="Estado" esconderEn={expandirEn} mostrarEn="xl" >
                         {/*<BotonNavegacion enlace="/status/mongodb" icono={GoDatabase} titulo="Base de datos" />*/}
                         <BotonNavegacion enlace="/estado/procesos" icono={GoPulse} titulo="Procesos" />
-                        {/*<BotonNavegacion enlace="/status/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />*/}
+                        {<BotonNavegacion enlace="/estado/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />}
                         {/*<BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />*/}
                     </BotonNavegacion>
                     {!K.PRODUCCION &&
