@@ -100,7 +100,7 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 		<h3 className="text-uppercase mb-0">{servidor}
 			<LinkContainer to="/estado/balanceadores" className="float-right">
 				<Button size="sm" variant="outline-dark" className="pt-2 pb-1" >
-					<Icono icono={TiArrowBack} posicion={[28, 4]}/>
+					<Icono icono={TiArrowBack} posicion={[28, 4]} />
 					Volver
 				</Button>
 			</LinkContainer>
@@ -108,14 +108,14 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 
 		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">https://{servidor}.hefame.es</span></span>
 		<hr />
-		{Object.values(resultado?.datos?.data).map((b, i) => <Balanceador key={i} balanceador={b} onWorkerStart={workerStart} onWorkerStandBy={workerStandBy} />)}
+		{Object.values(resultado?.datos?.data).map((b, i) => <Balanceador key={i} balanceador={b} jwt={jwt} onWorkerStart={workerStart} onWorkerStandBy={workerStandBy} />)}
 
 	</Container>
 
 
 }
 
-const Balanceador = ({ balanceador, onWorkerStart, onWorkerStandBy }) => {
+const Balanceador = ({ jwt, balanceador, onWorkerStart, onWorkerStandBy }) => {
 	const workerStart = (worker, flag) => {
 		onWorkerStart(balanceador.nombre, worker, balanceador.nonce, flag)
 	}
@@ -132,7 +132,7 @@ const Balanceador = ({ balanceador, onWorkerStart, onWorkerStandBy }) => {
 
 		</Col>
 		<Col sm={9}>
-			{balanceador.workers.map((w, i) => <Worker key={i} worker={w} onStart={workerStart} onStandBy={workerStandBy} />)}
+			{balanceador.workers.map((w, i) => <Worker key={i} worker={w} jwt={jwt} onStart={workerStart} onStandBy={workerStandBy} />)}
 		</Col>
 	</Row>
 }
@@ -147,7 +147,7 @@ const WORKER_FLAGS = {
 	error: { variant: 'danger', icono: FaExclamation, texto: 'Error' }
 }
 
-const Worker = ({ worker, onStart, onStandBy }) => {
+const Worker = ({ jwt, worker, onStart, onStandBy }) => {
 
 	let flags = []
 	let i = 0;
@@ -179,18 +179,20 @@ const Worker = ({ worker, onStart, onStandBy }) => {
 		<Alert variant={variant} className="text-reset">
 			<Col xs={12}>
 				<span className="text-monospace font-weight-bold">{worker.nombre}</span>
-				<Dropdown className="float-right">
-					<Dropdown.Toggle variant="light" size="sm">
-						<Icono icono={FaCog} posicion={[18, 3]} /> Acciones
+				{(jwt?.data?.perms?.includes("FED3_BALANCEADOR")) &&
+					<Dropdown className="float-right">
+						<Dropdown.Toggle variant="light" size="sm">
+							<Icono icono={FaCog} posicion={[18, 3]} /> Acciones
   					</Dropdown.Toggle>
 
-					<Dropdown.Menu>
-						{worker.estado.parado && <Dropdown.Item href="#" className="text-success" onClick={() => onStart(worker.nombre, true)}><Icono icono={FaPlay} posicion={[18, 3]} /> Activar</Dropdown.Item>}
-						{!worker.estado.parado && <Dropdown.Item href="#" className="text-danger" onClick={() => onStart(worker.nombre, false)}><Icono icono={FaStop} posicion={[18, 3]} /> Detener</Dropdown.Item>}
-						{worker.estado.standby && <Dropdown.Item href="#" className="text-success" onClick={() => onStandBy(worker.nombre, false)}><Icono icono={MdAlarmOn} posicion={[20, 1]} /> Quitar StandBy</Dropdown.Item>}
-						{!worker.estado.standby && <Dropdown.Item href="#" onClick={() => onStandBy(worker.nombre, true)}><Icono icono={MdSnooze} posicion={[20, 1]} /> Poner en StandBy</Dropdown.Item>}
-					</Dropdown.Menu>
-				</Dropdown>
+						<Dropdown.Menu>
+							{worker.estado.parado && <Dropdown.Item href="#" className="text-success" onClick={() => onStart(worker.nombre, true)}><Icono icono={FaPlay} posicion={[18, 3]} /> Activar</Dropdown.Item>}
+							{!worker.estado.parado && <Dropdown.Item href="#" className="text-danger" onClick={() => onStart(worker.nombre, false)}><Icono icono={FaStop} posicion={[18, 3]} /> Detener</Dropdown.Item>}
+							{worker.estado.standby && <Dropdown.Item href="#" className="text-success" onClick={() => onStandBy(worker.nombre, false)}><Icono icono={MdAlarmOn} posicion={[20, 1]} /> Quitar StandBy</Dropdown.Item>}
+							{!worker.estado.standby && <Dropdown.Item href="#" onClick={() => onStandBy(worker.nombre, true)}><Icono icono={MdSnooze} posicion={[20, 1]} /> Poner en StandBy</Dropdown.Item>}
+						</Dropdown.Menu>
+					</Dropdown>
+				}
 			</Col>
 			<Col xs={12}>
 				{flags}&nbsp;
