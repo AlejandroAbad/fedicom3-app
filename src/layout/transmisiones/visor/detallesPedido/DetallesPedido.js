@@ -160,10 +160,23 @@ const SeccionNumPedSAP = ({ tx }) => {
 		})
 
 		if (tx.numeroPedidoAgrupado) {
-			valorNumerosPedidoSAP = (<>
-				{valorNumerosPedidoSAP}<br />
-				<code className="text-secondary">Agrupando sobre <span variant='light'>{tx.numeroPedidoAgrupado}</span></code>
-			</>)
+			if (tx.numerosPedidoSAP?.length > 1) {
+				valorNumerosPedidoSAP = (<>
+					{valorNumerosPedidoSAP}<br />
+					<code className="text-secondary">Agrupando sobre <span variant='light'>{tx.numeroPedidoAgrupado}</span></code>
+				</>)
+			} else {
+				if (tx.numerosPedidoSAP?.includes(tx.numeroPedidoAgrupado)) {
+					valorNumerosPedidoSAP = (<>
+						Agrupando {valorNumerosPedidoSAP}<br />
+					</>)
+				} else {
+					valorNumerosPedidoSAP = (<>
+						{valorNumerosPedidoSAP}<br />
+						<code className="text-secondary">Agrupando sobre <span variant='light'>{tx.numeroPedidoAgrupado}</span></code>
+					</>)
+				}
+			}
 		}
 	} else if (tx.numeroPedidoAgrupado) {
 		valorNumerosPedidoSAP = <span className="text-monospace">Agrupando sobre <span variant='light'>{tx.numeroPedidoAgrupado}</span></span>
