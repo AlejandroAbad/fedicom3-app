@@ -16,6 +16,9 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 
 	servidor = servidor ?? props?.match?.params?.servidor ?? (new URL(K.DESTINOS.CORE).hostname.split('.')[0])
 
+	// Los servidores f3* son los balanceadores interos de SAP que no 
+	// utilizan HTTPS
+
 
 	const [resultado, setResultado] = useState({ datos: null, error: null, cargando: false })
 
@@ -28,7 +31,12 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 	const ejecutarConsulta = useCallback(() => {
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
 
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?https=no&servidor=' + servidor, { method: 'GET' }, jwt)
+		let https = 'https=si'
+		if (servidor.startsWith('f3')) {
+			https = 'https=no'
+		}
+
+		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?' + https + '&servidor=' + servidor, { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
