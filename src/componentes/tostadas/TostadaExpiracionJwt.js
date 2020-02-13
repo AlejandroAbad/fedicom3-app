@@ -62,4 +62,7 @@ const humanizarSegundos = (segundos) => {
     return  minutos+ ' minuto'+(minutos>1?'s':'');
 }
 
+
+TostadaExpiracionJwt.calculaJwtTTL = calculaJwtTTL;
+
 export default TostadaExpiracionJwt;

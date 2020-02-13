@@ -34,8 +34,12 @@ const App = () => {
 
   let content = null;
 
-  if (!jwt) {
-    content = (<FormularioLogin jwtUpdated={(jwt) => setJwt(jwt)} />);
+
+
+  // Si cuando el usuario entra no hay token o lo hay pero esta caducado o proximo a caducar
+  // mostramos login para refrescar el token
+  if (!jwt || TostadaExpiracionJwt.calculaJwtTTL(jwt) < 60) {
+    content = (<FormularioLogin jwtUpdated={setJwt} />);
   } else {
     content = (
       <Switch>
