@@ -57,6 +57,32 @@ const VARIANTES = {
 		lineas: [
 			{ codigoArticulo: "264662", cantidad: "1" }
 		]
+	},
+	forzarAlmacen: {
+		auth: { usuario: "10100117", dominio: "FEDICOM" },
+		codigoCliente: "117",
+		tipoPedido: "",
+		almacen: "RG01",
+		fechaServicio: null,
+		direccionEnvio: "",
+		observaciones: "Servir por Santomera",
+		lineas: [
+			{ codigoArticulo: "150000", cantidad: "3" },
+			{ codigoArticulo: "170744", cantidad: "1" }
+		]
+	},
+	empleado: {
+		auth: { usuario: "empleado", dominio: "empleado" },
+		codigoCliente: "0019901402",
+		tipoPedido: "",
+		almacen: "",
+		fechaServicio: null,
+		direccionEnvio: "",
+		observaciones: "",
+		lineas: [
+			{ codigoArticulo: "187270", cantidad: "3" },
+			{ codigoArticulo: "182272", cantidad: "1" }
+		]
 	}
 }
 
@@ -74,6 +100,8 @@ const BotonVariantes = ({ establecerVariante }) => {
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.estupe)}>Pedido con estupe</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.fmasonline1)}>Pedido F+Online</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.transferCinfa)}>Transfer CINFA</Dropdown.Item>
+				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.forzarAlmacen)}>Forzar almacén</Dropdown.Item>
+				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.empleado)}>Pedido empleado</Dropdown.Item>
 			</Dropdown.Menu>
 		</Dropdown>
 	)
