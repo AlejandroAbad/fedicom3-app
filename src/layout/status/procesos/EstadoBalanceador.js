@@ -106,7 +106,7 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 			</LinkContainer>
 		</h3>
 
-		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">https://{servidor}.hefame.es</span></span>
+		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">{servidor}.hefame.es</span></span>
 		<hr />
 		{Object.values(resultado?.datos?.data).map((b, i) => <Balanceador key={i} balanceador={b} jwt={jwt} onWorkerStart={workerStart} onWorkerStandBy={workerStandBy} />)}
 
@@ -126,12 +126,13 @@ const Balanceador = ({ jwt, balanceador, onWorkerStart, onWorkerStandBy }) => {
 	}
 
 
-	return <Row className="pb-2 mb-5">
+	return <Row className="pb-2 mb-4 border-bottom">
 		<Col sm={3} >
-			<h5>{balanceador.nombre}</h5>
-
+			<span className="text-monospace">Grupo de balanceo:</span>
+			<h6 className="text-monospace font-weight-bold">{balanceador.nombre}</h6>
 		</Col>
-		<Col sm={9}>
+
+		<Col sm={9} className="border-left">
 			{balanceador.workers.map((w, i) => <Worker key={i} worker={w} jwt={jwt} onStart={workerStart} onStandBy={workerStandBy} />)}
 		</Col>
 	</Row>
@@ -200,8 +201,8 @@ const Worker = ({ jwt, worker, onStart, onStandBy }) => {
 			<Col xs={12}>
 				<Alert variant="light" className="mt-2 mb-0 ml-3 py-1 text-reset text-monospace">
 					<Row>
-						<Col xs={12} md={6}><strong>Peso:</strong> {worker.peso}</Col>
 						<Col xs={12} md={6}><strong>Elegido:</strong> {worker.vecesElegido} veces</Col>
+						<Col xs={12} md={6}><strong>Peso:</strong> {worker.peso}</Col>
 						<Col xs={12} md={6}><strong>Enviado:</strong> {worker.enviado}</Col>
 						<Col xs={12} md={6}><strong>Recibido:</strong> {worker.recibido}</Col>
 					</Row>
