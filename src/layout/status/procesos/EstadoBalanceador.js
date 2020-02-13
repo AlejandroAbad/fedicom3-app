@@ -28,7 +28,7 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 	const ejecutarConsulta = useCallback(() => {
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
 
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?servidor=' + servidor, { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?https=no&servidor=' + servidor, { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
