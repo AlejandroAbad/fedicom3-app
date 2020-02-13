@@ -22,6 +22,7 @@ import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
 import SimuladorPedidos from 'layout/simuladores/pedidos/SimuladorPedidos';
 import K from 'K';
 import SimuladorDevoluciones from 'layout/simuladores/devoluciones/SimuladorDevoluciones';
+import EstadoBalanceador from 'layout/status/procesos/EstadoBalanceador';
 import EstadoBalanceadores from 'layout/status/procesos/EstadoBalanceadores';
 
 
@@ -61,8 +62,16 @@ const App = () => {
           render={(props) => <EstadoProcesos {...props} jwt={jwt} />} />
 
         <Route
+          path="/estado/balanceador/:servidor"
+          render={(props) => <EstadoBalanceador {...props} jwt={jwt} />} />
+        <Route
+          path="/estado/balanceador"
+          render={(props) => <EstadoBalanceador {...props} jwt={jwt} />} />
+
+
+        <Route
           path="/estado/balanceadores"
-          render={(props) => <EstadoBalanceadores {...props} jwt={jwt} servidor="fedicom3-dev"/>} />
+          render={(props) => <EstadoBalanceadores {...props} jwt={jwt} />} />
 
         <Route path="/usuario">
           <h3>Tu JWT</h3>
