@@ -164,7 +164,7 @@ const K = {
         61: { codigo: '61', nombre: 'TEDIFARMA 2', apellidos: 'COFARES', filtrable: true },
         9000: { codigo: '9000', nombre: 'PostMan', filtrable: true },
         9001: { codigo: '9001', nombre: 'SIM REACT', filtrable: true },
-        9002: { codigo: '9002', nombre: 'RERTANSMISOR' },
+        9002: { codigo: '9002', nombre: 'RETRANSMISOR' },
         9100: { codigo: '9100', nombre: 'TRADUCTOR F2', filtrable: true },
         9700: { codigo: '9700', nombre: 'APP EMPLEADO', filtrable: true },
         9800: { codigo: '9800', nombre: 'F+ONLINE', filtrable: true },
