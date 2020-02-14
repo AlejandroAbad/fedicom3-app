@@ -63,9 +63,9 @@ const Flags = ({ flags, formato }) => {
     for (var flag in flags) {
 
         // Evitamos flags redundantes.
-        if (flag === 'retransNoUpd') {
+        /*if (flag === 'retransNoUpd') {
             if (flags.retransUpd || flags.retransUpdWarn || flags.clonado) continue
-        }
+        }*/
         if (flag === 'noSap') {
             if (flags.noFaltas) continue
         }
