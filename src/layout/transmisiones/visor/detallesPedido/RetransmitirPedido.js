@@ -100,7 +100,7 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 		{clonar && <>
 			<Form.Group as={Row} className="align-items-center">
 				<Form.Label column md="4">
-					Almacén destino
+					Almacén de servicio
 				</Form.Label>
 				<Col md="8" >
 					<Form.Control as="select" defaultValue={almacenOriginal} ref={refAlmacen}>
@@ -169,7 +169,7 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 			<Modal size="lg" show={mostrar} onHide={ocultarModal} aria-labelledby="example-modal-sizes-title-lg" >
 				<Modal.Header closeButton>
 					<Modal.Title id="example-modal-sizes-title-lg">
-						Retransmitir
+						Retransmitir pedido
           		</Modal.Title>
 				</Modal.Header>
 				<Modal.Body className="pb-0">
@@ -178,15 +178,15 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 				<Modal.Footer>
 					{!resultado.datos ? <>
 						<Button variant="secondary" onClick={ocultarModal} disabled={resultado.cargando}>
-							<Icono icono={MdClose} posicion={[20, 2]} /> Cancelar
+							<Icono icono={MdClose} posicion={[20, 3]} /> Cancelar
           				</Button>
 						<Button variant="danger" onClick={retransmitirPedido} disabled={resultado.cargando}>
-							<Icono icono={FaRetweet} posicion={[20, 2]} /> Retuitear
+							<Icono icono={FaRetweet} posicion={[20, 3]} /> Retransmitir
           				</Button>
 					</>
 						:
 						<Button variant="primary" onClick={ocultarModal} disabled={resultado.cargando}>
-							<Icono icono={MdClose} posicion={[20, 2]} /> Cerrar
+							<Icono icono={MdClose} posicion={[20, 3]} /> Cerrar
           				</Button>
 					}
 
