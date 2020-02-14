@@ -62,6 +62,11 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 	const actualizarWorker = useCallback((balanceador, worker, nonce, estado, peso) => {
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
 
+		let https = 'https=si'
+		if (servidor.startsWith('f3')) {
+			https = 'https=no'
+		}
+
 		let peticion = {
 			balanceador,
 			worker,
@@ -70,7 +75,7 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 			peso
 		}
 
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?servidor=' + servidor, { method: 'PUT' }, jwt, peticion)
+		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?' + https + '&servidor=' + servidor, { method: 'PUT' }, jwt, peticion)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -104,6 +109,11 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 		</Container>
 	}
 
+	let protocol = 'https'
+	if (servidor.startsWith('f3')) {
+		protocol = 'http'
+	}
+
 	return <Container>
 		<h3 className="text-uppercase mb-0">{servidor}
 			<LinkContainer to="/estado/balanceadores" className="float-right">
@@ -114,7 +124,7 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 			</LinkContainer>
 		</h3>
 
-		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">{servidor}.hefame.es</span></span>
+		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">{protocol}://{servidor}.hefame.es</span></span>
 		<hr />
 		{Object.values(resultado?.datos?.data).map((b, i) => <Balanceador key={i} balanceador={b} jwt={jwt} onWorkerStart={workerStart} onWorkerStandBy={workerStandBy} />)}
 
