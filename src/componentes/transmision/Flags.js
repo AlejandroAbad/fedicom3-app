@@ -52,7 +52,7 @@ export const BadgeFlag = ({ icono, titulo, descripcion, variante, tecnico, forma
 
 }
 
-const Flags = ({ flags, formato, ...props }) => {
+const Flags = ({ flags, formato }) => {
 
     if (!flags) return null;
 
@@ -61,6 +61,16 @@ const Flags = ({ flags, formato, ...props }) => {
     let index = 0;
     let flagBadges = [];
     for (var flag in flags) {
+
+        // Evitamos flags redundantes.
+        if (flag === 'retransNoUpd') {
+            if (flags.retransUpd || flags.retransUpdWarn || flags.clonado) continue
+        }
+        if (flag === 'noSap') {
+            if (flags.noFaltas) continue
+        }
+
+
         let propiedades = K.FLAGS[flag];
         if (flags[flag] === true && propiedades) {
             flagBadges.push(
