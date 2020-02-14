@@ -22,8 +22,8 @@ import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
 import SimuladorPedidos from 'layout/simuladores/pedidos/SimuladorPedidos';
 import K from 'K';
 import SimuladorDevoluciones from 'layout/simuladores/devoluciones/SimuladorDevoluciones';
-import EstadoBalanceador from 'layout/status/procesos/EstadoBalanceador';
-import EstadoBalanceadores from 'layout/status/procesos/EstadoBalanceadores';
+import EstadoBalanceador from 'layout/status/apache/EstadoBalanceador';
+import EstadoBalanceadores from 'layout/status/apache/EstadoBalanceadores';
 
 
 const App = () => {
