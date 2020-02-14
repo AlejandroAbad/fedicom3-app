@@ -13,6 +13,7 @@ import Flags from 'componentes/transmision/Flags';
 import TotalesPedido from 'componentes/transmision/TotalesPedido';
 import AlmacenServicio from 'componentes/transmision/AlmacenServicio';
 import { CodigoCliente, TextoCodigoCliente, UsuarioTransmision } from 'componentes/transmision/CodigoCliente';
+import SistemaSAP from 'componentes/transmision/SistemaSAP';
 
 
 
@@ -30,7 +31,7 @@ const FilaTransmision = (props) => {
             <Row className="border-bottom d-flex no-gutters justify-content-start align-items-start pb-2 pt-2 ">
                 <Col xs={12} sm={6} md={3} lg={2} xl="auto" className="ml-xl-3"><Fecha fecha={tx.createdAt} formato="corto" /></Col>
                 <Col xs={12} sm={6} md={4} lg={3} xl="auto" className="ml-xl-3"><Link to={'/transmisiones/' + tx._id}><code className="text-uppercase">{tx._id}</code></Link></Col>
-                <Col xs={6} sm={6} md={5} lg={2} xl="auto" className="ml-xl-3"><EtiquetaTipo tipo={tx.type} /></Col>
+                <Col xs={6} sm={6} md={5} lg={2} xl="auto" className="ml-xl-3">{SistemaSAP.modificado(tx) && <SistemaSAP transmision={tx} className="mr-1"/>}<EtiquetaTipo tipo={tx.type} /></Col>
                 <Col xs={6} sm={6} md={3} lg={2} xl="auto" className="ml-xl-3"><EtiquetaEstado estado={tx.status} /></Col>
                 <Col xs={6} sm={6} md={3} lg={3} xl="auto" className="ml-xl-3"><IoIosPerson className="text-info" size={18} /><TextoCodigoCliente codigoCliente={user} /></Col>
                 <Col xs={6} sm={6} md={3} lg={2} xl="auto" className="ml-xl-3"><AlmacenServicio transmision={tx} formato="corto" /></Col>
@@ -52,8 +53,10 @@ const FilaTransmision = (props) => {
             </Col>
             <Col lg={2} md={4} sm={6}>
                 <Row className="p-0 m-0 no-gutters text-md-center">
+                    
                     <Col lg={12}><EtiquetaTipo tipo={tx.type} /></Col>
                     <Col lg={12}><EtiquetaEstado estado={tx.status} /></Col>
+                    {SistemaSAP.modificado(tx) && <Col lg={12}><small><strong>Sistema SAP:</strong></small><SistemaSAP transmision={tx} className="ml-1" /></Col>}
                 </Row>
             </Col>
             <Col lg={3} md={4} sm={6}>
@@ -72,7 +75,9 @@ const FilaTransmision = (props) => {
             <Col lg={2} md={8} sm={12}>
                 <Row className="p-0 m-0 no-gutters">
                     <Col lg={12} md={6} sm={6} className="text-md-center" ><TotalesPedido transmision={tx} /></Col>
-                    <Col lg={12} md={6} sm={6} className="text-lg-center"><Flags flags={tx.flags} /></Col>
+                    <Col lg={12} md={6} sm={6} className="text-lg-center">
+                        <Flags flags={tx.flags} />
+                    </Col>
                 </Row>
             </Col>
         </Row>

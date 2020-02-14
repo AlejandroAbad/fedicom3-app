@@ -38,10 +38,10 @@ const LineaRetransmision = ({ rtx }) => {
 
 	// OPCIONES
 	let opciones = []
-	rtx.options?.force && opciones.push(<Badge key={opciones.length} variant="warning ml-1" >Forzado</Badge>)
-	rtx.options?.noActualizarOriginal && opciones.push(<Badge key={opciones.length} variant="secondary ml-1" >Evita actualizar</Badge>)
+	rtx.options?.force && opciones.push(<Badge key={opciones.length} variant="warning ml-1" >Manual</Badge>)
+	rtx.options?.noActualizarOriginal && !rtx.options?.forzarAlmacen && !rtx.options?.sistemaSAP &&  opciones.push(<Badge key={opciones.length} variant="secondary ml-1" >No actualizar</Badge>)
 	rtx.options?.forzarAlmacen && opciones.push(<Badge key={opciones.length} variant="primary ml-1" >Almacén: {rtx.options.forzarAlmacen}</Badge>)
-	rtx.options?.sistemaSAP && opciones.push(<Badge key={opciones.length} variant="info ml-1" >Sistema SAP: {rtx.options.sistemaSAP}</Badge>)
+	rtx.options?.sistemaSAP && opciones.push(<Badge key={opciones.length} variant="dark ml-1" >Sistema SAP: {rtx.options.sistemaSAP}</Badge>)
 
 	// VALORES ACTUALIZADOS
 	let campoCambios = null
@@ -69,8 +69,8 @@ const LineaRetransmision = ({ rtx }) => {
 	} else if (rtx.newValues) {
 		campoCambios = (
 			<>
-				<Col md={6} className="border rounded py-2 px-4 mt-2">
-					<strong className="text-monospace d-block border-bottom">Valores nuevos:</strong>
+				<Col md={12} className="border rounded py-2 px-4 mt-2">
+					<strong className="text-monospace d-block border-bottom">Resultado obtenido:</strong>
 					<ReactJson src={rtx.newValues} {...opcionesJson} />
 				</Col>
 			</>

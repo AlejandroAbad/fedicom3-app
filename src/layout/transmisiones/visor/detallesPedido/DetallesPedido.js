@@ -21,40 +21,40 @@ const DetallesPedido = ({ transmision }) => {
 	let tx = transmision
 
 	return (
-		<Accordion defaultActiveKey="0" className="mt-3">
-			<Card>
-				<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
-					Detalles del pedido
+			<Accordion defaultActiveKey="0" className="mt-3">
+				<Card>
+					<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
+						Detalles del pedido
     			</Accordion.Toggle>
-				<Accordion.Collapse eventKey="0">
-					<Container fluid>
-						<Row className="pt-1">
-							<Col lg={6}>
-								<ListGroup variant="flush" className="border-bottom border-lg-bottom-0">
-									<SeccionCrc tx={tx} />
-									<SeccionNumPedFedicom tx={tx} />
-									<SeccionNumPedOrigen tx={tx} />
-									<SeccionTipoPedido tx={tx} />
-								</ListGroup>
-							</Col>
-							<Col lg={6}>
-								<ListGroup variant="flush">
-									<SecccionUsuario tx={tx} />
-									<SeccionAlmacen tx={tx} />
-									<SeccionNumPedSAP tx={tx} />
-								</ListGroup>
-							</Col>
-						</Row>
-						<SeccionIncidencasCabecera tx={tx} />
-						<SeccionFlags tx={tx} />
-						<SeccionLineas tx={tx} />
-						<SeccionRetransmisiones tx={tx} />
-						<SeccionConfirmaciones tx={tx} />
-						<SeccionDuplicados tx={tx} />
-					</Container>
-				</Accordion.Collapse>
-			</Card>
-		</Accordion>
+					<Accordion.Collapse eventKey="0">
+						<Container fluid>
+							<Row className="pt-1">
+								<Col lg={6}>
+									<ListGroup variant="flush" className="border-bottom border-lg-bottom-0">
+										<SeccionCrc tx={tx} />
+										<SeccionNumPedFedicom tx={tx} />
+										<SeccionNumPedOrigen tx={tx} />
+										<SeccionTipoPedido tx={tx} />
+									</ListGroup>
+								</Col>
+								<Col lg={6}>
+									<ListGroup variant="flush">
+										<SecccionUsuario tx={tx} />
+										<SeccionAlmacen tx={tx} />
+										<SeccionNumPedSAP tx={tx} />
+									</ListGroup>
+								</Col>
+							</Row>
+							<SeccionIncidencasCabecera tx={tx} />
+							<SeccionFlags tx={tx} />
+							<SeccionLineas tx={tx} />
+							<SeccionRetransmisiones tx={tx} />
+							<SeccionConfirmaciones tx={tx} />
+							<SeccionDuplicados tx={tx} />
+						</Container>
+					</Accordion.Collapse>
+				</Card>
+			</Accordion>
 	)
 
 }
@@ -90,7 +90,7 @@ const SeccionTipoPedido = ({ tx }) => {
 		<span className="text-monospace">
 			{tx.clientRequest?.body?.tipoPedido ?? <span className="text-mutted">N/A</span>}<br />
 			<code className="text-secondary">
-				Tipo SAP: {tx.sapResponse?.body?.sap_tipopedido ?? <span className="text-mutted"><i>&lt;vacío&gt;</i></span>} | 
+				Tipo SAP: {tx.sapResponse?.body?.sap_tipopedido ?? <span className="text-mutted"><i>&lt;vacío&gt;</i></span>} |
 				Motivo: {tx.sapResponse?.body?.sap_motivo_pedido || <span className="text-mutted"><i>&lt;vacío&gt;</i></span>}
 			</code>
 		</span>

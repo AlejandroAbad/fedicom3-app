@@ -7,6 +7,14 @@
 	@extend .Etiqueta;
 }
 
+.EtiquetaSistemaSAP {
+	@extend .Etiqueta;
+	font-variant: normal;
+	text-transform: uppercase;
+	
+}
+
+
 .EtiquetaEstado {
 	@extend .Etiqueta;
 }
