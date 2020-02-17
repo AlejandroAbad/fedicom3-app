@@ -9,6 +9,8 @@ import ComponentesHTTP from 'componentes/http/ComponentesHTTP'
 const DetallesRespuestaHttp = ({res}) => {
     if (!res) return null
 
+    console.log(res)
+
     return (
         <Accordion defaultActiveKey="0" className="my-3">
             <Card>
@@ -22,7 +24,7 @@ const DetallesRespuestaHttp = ({res}) => {
                             <ListGroup variant="flush" className="border-bottom border-lg-bottom-0 mt-1 text-monospace">
                                 <ComponentesHTTP.StatusCode res={res} />
                                 <ListGroupItem k={<ReactJson src={res.headers} collapsed name="cabeceras" iconStyle="square" displayDataTypes={false} />} />
-                                <ListGroupItem k={<ReactJson src={res.body} collapsed={1} name="respuesta" iconStyle="square" displayDataTypes={false} />} />
+                                <ListGroupItem k={<ReactJson src={res.body || res.error} collapsed={1} name={res.error ? 'error' : 'respuesta'} iconStyle="square" displayDataTypes={false} />} />
                             </ListGroup>
                         </ListGroup>
                     </Container>
