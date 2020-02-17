@@ -24,6 +24,7 @@ import K from 'K';
 import SimuladorDevoluciones from 'layout/simuladores/devoluciones/SimuladorDevoluciones';
 import EstadoBalanceador from 'layout/status/apache/EstadoBalanceador';
 import EstadoBalanceadores from 'layout/status/apache/EstadoBalanceadores';
+import MD from 'layout/doc/Markdown';
 
 
 const App = () => {
@@ -64,23 +65,31 @@ const App = () => {
         <Route
           path="/estado/procesos"
           render={(props) => <EstadoProcesos {...props} jwt={jwt} />} />
-
         <Route
           path="/estado/balanceador/:servidor"
           render={(props) => <EstadoBalanceador {...props} jwt={jwt} />} />
         <Route
           path="/estado/balanceador"
           render={(props) => <EstadoBalanceador {...props} jwt={jwt} />} />
-
-
         <Route
           path="/estado/balanceadores"
           render={(props) => <EstadoBalanceadores {...props} jwt={jwt} />} />
+
+
+        <Route
+          path="/doc/manual/:md"
+          render={(props) => <MD {...props} jwt={jwt} />} />
+
+        <Route
+          path="/doc"
+          render={(props) => <MD {...props} jwt={jwt} />} />
 
         <Route path="/usuario">
           <h3>Tu JWT</h3>
           <ReactJson src={jwt || {}} />
         </Route>
+
+
 
         <Redirect from="/" to="/transmisiones" />
       </Switch>

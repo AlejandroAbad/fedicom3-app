@@ -7,9 +7,10 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson, GoGitMerge } from 'react-icons/go';
-import { FaPaperPlane, FaFlask } from 'react-icons/fa'
+import { FaPaperPlane, FaFlask, FaBook } from 'react-icons/fa'
 import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
+import { MdSchool } from 'react-icons/md';
 
 
 
@@ -56,6 +57,10 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                             <BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
                         </BotonNavegacion>
                     }
+
+                    <BotonNavegacion icono={MdSchool} titulo="Documentación" esconderEn={expandirEn} mostrarEn="xl" >
+                        <BotonNavegacion enlace="/doc/manual" icono={FaBook} titulo="Manuales" />
+                    </BotonNavegacion>
 
                 </Nav>
                 <Nav>
