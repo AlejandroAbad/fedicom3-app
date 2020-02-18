@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
 import { Link } from 'react-router-dom'
-import { Container, Alert, Spinner, Row, Col } from 'react-bootstrap'
+import { Container, Alert, Spinner, Col } from 'react-bootstrap'
 import './Markdown.scss'
 
 const MD = (props) => {
