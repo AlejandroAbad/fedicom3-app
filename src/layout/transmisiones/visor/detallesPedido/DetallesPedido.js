@@ -14,6 +14,7 @@ import SeccionConfirmaciones from './SeccionConfirmaciones';
 import SeccionIncidencasCabecera from './SeccionIncidencasCabecera';
 import SeccionRetransmisiones from './SeccionRetransmisiones';
 import SeccionLineas from './SeccionLineas';
+import DiagramaEstadoPedido from 'componentes/diagramas/DiagramaEstadoPedido';
 
 
 const DetallesPedido = ({ transmision }) => {
@@ -21,6 +22,8 @@ const DetallesPedido = ({ transmision }) => {
 	let tx = transmision
 
 	return (
+		<>
+			<DiagramaEstadoPedido estado={transmision?.status} />
 			<Accordion defaultActiveKey="0" className="mt-3">
 				<Card>
 					<Accordion.Toggle as={Card.Header} eventKey="0" className="h5">
@@ -55,6 +58,7 @@ const DetallesPedido = ({ transmision }) => {
 					</Accordion.Collapse>
 				</Card>
 			</Accordion>
+		</>
 	)
 
 }
