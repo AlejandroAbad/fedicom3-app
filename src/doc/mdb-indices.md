@@ -4,8 +4,8 @@
 db.tx.createIndex( {
     crc: 1
 }, {
-    name: "_crc",
-    partialFilterExpression: { crc: {$exists: true} }
+    name: "crc",
+    partialFilterExpression: { type: 10, crc: {$exists: true} }
 })
 ```
 
