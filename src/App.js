@@ -25,6 +25,7 @@ import SimuladorDevoluciones from 'layout/simuladores/devoluciones/SimuladorDevo
 import EstadoBalanceador from 'layout/status/apache/EstadoBalanceador';
 import EstadoBalanceadores from 'layout/status/apache/EstadoBalanceadores';
 import MD from 'layout/doc/Markdown';
+import EstadoMDB from 'layout/status/mongodb/EstadoMDB';
 
 
 const App = () => {
@@ -62,6 +63,10 @@ const App = () => {
             render={(props) => <SimuladorDevoluciones {...props} jwt={jwt} />} />
         }
 
+
+        <Route
+          path="/estado/mongodb"
+          render={(props) => <EstadoMDB {...props} jwt={jwt} />} />
         <Route
           path="/estado/procesos"
           render={(props) => <EstadoProcesos {...props} jwt={jwt} />} />
