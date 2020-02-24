@@ -248,7 +248,7 @@ const getVarianteBg = (variante) => {
 		default: return '#ffffff'
 	}
 }
-
+/*
 const getVarianteBorder = (variante) => {
 	switch (variante) {
 		case 'primary': return '#b8daff'
@@ -262,5 +262,6 @@ const getVarianteBorder = (variante) => {
 		default: return '#000000'
 	}
 }
+*/
 
 export default DiagramaEstadoPedido
