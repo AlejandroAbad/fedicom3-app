@@ -137,8 +137,12 @@ const DiagramaEstadoPedido = ({ estado }) => {
 
 
 	return (
-		<svg viewBox={`0 0 1140 ${noOk ? '155' : '100'}`} preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
+		<svg viewBox={`0 0 1140 ${noOk ? '163' : '100'}`} preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
 
+			<g opacity={0.5}>
+				<rect rx="3" id="svg_2" height={estados.e2.activo ? 130 : 70} width="380" x={300} y={30} strokeWidth={1} stroke="#000" fill="#fcf" />
+				<text fontWeight="bold" fontFamily="Consolas, monospace" fontSize="16" id="svg_3" x={475} y={50}>SAP</text>
+			</g>
 
 
 			<Linea x={-20} y={65} variante={estados.recepcionada.activo ? estados.recepcionada.variante : 'ligth'} resaltar={estados.enviadas.resaltar} />
@@ -147,12 +151,12 @@ const DiagramaEstadoPedido = ({ estado }) => {
 
 			<Linea x={xOffset + 130} y={65} variante={estados.esperando.activo ? estados.esperando.variante : 'ligth'} resaltar={estados.enviadas.resaltar} />
 			{xOffset += 230}
-			<Caja texto="ESPERANDO|A SAP" x={xOffset} y={40} variante={estados.esperando.variante} resaltar={estados.esperando.resaltar} />
+			<Caja texto="ENVIADO|A SAP" x={xOffset} y={40} variante={estados.esperando.variante} resaltar={estados.esperando.resaltar} />
 
 
 			<Linea x={xOffset + 130} y={65} variante={estados.recibidas.activo ? estados.recibidas.variante : 'ligth'} resaltar={estados.enviadas.resaltar} />
 			{xOffset += 230}
-			<Caja texto="ENTREGADO|A SAP" x={xOffset} y={40} variante={estados.recibidas.variante} resaltar={estados.recibidas.resaltar} />
+			<Caja texto="FALTAS|RECIBIDAS" x={xOffset} y={40} variante={estados.recibidas.variante} resaltar={estados.recibidas.resaltar} />
 
 
 			<Linea x={xOffset + 130} y={65} variante={estados.enviadas.activo ? estados.enviadas.variante : 'ligth'} resaltar={estados.enviadas.resaltar} />
