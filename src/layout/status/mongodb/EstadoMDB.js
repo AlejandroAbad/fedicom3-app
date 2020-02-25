@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import EstadoColecciones from './col/EstadoColecciones'
 import EstadoDatabase from './db/EstadoDatabase'
 import EstadoReplicaSet from './rs/EstadoReplicaSet'
