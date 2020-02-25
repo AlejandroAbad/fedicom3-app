@@ -21,7 +21,7 @@ const ConsultaCargando = ({ texto, errores, titulo, errorGenerico }) => {
 	}
 
 	return (
-		<Alert variant='danger'>
+		<Alert variant='danger' className="mt-3">
 			<Alert.Heading>{titulo}</Alert.Heading>
 			<ul>
 				{alertas}
