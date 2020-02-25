@@ -26,6 +26,7 @@ import EstadoBalanceador from 'layout/status/apache/EstadoBalanceador';
 import EstadoBalanceadores from 'layout/status/apache/EstadoBalanceadores';
 import MD from 'layout/doc/Markdown';
 import EstadoMDB from 'layout/status/mongodb/EstadoMDB';
+import SimuladorConsultaAlbaranes from 'layout/simuladores/consultaAlbaranes/SimuladorConsultaAlbaranes';
 
 
 const App = () => {
@@ -62,6 +63,10 @@ const App = () => {
             path="/simulador/devoluciones"
             render={(props) => <SimuladorDevoluciones {...props} jwt={jwt} />} />
         }
+        <Route
+          path="/simulador/consultaAlbaranes"
+          render={(props) => <SimuladorConsultaAlbaranes {...props} jwt={jwt} />} />
+
 
 
         <Route

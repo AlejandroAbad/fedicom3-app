@@ -7,7 +7,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson, GoGitMerge, GoDatabase } from 'react-icons/go';
-import { FaPaperPlane, FaFlask, FaBook } from 'react-icons/fa'
+import { FaPaperPlane, FaFlask, FaBook, FaQuora } from 'react-icons/fa'
 import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
 import { MdSchool } from 'react-icons/md';
@@ -49,14 +49,14 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                         {<BotonNavegacion enlace="/estado/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />}
                         {/*<BotonNavegacion enlace="/status/estadisticas" icono={GoGraph} titulo="Estadísticas de pedidos" />*/}
                     </BotonNavegacion>
-                    {!K.PRODUCCION &&
-                        <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
-                            <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />
-                            <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />
-                        {/*<BotonNavegacion enlace="/simulador/consultas" icono={FaQuora} titulo="Consultas" />
-                            <BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
-                        </BotonNavegacion>
-                    }
+
+                    <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
+                        {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />}
+                        {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />}
+                        <BotonNavegacion enlace="/simulador/consultaAlbaranes" icono={FaQuora} titulo="Consulta albaranes" />
+                        {/*<BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
+                    </BotonNavegacion>
+
 
                     <BotonNavegacion icono={MdSchool} titulo="Documentación" esconderEn={expandirEn} mostrarEn="xl" >
                         <BotonNavegacion enlace="/doc/manual" icono={FaBook} titulo="Manuales" />
