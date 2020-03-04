@@ -7,6 +7,7 @@ import useInterval from 'util/useInterval'
 import { GoSync } from 'react-icons/go'
 import Icono from 'componentes/icono/Icono'
 import { MdSubdirectoryArrowRight } from 'react-icons/md'
+import { FiChevronsRight } from 'react-icons/fi'
 
 require('moment/locale/es')
 
@@ -20,7 +21,6 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 	const ultimoResultado = useRef(resultado);
 
 	if (resultado !== ultimoResultado.current) ultimoResultado.current = resultado;
-
 
 	const ejecutarConsulta = useCallback(() => {
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
@@ -73,6 +73,8 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 const ProcHostElement = ({ procHost }) => {
 	if (!procHost) return null;
 
+
+
 	return (
 		<Container className="mb-4">
 			<Accordion defaultActiveKey="0">
@@ -86,6 +88,7 @@ const ProcHostElement = ({ procHost }) => {
 							{procHost.workerProcs.map((worker, i) => <ProcElement key={i} proc={worker} />)}
 							<ProcElement proc={procHost.watchdogProc} />
 							<ProcElement proc={procHost.monitorProc} />
+							<ApacheProcElement proc={procHost.apacheProc} />
 						</Container>
 					</Accordion.Collapse>
 				</Card>
@@ -126,6 +129,28 @@ const ProcElement = ({ proc }) => {
 	)
 }
 
+const ApacheProcElement = ({ proc }) => {
+	if (!proc) return null;
+
+	let rowClassName = "text-monospace no-gutters mx-3 py-0"
+
+
+	return (
+		<Row className={rowClassName}>
+			<Col lg={2} md={2} sm={3} xs={3} className={proc.isWorker() ? 'pl-sm-3' : ''}>
+				{proc.getName()}
+			</Col>
+			<Col lg={3} md={4} sm={4} xs={4}>
+				{proc.getSubtype()}
+			</Col>
+			<Col className="d-none d-lg-block">
+				{proc.extra()}
+			</Col>
+		</Row>
+	)
+}
+
+
 class Proc {
 	constructor(proc) {
 		Object.assign(this, proc)
@@ -137,7 +162,16 @@ class Proc {
 			case "core-worker": return <><Icono icono={MdSubdirectoryArrowRight} /><Badge variant='success' className="px-2 py-1">WORKER</Badge></>
 			case "watchdog": return <Badge variant='warning' className="px-2 py-1">WATCH DOG</Badge>
 			case "monitor": return <Badge variant='info' className="px-2 py-1">MONITOR</Badge>
+			case "apache": return <Badge variant='dark' className="px-2 py-1">APACHE</Badge>
 			default: return <Badge variant='danger' className="px-2 py-1">?????</Badge>
+		}
+	}
+
+	getSubtype() {
+		switch (this.subtype) {
+			case "proxysap": return <Badge variant='primary' className="px-2 py-1">SAP <Icono icono={FiChevronsRight} posicion={[12,1]} /></Badge>
+			case "frontend": return <Badge variant='primary' className="px-2 py-1"><Icono icono={FiChevronsRight} posicion={[12, 1]} /> FRONT</Badge>
+			default: return null
 		}
 	}
 
@@ -176,6 +210,11 @@ class Proc {
 		if (this.type === 'core-master') {
 			return <><small className="ml-2"><strong>Workers: </strong>{this.childrens}</small></>
 		}
+		if (this.type === 'apache') {
+			return <>
+				<small className="ml-2"><strong>URL: </strong>{this.url}</small>
+			</>
+		}
 		return null;
 	}
 }
@@ -186,6 +225,7 @@ class ProcHost {
 		this.masterProc = null
 		this.watchdogProc = null
 		this.monitorProc = null
+		this.apacheProc = null
 		this.workerProcs = []
 	}
 
@@ -196,6 +236,7 @@ class ProcHost {
 			case "core-master":
 				this.masterProc = proceso;
 				break;
+
 			case "core-worker":
 				this.workerProcs.push(proceso);
 				break;
@@ -207,12 +248,21 @@ class ProcHost {
 			case "monitor":
 				this.monitorProc = proceso;
 				break;
+
+			case "apache":
+				this.apacheProc = proceso;
+				break;
+
 			default:
 				break;
 		}
 	}
 
 	getStatusColor() {
+		if (this.apacheProc && this.apacheProc.subtype=== 'frontend') {
+			return 'light'
+		}
+
 		let mD = (!this.masterProc || this.masterProc.isDead())
 		if (mD) return 'danger'
 
