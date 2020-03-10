@@ -5,16 +5,17 @@ Para esto, partimos de las tres instancias de MongoDB configuradas exactamente c
 
 > ¡¡ El fichero `/var/lib/mongo/mongo.key` debe ser exactamente el mismo en todas las instancias !!
 
-Estas máquinas se encuentran en las siguientes direcciones:
+Para el sistema productivo, el ReplicaSet estará compuesto por las siguientes máquinas:
 
 ```
-SANTOMERA:      f3san.hefame.es - 172.30.10.169
-MADRID:         f3mad.hefame.es - 172.30.132.169
-BARCELONA:      f3bcn.hefame.es - 172.30.50.169
+SANTOMERA:      f3san1
+                f3san2
+MADRID:         f3mad1
+BARCELONA:      f3bcn
 ```
 
 ---
-## Inicio del ReplicaSet
+#### Configuración previa de los nodos
 
 Para cada uno de los nodos que vayan a conformar el clúster, es preciso que el su fichero `/etc/mongod.conf` se 
 especifique la siguiente configuración de réplica (igual en todos los nodos):
@@ -28,7 +29,9 @@ Donde `fedicom3` es el nombre del ReplicaSet. _(En el caso de desarrollo, el rep
 
 Hay que reiniciar el servicio mongod para que tome los cambios.
 
-Hecho esto, nos conectamos a la instancia local de cualquiera de los nodos con el comando `mongo` e inicializamos el ReplicaSet. 
+## Configuración incial del ReplicaSet
+
+Nos conectamos a la instancia local de cualquiera de los nodos con el comando `mongo` e inicializamos el ReplicaSet. 
 Imaginemos que lo hacemos desde la instancia en `f3san.hefame.es`:
 
 ```

@@ -87,7 +87,7 @@ const App = () => {
 
 
         <Route
-          path="/doc/manual/:md"
+          path="/doc/manual/:md+"
           render={(props) => <MD {...props} jwt={jwt} />} />
 
         <Route

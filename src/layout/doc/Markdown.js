@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
 import { Link } from 'react-router-dom'
-import { Container, Alert, Spinner, Col } from 'react-bootstrap'
+import { Container, Alert, Spinner, Col, Button } from 'react-bootstrap'
 import './Markdown.scss'
+import Icono from 'componentes/icono/Icono'
+import { TiArrowBack } from 'react-icons/ti'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const MD = (props) => {
 
-	const [md, setMd] = useState({ error: null, md: null, cargando: false });
+	const [md, setMd] = useState({ error: null, md: null, cargando: false, path: '' });
 
 	useEffect(() => {
 
+
+		console.log(props?.match)
 		let mdFile = props?.match?.params?.md ?? 'index';
+
 		let mdPath = null;
 		try {
 			mdPath = require('doc/' + mdFile + '.md');
@@ -18,18 +24,18 @@ const MD = (props) => {
 		}
 
 
-		
+
 		if (mdPath) {
 			fetch(mdPath)
 				.then(response => response.text())
 				.then(text => {
-					setMd({ error: null, md: text, cargando: false })
+					setMd({ error: null, md: text, cargando: false, path: mdFile })
 				})
 				.catch(err => {
-					setMd({ error: err, md: null, cargando: false })
+					setMd({ error: err, md: null, cargando: false, path: mdFile })
 				})
 		} else {
-			setMd({ error: new Error('No existe el manual'), md: null, cargando: false })
+			setMd({ error: new Error('No existe el manual'), md: null, cargando: false, path: mdFile })
 		}
 
 	}, [props])
@@ -56,8 +62,13 @@ const MD = (props) => {
 
 
 	return <Container>
-		<ReactMarkdown  
-			className="Markdown text-justify" 
+		{md.path !== 'index' && md.cargando === false && <LinkContainer to="/doc/manual" className="float-right">
+			<Button variant="light" className="pb-1 pr-3">
+				<Icono icono={TiArrowBack} posicion={[28, 2]} /> Índice
+		</Button>
+		</LinkContainer>}
+		<ReactMarkdown
+			className="Markdown"
 			source={md.md}
 			escapeHtml={false}
 			renderers={{ image: Imagen, link: Enlace }}
@@ -67,13 +78,13 @@ const MD = (props) => {
 }
 
 
-const Imagen = ({ alt, ...props}) => {
-	return 	<Col xs={12} className="text-center">
-		<img alt={alt} {...props} style={{ maxWidth: '100%' }} className="border rounded p-2 m-2"/>
+const Imagen = ({ alt, ...props }) => {
+	return <Col xs={12} className="text-center">
+		<img alt={alt} {...props} style={{ maxWidth: '100%' }} className="border p-2 m-2" />
 		<br />
 		{alt && <span className="text-muted">{alt}</span>}
 	</Col>
-	
+
 }
 
 const Enlace = ({ href, ...props }) => {

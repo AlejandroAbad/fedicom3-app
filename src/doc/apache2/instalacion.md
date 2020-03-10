@@ -3,13 +3,15 @@
 Tanto en las máquinas usadas como cortafuegos como en los concentradores, instalaremos servidores Apache2 
 para hacer las veces de proxy inverso, con la capacidad de balancear las peticiones.
 
+> **Nota**: Vamos a instalar Apache con el MPM *(Multi Processing Module)* denominado `worker` ([Documentación oficial](https://httpd.apache.org/docs/2.4/mod/worker.html)). Este MPM permite que las peticiones de los clientes puedan atenderse dentro de hilos de un mismo proceso, reduciendo notablemente el número de procesos Apache necesarios, y por lo tanto, reduciendo enormemente el gasto de recursos, ya que los hilos de un mismo proceso comparten RAM y se reducen los saltos de contexto del procesador.
+
 A continuación describiremos el proceso de instalación y configuración de una instancia de Apache2 preparada
 para hacer de proxy/balanceador y nada mas.
 
 
 ## Instalación de Apache y módulos necesarios
 ```
-zypper install apache2
+zypper install apache2-worker
 systemctl enable apache2
 ```
 
@@ -54,6 +56,7 @@ Y haremos los siguientes cambios en el fichero `/etc/sysconfig/apache2`.
 APACHE_CONF_INCLUDE_FILES="/etc/apache2/mod_proxy_balancer.conf"
 APACHE_MODULES="alias authz_host authz_core env include log_config mime setenvif ssl reqtimeout authn_core rewrite proxy proxy_http status proxy_balancer mod_slotmem_shm lbmethod_bybusyness"
 APACHE_SERVER_FLAGS="SSL STATUS"
+APACHE_MPM="worker"
 APACHE_SERVERNAME="<<hostname>>"
 ```
 
@@ -82,7 +85,7 @@ Para esto, creamos el fichero `/etc/apache2/mod_proxy_balancer.conf` con el sigu
 <IfModule mod_proxy_balancer.c>
     <Location "/balancer-manager">
         SetHandler balancer-manager
-        Require ip 195.57.209.104 # Conexiones desde la red Hefame
+        Require ip 195.57.209.104 172.30.0.0/16
         Require local
     </Location>
 </IfModule>
@@ -117,5 +120,36 @@ Require local
 Así queda mas claro que lo que tiene que hacer ¿No crees?
 
 
+### Configuración de logrotate
+
+Vamos a configurar la rotación de logs de Apache con la utilidad `logrotate` de SUSE.
+
+Comenzamos por editar el fichero de configuración de logrotate para apache `/etc/logrotate.d/apache2` tal que:
+
+```
+/var/log/apache2/*log {
+    copytruncate
+    compress
+    dateext
+    maxage 30
+    rotate 99
+    size=+1024k
+    notifempty
+    missingok
+    create 644 root root
+}
+```
+
+Añadimos la siguiente línea en el crontab del usuario root:
+
+```
+# Rotación de logs de Apache2
+00 04 * * * root /usr/sbin/logrotate /etc/logrotate.conf >/dev/null 2>/dev/null
+```
 
 
+
+## Siguientes pasos:
+
+> - [Configurar Apache2 para un **BALANCEADOR**]($DOC$/apache2/balanceador).
+> - [Configurar Apache2 para un **CONCENTRADOR**]($DOC$/apache2/concentrador).
