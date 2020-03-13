@@ -38,7 +38,7 @@ echo never > /sys/kernel/mm/transparent_hugepage/enabled
 Como ya vimos en el capítulo de [arquitectura de red]($DOC$/arquitectura/red), un concentrador cuenta con dos interfaces de red.
 Configuraremos las interfaces tal que:
 - `eth0`: Interfaz conectada a la red LAN de HEFAME de la sede donde se encuentre el servidor *(Por ejemplo, en Santomera: 172.30.10.0/24)*. 
-- `eth1`: Interfaz conectada a la red INTERFEDI de la sede donde se encuentre el servidor *(Por ejemplo, en Santomera: 192.168.100.0/28)*.
+- `eth1`: Interfaz conectada a la red INTERFEDI de la sede donde se encuentre el servidor *(Por ejemplo, en Santomera: 192.168.10.0/28)*.
 
 El servidor tendrá como gateway por defecto el gateway de la red LAN HEFAME donde esté conectado, y tendrá rutas establecidas para alcanzar al resto de redes INTERSAP. Por ejemplo en Santomera:
 
@@ -48,8 +48,8 @@ Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         172.30.10.240   0.0.0.0         UG    0      0        0 eth0 # Enlace por defecto
 172.30.10.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0 # Enlace local en eth0
-192.168.100.0   0.0.0.0         255.255.240.0   U     0      0        0 eth1 # Enlace local en eth1
-192.168.100.16  192.168.100.14  255.255.240.0   U     0      0        0 eth1 # Acceso a la red 192.168.100.16/28 por el GW de la red 192.168.100.0/28
+192.168.10.0   0.0.0.0         255.255.240.0   U     0      0        0 eth1 # Enlace local en eth1
+192.168.10.16  192.168.10.14  255.255.240.0   U     0      0        0 eth1 # Acceso a la red 192.168.10.16/28 por el GW de la red 192.168.10.0/28
 ```
 
 ### DNS y NTP
@@ -118,7 +118,9 @@ Firewall Starting
 
 #### `/etc/hosts`
 
-Definiremos en el fichero de hosts un  nombre especial `proxysap` apuntando al host local.
+Definiremos en el fichero de hosts:
+- El nombre especial `proxysap` apuntando al host local, que es donde se encontrará escuchando el servidor Apache para balanceo a SAP. *En el caso de desarrollo, usaremos el nombre `proxysap-dev`*.
+- Los nombres de los cortafuegos de la red INTERFEDI del nodo.
 
 
 ```
@@ -127,6 +129,10 @@ Definiremos en el fichero de hosts un  nombre especial `proxysap` apuntando al h
 # Nombre para el Proxy Balanceador a SAP (El servidor Apache local)
 # (En el caso de desarrollo, el llamaremos a esta dirección proxysap-dev)
 127.0.0.1       proxysap 
+
+# Nombres de los balanceadores de la red INTERFEDI de Santomera
+192.168.10.3   f3san1-fw f3san1-fw.hefame.es
+192.168.10.4   f3san2-fw f3san2-fw.hefame.es
 ```
 
 

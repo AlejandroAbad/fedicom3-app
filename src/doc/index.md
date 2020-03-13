@@ -7,7 +7,7 @@
 1. **Infraestructura**
 
     1. [Arquitectura de servidores]($DOC$/arquitectura/servidores)
-    1. [Arquitectura de red *]($DOC$/arquitectura/red)
+    1. [Arquitectura de red]($DOC$/arquitectura/red)
 
 ---
 2. **Despliegue de servidores**
@@ -18,12 +18,12 @@
 
 3. **MongoDB**
 
-    1. [Introducción a MongoDB *]($DOC$/mdb/esquema)
+    1. [Introducción a MongoDB]($DOC$/mdb/esquema)
     1. [Instalación y configuración de MongoDB 4.2]($DOC$/mdb/instalacion)
         1. [Actualización de MongoDB 4.0 a 4.2]($DOC$/mdb/actualizacion)
     1. [Inicialización del ReplicaSet]($DOC$/mdb/replicaset-init)
     1. [Creación de usuarios y roles en la BBDD]($DOC$/mdb/users)
-    1. [Índices de la BBDD *]($DOC$/mdb/indices)
+    1. [Índices de la BBDD]($DOC$/mdb/indices)
 ---
 
 4. **Balanceo de carga con Apache2**
@@ -38,13 +38,9 @@
     1. [Despliegue de la aplicación]($DOC$/f3/despliegue)
         1. [Configuración de la aplicación]($DOC$/f3/configuracion)
     1. [Arranque y parada]($DOC$/f3/arranque-parada)
-    
 
----
 
----
 # **Manual funcional**
-
 
 6. **Conceptos básicos**
     1. [El concepto de **Transmisión**]($DOC$/conceptos/transmision)

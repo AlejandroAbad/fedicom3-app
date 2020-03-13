@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
 import { Link } from 'react-router-dom'
-import { Container, Alert, Spinner, Col, Button } from 'react-bootstrap'
+import { Container, Alert, Spinner, Button } from 'react-bootstrap'
 import './Markdown.scss'
 import Icono from 'componentes/icono/Icono'
 import { TiArrowBack } from 'react-icons/ti'
@@ -79,11 +79,12 @@ const MD = (props) => {
 
 
 const Imagen = ({ alt, ...props }) => {
-	return <Col xs={12} className="text-center">
-		<img alt={alt} {...props} style={{ maxWidth: '100%' }} className="border p-2 m-2" />
+	console.log(props)
+	return <center>
+		<img alt={alt} {...props} style={{ maxWidth: '100%', maxHeight: '400px' }} className="border p-2 m-2" />
 		<br />
 		{alt && <span className="text-muted">{alt}</span>}
-	</Col>
+	</center>
 
 }
 

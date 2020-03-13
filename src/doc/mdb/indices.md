@@ -5,34 +5,48 @@ db.tx.createIndex( {
     crc: 1
 }, {
     name: "crc",
-    partialFilterExpression: { type: 10, crc: {$exists: true} }
+    partialFilterExpression: { crc: {$exists: true} }
 })
 ```
-
 
 ```
 db.tx.createIndex( {
     createdAt: -1
 }, {
-    name: "_createdAt"
+    name: "createdAt"
 })
+```
 
-
-
+```
 db.tx.createIndex( {
     type: 1
 }, {
-    name: "_type"
+    name: "type"
 })
+```
 
-
+```
 db.tx.createIndex( {
     status: 1
 }, {
-    name: "_status"
+    name: "status"
 })
+```
 
-
+```
+db.tx.createIndex( {
+    "clientRequest.body.lineas.codigoArticulo": 1
+}, {
+    name: "codigoArticulo",
+    partialFilterExpression: { type: 10 }
+})
 ```
 
 
+```
+db.tx.createIndex( {
+    "flags.$**": 1
+}, {
+    name: "flags"
+})
+```

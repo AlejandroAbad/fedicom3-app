@@ -11,9 +11,9 @@ A un nivel alto de abstracción, este es el esquema de red que tendrá la infrae
 En el se muestra como quedarían repartidos los grupos de balanceadores y concentradores Fedicom3 en las distintas sedes de Hefame, y las rede que estos utilizarán para comunican entre sí, con los clientes y con los servidores SAP.
 
 
-### Red Vodafone
+### Red VODAFONE
 
-La red Vodafone es la que permite que los clientes sean capaces de llegar a la red de servidores Fedicom 3.
+La red VODAFONE es la que permite que los clientes sean capaces de llegar a la red de servidores Fedicom 3.
 Los balanceadores de carga se conectan directamente a esta red y todos tendrán, de una manera u otra, configurada la misma IP, que es en concreto la IP de de acceso al servicio `185.103.124.150/22`.
 
 Como detallaremos en próximos capítulos, configuraremos una serie de mecanismos para permitir que todos los balanceadores tengan la misma IP sin que esto provoque mal funcionamiento de la red IP. En concreto, usaremos 2 mecanismos:
@@ -24,11 +24,31 @@ Como detallaremos en próximos capítulos, configuraremos una serie de mecanismo
 ![Diagrama de conexiones en la red VODAFONE](/img/diagrama-red-vodafone.png)
 
 
-### Red Intersap 1: Santomera
+### Redes INTERFEDI
 
-### Red Intersap 2: Madrid
+Las reded INTERFEDI son las que interconectan a los distintos balanceadores y conentradores del sistema.
+Cuando los balanceadores reciben peticiones de los clientes, estos balancean las peticiones entre los distintos balanceadores a través de estas redes.
 
+Por restricciones de la WAN entre almacenes de HEFAME, no es posible propagar una VLAN entre distintos almacenes, por lo que hay que separar las redes INTERFEDI en distintas subredes. En concreto, vamos a utilizar redes con máscara /28 en el rango 192.168.10.X.
+
+<center>
+
+| Sede      | Dirección de red | Rango usable para Fedicom3    | Puerta enlace | Broadcast     |
+| --------- | ---------------- | ----------------------------- | ------------- | ------------- |
+| Santomera | 192.168.10.0/22  | 192.168.10.1 - 192.168.10.13  | 192.168.10.14 | 192.168.10.15 |
+| Madrid    | 192.168.10.16/22 | 192.168.10.17 - 192.168.10.29 | 192.168.10.30 | 192.168.10.31 |
+
+</center>
+
+
+![Diagrama de conexiones en las redes INTERFEDI](/img/diagrama-red-interfedi.png)
 
 
 
 ### LAN Hefame
+
+La LAN Hefame, en el rango `172.30.0.0/16`, permite la interconexión de máquinas entre las distintas sedes de manera interna.
+
+A través de esta red los concentradores son capaces de alcanzar a los distintos servidores SAP.
+
+![Diagrama de conexiones en las red HEFAME](/img/diagrama-red-hefame.png)

@@ -9,7 +9,7 @@ Aparte de los filesystems habituales de los sistemas Linux, un balanceador no ne
 ## Interfaces de red
 Como ya vimos en el capítulo de [arquitectura de red]($DOC$/arquitectura/red), un balanceador cuenta con dos interfaces de red.
 Configuraremos las interfaces tal que:
-- `eth0`: Interfaz conectada a la red INTERFEDI de la sede donde se encuentre el servidor *(Por ejemplo, en Santomera: 192.168.100.0/28)*. 
+- `eth0`: Interfaz conectada a la red INTERFEDI de la sede donde se encuentre el servidor *(Por ejemplo, en Santomera: 192.168.10.0/28)*. 
 - `eth1`: Interfaz conectada a la red VODAFONE. La configuración específica de este interzaz depende de si el balanceador va a actuar en solitario (como el de Madrid) o si va a ser parte de un clúster VRRP con otros balanceadores (como en Santomera). 
 
 #### Confguración sin VRRP
@@ -23,8 +23,8 @@ Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         185.103.127.254 0.0.0.0         UG    0      0        0 eth1
 185.103.124.0   0.0.0.0         255.255.252.0   U     0      0        0 eth1
-192.168.100.16  0.0.0.0         255.255.240.0   U     0      0        0 eth0
-192.168.100.0   192.168.100.30  255.255.240.0   U     0      0        0 eth0 # Acceso a la red 192.168.100.0/28 por el GW de la red 192.168.100.16/28
+192.168.10.16  0.0.0.0         255.255.240.0   U     0      0        0 eth0
+192.168.10.0   192.168.10.30  255.255.240.0   U     0      0        0 eth0 # Acceso a la red 192.168.10.0/28 por el GW de la red 192.168.10.16/28
 ```
 
 #### Configuración con VRRP
@@ -36,8 +36,8 @@ El servidor tampoco tendrá un gateway por defecto, solamente tendrá rutas esta
 # route -n
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-192.168.100.0   0.0.0.0         255.255.240.0   U     0      0        0 eth0
-192.168.100.16  192.168.100.14  255.255.240.0   U     0      0        0 eth0 # Acceso a la red 192.168.100.16/28 por el GW de la red 192.168.100./28
+192.168.10.0   0.0.0.0         255.255.240.0   U     0      0        0 eth0
+192.168.10.16  192.168.10.14  255.255.240.0   U     0      0        0 eth0 # Acceso a la red 192.168.10.16/28 por el GW de la red 192.168.10./28
 ```
 
 > **Aclaración**: La configuración del interfaz `eth1` la administra el demonio *Keepalived* de manera dinámica, en función de si el servidor es o no es el nodo activo en la red.
@@ -127,14 +127,14 @@ Definiremos en el fichero de hosts local las siguientes direcciones:
 127.0.0.1       localhost
 
 # Santomera
-192.168.100.1   f3san1
-192.168.100.2   f3san2
-192.168.100.3   f3san1-fw
-192.168.100.4   f3san2-fw
+192.168.10.1   f3san1
+192.168.10.2   f3san2
+192.168.10.3   f3san1-fw
+192.168.10.4   f3san2-fw
 
 # Madrid
-192.168.100.17   f3mad1
-192.168.100.18   f3mad1-fw
+192.168.10.17   f3mad1
+192.168.10.18   f3mad1-fw
 
 # IP Acceso al servicio
 185.103.124.150 fedicom3 fedicom3.hefame.es
@@ -144,8 +144,8 @@ Definiremos en el fichero de hosts local las siguientes direcciones:
 ## Software
 Un concentrador Fedicom 3 contendrá el siguiente software instalado:
 
-- Servidor Apache2 v2.4 con módulos para el balanceo de carga
-- Demonio Keepalived v2.0 para la implementación de VRRP
+- [Servidor Apache2 v2.4 con módulos para el balanceo de carga]($DOC$/apache2/instalacion)
+- [Demonio Keepalived v2.0 para la implementación de VRRP]($DOC$/keepalived/instalacion)
 
 
 

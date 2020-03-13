@@ -1,18 +1,13 @@
 # Inicialización del ReplicaSet
 
 Vamos a crear una réplica de los datos de la base de datos. 
-Para esto, partimos de las tres instancias de MongoDB configuradas exactamente como hemos explicado en las notas anteriores.
+Para esto, partimos de al menos dos de las instancias de MongoDB configuradas exactamente como hemos explicado en las notas anteriores.
 
 > ¡¡ El fichero `/var/lib/mongo/mongo.key` debe ser exactamente el mismo en todas las instancias !!
 
-Para el sistema productivo, el ReplicaSet estará compuesto por las siguientes máquinas:
+Como vimos en la introducción a MongoDB, desplegaremos 4 instancias MongoDB formando un ReplicaSet, tal que:
 
-```
-SANTOMERA:      f3san1
-                f3san2
-MADRID:         f3mad1
-BARCELONA:      f3bcn
-```
+![Esquema MongoDB](img/replicaset.png)
 
 ---
 #### Configuración previa de los nodos
@@ -29,17 +24,17 @@ Donde `fedicom3` es el nombre del ReplicaSet. _(En el caso de desarrollo, el rep
 
 Hay que reiniciar el servicio mongod para que tome los cambios.
 
-## Configuración incial del ReplicaSet
+## Configuración **incial** del ReplicaSet
 
 Nos conectamos a la instancia local de cualquiera de los nodos con el comando `mongo` e inicializamos el ReplicaSet. 
-Imaginemos que lo hacemos desde la instancia en `f3san.hefame.es`:
+Imaginemos que lo hacemos desde la instancia en `f3san1.hefame.es`:
 
 ```
 > use admin
 > db.auth("admin", "password")
 > rs.initiate( {
     _id : "fedicom3",
-    members: [ { _id : 0, host : "f3san.hefame.es:27017" } ]
+    members: [ { _id : 0, host : "f3san1.hefame.es:27017" } ]
 })
 ```
 
@@ -52,14 +47,6 @@ Esto quiere decir que este nodo es el nodo primario, el cual manda sobre el rest
 ---
 ## Añadir miembros al ReplicaSet
 
-A cada nodo se le puede establecer una prioridad. Por defecto esta prioridad es 1. Para forzar a que el nodo primario sea siempre el nodo de Santomera, le aumentaremos la prioridad a 100.
-
-```
-fedicom3:PRIMARY> var cfg = rs.conf();
-fedicom3:PRIMARY> cfg.members[0].priority = 100
-fedicom3:PRIMARY> rs.reconfig(cfg)
-```
-
 Para añadir miembros al ReplicaSet, utilizaremos el método `rs.add()` siempre desde el nodo primario. 
 Vamos a añadir el nodo de Madrid como un nodo normal del replicaSet, con prioridad 50.
 
@@ -71,40 +58,22 @@ A continuacion comprobamos el estado del ReplicaSet:
 
 ```
 fedicom3:PRIMARY> rs.status().members;
-[
+...
     {
         "_id" : 0,
-        "name" : "f3san.hefame.es:27017",
-        "health" : 1,
-        "state" : 1,
+        "name" : "f3san1.hefame.es:27017",
         "stateStr" : "PRIMARY",
-        "syncingTo" : "",
-        "syncSourceHost" : "",
-        "syncSourceId" : -1,
-        "infoMessage" : "",
-        "electionTime" : Timestamp(1543403336, 1),
-        "electionDate" : ISODate("2018-11-28T11:08:56Z"),
-        "configVersion" : 5,
-        "lastHeartbeatMessage" : ""
+        ...
     },
     {
         "_id" : 1,
-        "name" : "f3mad.hefame.es:27017",
-        "health" : 1,
-        "state" : 2,
+        "name" : "f3mad1.hefame.es:27017",
         "stateStr" : "SECONDARY",
-        "pingMs" : NumberLong(12),
-        "lastHeartbeatMessage" : "",
-        "syncingTo" : "f3san.hefame.es:27017",
-        "syncSourceHost" : "f3san.hefame.es:27017",
-        "syncSourceId" : 0,
-        "infoMessage" : "",
-        "configVersion" : 5
+        ...
     }
-]
 ```
 
----
+
 ## Añadimos un árbitro al ReplicaSet
 
 Para evitar casos de split-brain, es necesario añadir un tercer miembro al ReplicaSet. 
@@ -119,34 +88,58 @@ Podemos ver como queda la configuración de los miembros de la réplica:
 
 ```
 fedicom3:PRIMARY> rs.conf().members
-[
-    {
-        "_id" : 0,
-        "host" : "f3san.hefame.es:27017",
-        "arbiterOnly" : false,
-        "buildIndexes" : true,
-        "hidden" : false,
-        "priority" : 100,
-        "votes" : 1
-    },
-    {
-        "_id" : 1,
-        "host" : "f3mad.hefame.es:27017",
-        "arbiterOnly" : false,
-        "buildIndexes" : true,
-        "hidden" : false,
-        "priority" : 50,
-        "votes" : 1
-    },
+...
     {
         "_id" : 2,
         "host" : "f3bcn.hefame.es:27017",
         "arbiterOnly" : true,
-        "buildIndexes" : true,
-        "hidden" : false,
         "priority" : 0,
-        "votes" : 1
+        "votes" : 1,
+        ...
     }
-]
+
+```
+
+## Cambiando la configuración 
+
+Podemos cambiar los pesos y votos de los nodos del ReplicaSet en caliente.
+
+Comenzaremos por copiar la configuración del ReplicaSet a una variable en el Mongo Shell:
+
+```
+fedicom3:PRIMARY> var cfg = rs.conf();
+```
+
+A continuación, realizamos los cambios que queramos sobre la variable `cfg`. Para esto, modificaremos los datos de la variable `cfg.members[#]`, donde `#` es el número del nodo que queremos cambiar. Los nodos se muestran en orden si escribimos `cfg.members` en cualquier momento.
+
+- Para forzar a que el nodo primario sea siempre que se a posible `F3SAN1`, le aumentaremos la prioridad a 100 (por defecto es 1):
 
 
+```
+fedicom3:PRIMARY> cfg.members[0].priority = 100
+```
+
+- Para que el nodo de madrid sea la segunda opción a la hora de elegir un nodo primario, le pondremos una prioridad de 50:
+
+```
+fedicom3:PRIMARY> cfg.members[1].priority = 50
+```
+
+- Para quitarle el derecho a voto a la instancia en `F3SAN2`, tenemos que ponerle tanto la prioridad como los votos a 0:
+
+```
+fedicom3:PRIMARY> cfg.members[2].votes = 0
+fedicom3:PRIMARY> cfg.members[2].priority = 0
+```
+
+Finalmente, con todos los cambios realizados sobre la variable `cfg`, los aplicamos en el ReplicaSet:
+
+```
+fedicom3:PRIMARY> rs.reconfig(rs)
+```
+
+Existen algunas restricciones que deben cumplirse, o el comando `reconfig` nos tirará para atrás el cambio:
+
+- Los nodos árbitro, obligatoriamente tendran votes = 1 y priority = 0.
+- Un nodo con votes = 0, tiene que tener priority = 0.
+- No puede haber mas de 7 miembros del ReplicaSet con derecho a voto.
