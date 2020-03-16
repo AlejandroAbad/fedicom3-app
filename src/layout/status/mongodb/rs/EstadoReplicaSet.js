@@ -135,9 +135,9 @@ const ReplicaSetMember = ({ health, state, host, uptime, version, electionDate, 
 				</Card.Body>
 				<small>
 					<ListGroup className="list-group-flush">
-						<ListGroupItem k="Uptime" v={uptime.humanize()} />
+						{uptime && <ListGroupItem k="Uptime" v={uptime.humanize()} />}
 						<ListGroupItem k="Versión" v={version} />
-						{ping && <ListGroupItem k="Ping" v={`${ping}ms`} />}
+						{ping != null && <ListGroupItem k="Ping" v={`${ping}ms`} />}
 						{delay && <ListGroupItem k="Latencia" v={`${delay}ms`} />}
 					</ListGroup>
 				</small>
