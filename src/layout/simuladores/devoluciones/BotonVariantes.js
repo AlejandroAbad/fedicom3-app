@@ -7,14 +7,14 @@ import Icono from 'componentes/icono/Icono'
 
 const VARIANTES = {
 	v1: {
-		codigoCliente: "10100117",
+		codigoCliente: "117",
 		lineas: [
 			{ codigoMotivo: "03", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
 		],
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
 	},
 	v2: {
-		codigoCliente: "10100117",
+		codigoCliente: "117",
 		lineas: [
 			{ codigoMotivo: "05", codigoArticulo: "150001", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" },
 			{ codigoMotivo: "05", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
@@ -22,14 +22,14 @@ const VARIANTES = {
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
 	},
 	v3: {
-		codigoCliente: "10100117",
+		codigoCliente: "117",
 		lineas: [
 			{ codigoMotivo: "05", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
 		],
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
 	},
 	v4: {
-		codigoCliente: "10100117",
+		codigoCliente: "117",
 		lineas: [
 			{ codigoMotivo: "01", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123121", fechaAlbaran: "10/12/2019" },
 			{ codigoMotivo: "01", codigoArticulo: "150001", cantidad: 3, numeroAlbaran: "ALB123123121", fechaAlbaran: "10/12/2019" },
@@ -39,7 +39,7 @@ const VARIANTES = {
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
 	},
 	v5: {
-		codigoCliente: "10100117",
+		codigoCliente: "117",
 		lineas: [
 			{ codigoMotivo: "01", codigoArticulo: "150003", cantidad: 3, numeroAlbaran: "1", fechaAlbaran: "10/12/2019" },
 			{ codigoMotivo: "01", codigoArticulo: "150003", cantidad: 3, numeroAlbaran: "1", fechaAlbaran: "10/12/2019" },
@@ -54,13 +54,7 @@ const VARIANTES = {
 			{ codigoMotivo: "03", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
 		],
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
-	},
-	v7: {
-		lineas: [
-			{ codigoMotivo: "03", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
-		],
-		auth: { usuario: "10100117", dominio: "FEDICOM" }
-	},
+	}
 }
 
 
@@ -77,9 +71,8 @@ const BotonVariantes = ({ establecerVariante }) => {
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v2)}>Uno bueno, uno malo</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v3)}>Uno malo</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v4)}>Devolución 4</Dropdown.Item>
-				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v5)}>SAP* Incidencias repes</Dropdown.Item>
-				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v6)}>SAP* Cliente mal</Dropdown.Item>
-				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v7)}>Muerte cerebral</Dropdown.Item>
+				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v5)}>Incidencias repes</Dropdown.Item>
+				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v6)}>Cliente mal</Dropdown.Item>
 			</Dropdown.Menu>
 		</Dropdown>
 	)
