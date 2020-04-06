@@ -167,6 +167,7 @@ const K = {
         9100: { codigo: '9100', nombre: 'TRADUCTOR F2', filtrable: true },
         9700: { codigo: '9700', nombre: 'APP EMPLEADO', filtrable: true },
         9800: { codigo: '9800', nombre: 'F+ONLINE', filtrable: true },
+        9801: { codigo: '9801', nombre: 'PORTAL HEFAME', filtrable: true },
         9991: { codigo: '9991', nombre: 'SAP D01' },
         9992: { codigo: '9992', nombre: 'SAP T01' },
         9993: { codigo: '9993', nombre: 'SAP P01' },
