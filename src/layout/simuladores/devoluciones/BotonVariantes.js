@@ -54,6 +54,13 @@ const VARIANTES = {
 			{ codigoMotivo: "03", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
 		],
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
+	},
+	portal_hefame: {
+		codigoCliente: "4718",
+		lineas: [
+			{ codigoMotivo: "03", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
+		],
+		auth: { usuario: "", dominio: "PORTAL_HEFAME" }
 	}
 }
 
@@ -70,6 +77,7 @@ const BotonVariantes = ({ establecerVariante }) => {
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v1)}>Uno bueno</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v2)}>Uno bueno, uno malo</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v3)}>Uno malo</Dropdown.Item>
+				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.portal_hefame)}>Portal Hefame</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v4)}>Devolución 4</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v5)}>Incidencias repes</Dropdown.Item>
 				<Dropdown.Item href="#" onClick={() => establecerVariante(VARIANTES.v6)}>Cliente mal</Dropdown.Item>

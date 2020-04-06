@@ -3,12 +3,13 @@ import { Row, Col, Form, InputGroup, FormControl } from 'react-bootstrap'
 
 import Icono from 'componentes/icono/Icono'
 
-import { FaClinicMedical } from 'react-icons/fa'
+import { FaClinicMedical, FaSkullCrossbones } from 'react-icons/fa'
 
 
 const getIconoDeDominio = (dominio) => {
 	switch (dominio) {
 		case "FEDICOM": return FaClinicMedical;
+		case "PORTAL_HEFAME": return FaSkullCrossbones;
 		default: return FaClinicMedical;
 	}
 }
@@ -38,6 +39,7 @@ const SelectorDeAutenticacion = (props) => {
 				</InputGroup.Prepend>
 				<Form.Control size="sm" id="selectorDominio" as="select" value={dominio} onChange={(e) => { setDominio(e.target.value) }}>
 					<option value="FEDICOM">Un programa de farmacia</option>
+					<option value="PORTAL_HEFAME">Portal HEFAME</option>
 				</Form.Control>
 			</InputGroup>
 		</Col>
