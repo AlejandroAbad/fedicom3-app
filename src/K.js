@@ -145,6 +145,7 @@ const K = {
         noFaltas: { variante: "danger", titulo: "No faltas", icono: MdPortableWifiOff, descripcion: "¡ No se devolvieron faltas a la farmacia !" },
         estupe: { variante: "success", titulo: "Estupe", icono: GiMedicines, descripcion: "El pedido contiene algún producto estupefaciente." },
         dupes: { variante: "warning", titulo: "Duplicados", icono: MdControlPointDuplicate, descripcion: "Esta transmisión se ha sido recibido varias veces. El resto de transmisiones se marcaron como duplicadas." },
+        sapDupe: { variante: "warning", titulo: "Dupe SAP", icono: MdControlPointDuplicate, descripcion: "Esta transmisión se ha retransmitido a SAP y SAP la ha detectado como duplicada." },
         bonif: { variante: "success", titulo: "Bonificado", icono: FaPercentage, descripcion: "El pedido contiene líneas bonificadas." },
         transfer: { variante: "primary", titulo: "Transfer", icono: MdAirplanemodeActive, descripcion: "El pedido lo realiza un laboratorio." },
         faltaTotal: { variante: "secondary", titulo: "Falta Total", icono: FaCreativeCommonsNc, descripcion: "Todas las líneas del pedido son falta total. No se servirá nada." },
