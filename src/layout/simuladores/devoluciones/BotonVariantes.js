@@ -56,7 +56,7 @@ const VARIANTES = {
 		auth: { usuario: "10100117", dominio: "FEDICOM" }
 	},
 	portal_hefame: {
-		codigoCliente: "4718",
+		codigoCliente: "10104718",
 		lineas: [
 			{ codigoMotivo: "03", codigoArticulo: "150000", cantidad: 3, numeroAlbaran: "ALB123123123", fechaAlbaran: "10/12/2019" }
 		],

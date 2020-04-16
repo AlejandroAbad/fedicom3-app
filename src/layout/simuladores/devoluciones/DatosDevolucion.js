@@ -22,7 +22,7 @@ const DatosDevolucion = (props) => {
 const getNotaCodigoCliente = (dominio) => {
 	switch (dominio) {
 		case 'FEDICOM': return 'Los programas de farmacia utilizan códigos de cliente cortos (p.e: 117, 4607)'
-		case 'PORTAL_HEFAME': return 'El Portal Hefame debe utilizar códigos de cliente cortos (p.e: 117, 4607)'
+		case 'PORTAL_HEFAME': return 'El Portal Hefame debe utilizar códigos de cliente largos (p.e: 10100117, 10104607)'
 		default:
 			return null;
 	}
