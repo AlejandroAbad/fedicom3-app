@@ -42,7 +42,7 @@ const PROYECCION = {
 
 const LIMITE_POR_DEFECTO = 10;
 const FILTRO_POR_DEFECTO = {
-    type: { $in: [10, 14] },
+    type: { $in: [10, 20, 50] },
     //createdAt: { $gte: moment().startOf('day'), $lt: moment().endOf('day') }
 }
 const SORT_POR_DEFECTO = { createdAt: -1 }

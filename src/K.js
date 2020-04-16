@@ -114,19 +114,23 @@ const K = {
         0: { codigo: 0, filtrable: true, titulo: 'Autenticación', descripcion: 'Solicitud de autenticación de usuario', variante: 'light' },
         10: { codigo: 10, filtrable: true, titulo: 'Crear pedido', descripcion: 'Creación de un nuevo pedido', variante: 'primary' },
         20: { codigo: 20, filtrable: true, titulo: 'Crear devolucion', descripcion: 'Creación de una devolución', variante: 'dark' },
-        
+        50: { codigo: 50, filtrable: true, titulo: 'Pedido logística', descripcion: 'Creación de un nuevo pedido de logística', variante: 'dark' },
+
         13: { codigo: 13, filtrable: true, titulo: 'Confirmación Pedido', descripcion: 'SAP confirma la creación del pedido', variante: 'light' },
         14: { codigo: 14, filtrable: false, titulo: 'Retransmitir Pedido', descripcion: 'Reenvío a SAP de un pedido', variante: 'light' },
 
         12: { codigo: 12, filtrable: true, titulo: 'Pedido duplicado', descripcion: 'Pedido duplicado', variante: 'secondary' },
         22: { codigo: 22, filtrable: true, titulo: 'Devolución duplicada', descripcion: 'Devolución duplicada', variante: 'secondary' },
+        52: { codigo: 52, filtrable: true, titulo: 'Pedido logística duplicado', descripcion: 'Pedido logística duplicado', variante: 'secondary' },
 
         11: { codigo: 11, filtrable: true, titulo: 'Consulta pedido', descripcion: 'Consulta de un pedido', variante: 'info' },
         21: { codigo: 21, filtrable: true, titulo: 'Consulta devolucion', descripcion: 'Consulta de una devolución', variante: 'info' },
-        30: { codigo: 30, filtrable: false, titulo: 'Búsqueda de albaranes', descripcion: 'Búsqueda de albaranes', variante: 'info' },
-        31: { codigo: 31, filtrable: false, titulo: 'Consulta albarán', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
-        40: { codigo: 40, filtrable: false, titulo: 'Búsqueda de facturas', descripcion: 'Búsqueda de facturas', variante: 'info' },
-        41: { codigo: 41, filtrable: false, titulo: 'Consulta factura', descripcion: 'Transmisión de tipo desconocido', variante: 'info' }
+        30: { codigo: 30, filtrable: true, titulo: 'Búsqueda de albaranes', descripcion: 'Búsqueda de albaranes', variante: 'info' },
+        31: { codigo: 31, filtrable: true, titulo: 'Consulta albarán', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
+        40: { codigo: 40, filtrable: true, titulo: 'Búsqueda de facturas', descripcion: 'Búsqueda de facturas', variante: 'info' },
+        41: { codigo: 41, filtrable: true, titulo: 'Consulta factura', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
+        51: { codigo: 51, filtrable: true, titulo: 'Consulta logística', descripcion: 'Consulta de un pedido de logística', variante: 'info' }
+        
     },
     FLAGS: {
         sqlite: { variante: "danger", titulo: "SQLite", icono: FaDatabase, descripcion: "La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB.", tecnico: true },
