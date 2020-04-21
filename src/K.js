@@ -1,7 +1,7 @@
 import React from 'react'
 import { GiMedicines, GiCardExchange } from 'react-icons/gi'
 import { MdControlPointDuplicate, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
-import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc } from 'react-icons/fa'
+import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaBoxOpen, FaPuzzlePiece } from 'react-icons/fa'
 import { IoIosApps } from 'react-icons/io'
 import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
@@ -155,6 +155,8 @@ const K = {
         faltaTotal: { variante: "secondary", titulo: "Falta Total", icono: FaCreativeCommonsNc, descripcion: "Todas las líneas del pedido son falta total. No se servirá nada." },
         //formato: { variante: "warning", titulo: "Formato", icono: FaRadiation, descripcion: (<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>), tecnico: true },
         demorado: { variante: "primary", titulo: "Demorado", icono: MdTimer, descripcion: (<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>) },
+        logistica: { variante: "primary", titulo: "Logística", icono: FaBoxOpen, descripcion: (<span>La transmisión ha generado una orden de logística inversa.</span>) },
+        devParc: { variante: "warning", titulo: "Parcial", icono: FaPuzzlePiece, descripcion: (<span>La devolución es parcial, pues contiene errores.</span>) }
     },
     PROGRAMAS_FARMACIA: {
         10: { codigo: '10', nombre: 'FARMABRAIN', filtrable: true},
