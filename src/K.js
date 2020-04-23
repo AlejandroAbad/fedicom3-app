@@ -168,9 +168,10 @@ const K = {
         48: { codigo: '48', nombre: 'NIXFARMA', apellidos: 'PULSO', filtrable: true },
         59: { codigo: '59', nombre: 'TEDIFARMA', apellidos: 'COFARES', filtrable: true },
         61: { codigo: '61', nombre: 'TEDIFARMA 2', apellidos: 'COFARES', filtrable: true },
-        9000: { codigo: '9000', nombre: 'PostMan', filtrable: true },
-        9001: { codigo: '9001', nombre: 'SIM REACT', filtrable: true },
+        9000: { codigo: '9000', nombre: 'POSTMAN', filtrable: true },
+        9001: { codigo: '9001', nombre: 'SIMULADOR', filtrable: true },
         9002: { codigo: '9002', nombre: 'RETRANSMISOR' },
+        9003: { codigo: '9003', nombre: 'TEST UNITARIO' },
         9100: { codigo: '9100', nombre: 'TRADUCTOR F2', filtrable: true },
         9700: { codigo: '9700', nombre: 'APP EMPLEADO', filtrable: true },
         9800: { codigo: '9800', nombre: 'F+ONLINE', filtrable: true },
@@ -178,7 +179,7 @@ const K = {
         9991: { codigo: '9991', nombre: 'SAP D01' },
         9992: { codigo: '9992', nombre: 'SAP T01' },
         9993: { codigo: '9993', nombre: 'SAP P01' },
-        9999: { codigo: '9999', nombre: 'SIM PHP', filtrable: true }
+        9999: { codigo: '9999', nombre: 'SIMULADOR PHP', filtrable: true } // DEPRECATED
     }
 }
 
