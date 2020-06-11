@@ -7,7 +7,8 @@ import useInterval from 'util/useInterval'
 import { GoSync } from 'react-icons/go'
 import Icono from 'componentes/icono/Icono'
 import { MdSubdirectoryArrowRight } from 'react-icons/md'
-import { FiChevronsRight } from 'react-icons/fi'
+import { FiShare2 } from 'react-icons/fi'
+import { FaShieldAlt } from 'react-icons/fa'
 
 require('moment/locale/es')
 
@@ -25,10 +26,11 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 	const ejecutarConsulta = useCallback(() => {
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
 
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/proc', { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/procesos', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
+						console.log(response.body)
 						setResultado({ datos: response.body, error: null, cargando: false });
 					} else {
 						setResultado({ datos: null, error: response.body, cargando: false });
@@ -48,7 +50,7 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 	useInterval(ejecutarConsulta, 5000)
 
 
-	let procesos = resultado?.datos?.data;
+	let procesos = resultado?.datos;
 
 	let hosts = {}
 
@@ -57,14 +59,20 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 			if (!hosts[proc.host]) hosts[proc.host] = new ProcHost(proc.host)
 			hosts[proc.host].addProc(proc)
 		})
+
+
+		return <>
+			<Container>
+				{
+					Object.values(hosts).map((host, i) => <ProcHostElement key={i} procHost={host} />)
+				}
+			</Container>
+		</>
 	}
 
 	return <>
 		<Container>
 			<EstadoConsulta resultado={resultado} onRetry={ejecutarConsulta} />
-			{
-				Object.values(hosts).map((host, i) => <ProcHostElement key={i} procHost={host} />)
-			}
 		</Container>
 	</>
 
@@ -162,15 +170,15 @@ class Proc {
 			case "core-worker": return <><Icono icono={MdSubdirectoryArrowRight} /><Badge variant='success' className="px-2 py-1">WORKER</Badge></>
 			case "watchdog": return <Badge variant='warning' className="px-2 py-1">WATCH DOG</Badge>
 			case "monitor": return <Badge variant='info' className="px-2 py-1">MONITOR</Badge>
-			case "apache": return <Badge variant='dark' className="px-2 py-1">APACHE</Badge>
+			case "balanceador": return <Badge variant='dark' className="px-2 py-1">APACHE</Badge>
 			default: return <Badge variant='danger' className="px-2 py-1">?????</Badge>
 		}
 	}
 
 	getSubtype() {
 		switch (this.subtype) {
-			case "proxysap": return <Badge variant='primary' className="px-2 py-1">SAP <Icono icono={FiChevronsRight} posicion={[12,1]} /></Badge>
-			case "frontend": return <Badge variant='primary' className="px-2 py-1"><Icono icono={FiChevronsRight} posicion={[12, 1]} /> FRONT</Badge>
+			case "sap": return <Badge variant='primary' className="px-2 py-1"><Icono icono={FiShare2} posicion={[12, 1]} /> Balanceo SAP</Badge>
+			case "fedicom": return <Badge variant='primary' className="px-2 py-1"><Icono icono={FaShieldAlt} posicion={[12, 1]} /> Cortafuegos</Badge>
 			default: return null
 		}
 	}
@@ -210,9 +218,9 @@ class Proc {
 		if (this.type === 'core-master') {
 			return <><small className="ml-2"><strong>Workers: </strong>{this.childrens}</small></>
 		}
-		if (this.type === 'apache') {
+		if (this.type === 'balanceador') {
 			return <>
-				<small className="ml-2"><strong>URL: </strong>{this.url}</small>
+				<small className="ml-2"><strong>URL base: </strong>{this.url}</small>
 			</>
 		}
 		return null;
@@ -249,7 +257,7 @@ class ProcHost {
 				this.monitorProc = proceso;
 				break;
 
-			case "apache":
+			case "balanceador":
 				this.apacheProc = proceso;
 				break;
 
@@ -259,7 +267,7 @@ class ProcHost {
 	}
 
 	getStatusColor() {
-		if (this.apacheProc && this.apacheProc.subtype=== 'frontend') {
+		if (this.apacheProc && this.apacheProc.subtype=== 'fedicom') {
 			return 'light'
 		}
 
