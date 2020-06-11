@@ -7,13 +7,14 @@ import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
 const PRODUCCION = process.env.REACT_APP_F3_PRODUCCION === "true" ? true : false;
 const BASE_URL = process.env.REACT_APP_F3_BASEURL
+const BASE_MONURL = process.env.REACT_APP_F3MON_BASEURL
 
 
 const K = {
     PRODUCCION: PRODUCCION,
     DESTINOS: {
         CORE: BASE_URL,
-        MONITOR: BASE_URL + '/monitor'
+        MONITOR: BASE_MONURL
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
