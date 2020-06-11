@@ -31,7 +31,9 @@ const SoftwareEmisor = ({ setValue, filtro, register, errors, ...props }) => {
 
     let opcionesIniciales = [];
 
-    if (filtro[RUTA_FILTRO]?.$in) {
+
+
+    if (filtro && filtro[RUTA_FILTRO]?.$in) {
         opcionesIniciales = filtro[RUTA_FILTRO].$in.map(codigoPrograma => {
             let datosPrograma = K.PROGRAMAS_FARMACIA[parseInt(codigoPrograma)];
             if (datosPrograma)

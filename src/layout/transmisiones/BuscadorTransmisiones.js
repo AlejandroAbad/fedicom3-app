@@ -75,17 +75,19 @@ const BuscadorTransmisiones = (props) => {
             }
         }
         return {
-            filter: clonedQuery,
-            proyection: PROYECCION,
-            sort: query.sort,
+            filtro: clonedQuery || {},
+            proyeccion: PROYECCION,
+            orden: query.sort,
             skip: parseInt(query.skip),
-            limit: parseInt(query.limit)
+            limite: parseInt(query.limit)
         }
     }, [query])
 
     const ejecutarConsulta = useCallback(() => {
         setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
-        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, construirQuery())
+        let consultaConstruida = construirQuery();
+        console.log('LANZANDO CONSULTA', consultaConstruida)
+        fedicomFetch(K.DESTINOS.MONITOR + '/v1/transmisiones', { method: 'PUT' }, props.jwt, consultaConstruida)
             .then(response => {
                 if (response) {
                     if (response.ok) {
@@ -164,8 +166,8 @@ const BuscadorTransmisiones = (props) => {
     } else {
 
         let filas = [];
-        if (!resultado.cargando && resultado.datos && resultado.datos.data && resultado.datos.data.length > 0) {
-            resultado.datos.data.forEach((transmision, index) => {
+        if (!resultado.cargando && resultado.datos && resultado.datos.resultados && resultado.datos.resultados.length > 0) {
+            resultado.datos.resultados.forEach((transmision, index) => {
                 filas.push(<FilaTransmision key={index} transmision={transmision} formato={formato} />)
             });
         }
