@@ -1,52 +1,51 @@
 import K from 'K'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Alert} from 'react-bootstrap'
 import { FaBalanceScale } from 'react-icons/fa';
 import { TiArrowShuffle, TiArrowDown } from 'react-icons/ti';
 import Icono from 'componentes/icono/Icono';
 import fedicomFetch from 'util/fedicomFetch';
+import EstadoConsulta from 'componentes/estadoConsulta/EstadoConsulta';
 
 
 const EstadoBalanceadores = ({ jwt, ...props }) => {
 
-	let slbCore = new URL(K.DESTINOS.CORE).hostname.split('.')[0]
-
-	const [slbEntrada/*, setSlbEntrada*/] = useState({ cargando: false, balanceadores:[slbCore], error: null})
-	const [slbSalida, setSlbSalida] = useState({ cargando: true, balanceadores: [], error: null })
+	const [resultado, setResultado] = useState({ cargando: true, resultados: [], error: null })
 
 
-	useEffect( () => {
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/proc', { method: 'GET' }, jwt)
+	let cargarDatosBalanceadores = useCallback( () => {
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/balanceadores', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
 
-						let procesos = response?.body?.data;
-						let balanceadores = []
-						if (procesos && procesos.length > 0) {
-							procesos.forEach(proc => {
-								if (proc.type === 'core-master') {
-									balanceadores.push(proc.host)
-								}
-							})
-						}
-						setSlbSalida({ balanceadores: balanceadores, error: null, cargando: false });
+						let balanceadores = response?.body;
+						console.log('RESULTADO BALANCEADORES', balanceadores)
+						setResultado({ resultados: balanceadores, error: null, cargando: false });
 					} else {
-						setSlbSalida({ datos: null, error: response.body, cargando: false });
+						setResultado({ datos: null, error: response.body, cargando: false });
 					}
 				}
 			})
 			.catch(error => {
-				setSlbSalida({ datos: null, error, cargando: false });
+				setResultado({ datos: null, error, cargando: false });
 			})
-	}, [setSlbSalida, jwt])
+	}, [setResultado, jwt]);
+
+	useEffect(cargarDatosBalanceadores, [cargarDatosBalanceadores]);
+
+	if (! resultado?.resultados?.length) {
+		return <Container>
+			<EstadoConsulta resultado={resultado} onRetry={cargarDatosBalanceadores} />
+		</Container>
+	}
 
 	return <Container>
 
 		<Row className="mt-2 d-flex align-items-center justify-content-center">
 			<Col sm={6} lg={4} className="text-center border-bottom pb-2">
-				<h4 className="m-0">Entrada</h4>
+				<h4 className="m-0">Entrada pedidos</h4>
 				<span className="m-0 text-muted"><small>Entrada desde el exterior al concentrador</small></span>
 			</Col>
 
@@ -60,8 +59,8 @@ const EstadoBalanceadores = ({ jwt, ...props }) => {
 
 		<Row className="mt-2 d-flex align-items-center justify-content-center">
 			<Col sm={6} lg={4}>
-				{ (slbEntrada.balanceadores.length > 0) && 
-					slbEntrada.balanceadores.map((bal, i) => <ServidorApache key={i} nombre={bal} />)
+				{(resultado.resultados.length > 0) && 
+					resultado.resultados.filter( bal => bal.subtype === 'fedicom').map((bal, i) => <ServidorApache key={i} datos={bal} />)
 				}
 			</Col>
 
@@ -73,8 +72,8 @@ const EstadoBalanceadores = ({ jwt, ...props }) => {
 			</Col>
 
 			<Col sm={5} lg={4}>
-				{(slbSalida.balanceadores.length > 0) &&
-					slbSalida.balanceadores.map((bal, i) => <ServidorApache key={i} nombre={bal} />)
+				{(resultado.resultados.length > 0) &&
+					resultado.resultados.filter(bal => bal.subtype === 'sap').map((bal, i) => <ServidorApache key={i} datos={bal} />)
 				}
 			</Col>
 		</Row>
@@ -84,12 +83,12 @@ const EstadoBalanceadores = ({ jwt, ...props }) => {
 }
 
 
-const ServidorApache = ( {nombre, variant} ) => {
+const ServidorApache = ( {datos, variant} ) => {
 	return <Col xs={12}>
-		<Link to={`/estado/balanceador/${nombre}`} className="text-decoration-none">
+		<Link to={`/estado/balanceador/${datos.host}`} className="text-decoration-none">
 		<Alert variant={variant ?? 'primary'}>
 			<Icono icono={FaBalanceScale} posicion={[22, 4]}/>
-			<span className="ml-2 text-uppercase font-weight-bold">{nombre}</span>
+				<span className="ml-2 text-uppercase font-weight-bold">{datos.host}</span>
 		</Alert>
 		</Link>
 	</Col>
