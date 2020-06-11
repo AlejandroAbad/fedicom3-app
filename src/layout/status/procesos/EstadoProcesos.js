@@ -30,7 +30,6 @@ const EstadoProcesos = ({ jwt, ...props }) => {
 			.then(response => {
 				if (response) {
 					if (response.ok) {
-						console.log(response.body)
 						setResultado({ datos: response.body, error: null, cargando: false });
 					} else {
 						setResultado({ datos: null, error: response.body, cargando: false });
