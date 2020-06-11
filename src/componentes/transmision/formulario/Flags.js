@@ -69,7 +69,7 @@ const FlagCheckbox = ({ activo, codigo, onCambiado }) => {
     let variante = (activo ? '' : 'outline-') + f.variante
 
     return (
-        <OverlayTrigger trigger="hover" overlay={FlagPopover(f.icono, f.titulo, f.descripcion, f.variante)} placement="bottom">
+        <OverlayTrigger trigger={['hover', 'focus']} overlay={FlagPopover(f.icono, f.titulo, f.descripcion, f.variante)} placement="bottom">
             <Button size="sm" variant={variante} className="py-0 pl-1 pr-2 mr-1" onClick={() => onCambiado(codigo)}>
                 <Icono icono={f.icono} posicion={[20, 2]} className="mr-1" />
                 {f.titulo}

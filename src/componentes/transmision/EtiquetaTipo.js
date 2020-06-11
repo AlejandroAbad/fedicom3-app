@@ -28,7 +28,7 @@ const EtiquetaTipo = ({ tipo, ...props }) => {
     let datosTipo = getTipo(tipo)
 
     return (
-        <OverlayTrigger trigger="hover" overlay={popover(datosTipo)} placement="bottom">
+        <OverlayTrigger trigger={['hover', 'focus']} overlay={popover(datosTipo)} placement="bottom">
             <Badge pill size="lg" variant={datosTipo.variante} className="EtiquetaTipo" >{datosTipo.titulo}</Badge>
         </OverlayTrigger>
     );

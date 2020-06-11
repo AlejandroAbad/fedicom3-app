@@ -33,7 +33,7 @@ const EtiquetaEstado = ({ estado, ...props }) => {
     let datosEstado = getEstado(estado)
 
     return (
-        <OverlayTrigger trigger="hover" overlay={popover(datosEstado)} placement="bottom">
+        <OverlayTrigger trigger={['hover', 'focus']} overlay={popover(datosEstado)} placement="bottom">
             <Badge pill size="lg" variant={datosEstado.variante} className="EtiquetaEstado" >{datosEstado.titulo}</Badge>
         </OverlayTrigger>
     )
