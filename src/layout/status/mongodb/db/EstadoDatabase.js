@@ -15,7 +15,7 @@ const EstadoDatabase = ({jwt}) => {
 	const [resultado, setResultado] = useState({ cargando: true, datos: null, error: null })
 
 	useEffect(() => {
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/db', { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/database', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -38,7 +38,7 @@ const EstadoDatabase = ({jwt}) => {
 		)
 	}
 
-	let db = resultado?.datos?.data;
+	let db = resultado?.datos;
 
 	if (resultado.error || !db) {
 		return <ConsultaError errores={resultado.error} />

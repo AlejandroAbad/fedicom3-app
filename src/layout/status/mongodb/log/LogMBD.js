@@ -16,7 +16,7 @@ const LogMBD = ({ jwt }) => {
 
 	useEffect(() => {
 		setResultado({ cargando: true, datos: null, error: null });
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/log?type=' + tipoLog, { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/logs?tipo=' + tipoLog, { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -53,7 +53,7 @@ const LogMBD = ({ jwt }) => {
 		)
 	}
 
-	let logs = resultado?.datos?.data;
+	let logs = resultado?.datos;
 
 	if (resultado.error || !logs) {
 		return <>

@@ -15,7 +15,7 @@ const EstadoReplicaSet = ({ jwt }) => {
 	const [resultado, setResultado] = useState({ cargando: true, datos: null, error: null })
 
 	useEffect(() => {
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/rs', { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/replicaSet', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -38,7 +38,7 @@ const EstadoReplicaSet = ({ jwt }) => {
 		)
 	}
 
-	let rs = resultado?.datos?.data;
+	let rs = resultado?.datos;
 
 	if (resultado.error || !rs) {
 		return <ConsultaError errores={resultado.error} />

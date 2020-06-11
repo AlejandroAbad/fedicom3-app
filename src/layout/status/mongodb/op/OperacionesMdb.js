@@ -15,7 +15,7 @@ const OperacionesMdb = ({jwt}) => {
 	const [resultado, setResultado] = useState({ cargando: true, datos: null, error: null })
 
 	useEffect(() => {
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/op', { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/operaciones', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -38,7 +38,7 @@ const OperacionesMdb = ({jwt}) => {
 		)
 	}
 
-	let ops = resultado?.datos?.data;
+	let ops = resultado?.datos;
 
 	if (resultado.error || !ops) {
 		return <ConsultaError errores={resultado.error} />
