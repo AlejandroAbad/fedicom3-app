@@ -86,7 +86,6 @@ const BuscadorTransmisiones = (props) => {
     const ejecutarConsulta = useCallback(() => {
         setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
         let consultaConstruida = construirQuery();
-        console.log('LANZANDO CONSULTA', consultaConstruida)
         fedicomFetch(K.DESTINOS.MONITOR + '/v1/transmisiones', { method: 'PUT' }, props.jwt, consultaConstruida)
             .then(response => {
                 if (response) {
@@ -117,7 +116,6 @@ const BuscadorTransmisiones = (props) => {
     };
 
     const cambiarPagina = (pagina) => {
-        console.log('pagina cambiada', pagina)
         let queryNueva = {}
         Object.assign(queryNueva, query);
         queryNueva.skip = (pagina - 1) * query.limit;

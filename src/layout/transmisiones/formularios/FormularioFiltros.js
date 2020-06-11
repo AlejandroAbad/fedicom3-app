@@ -31,7 +31,6 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
 
         for (let campoControl in Controles ) {
             if (Controles[campoControl]?.expandirOpciones) {
-                console.log('Llamando a expandirOpciones para', campoControl);
                 Controles[campoControl].expandirOpciones(filtro);
             }
         }
