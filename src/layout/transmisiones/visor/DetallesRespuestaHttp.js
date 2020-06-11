@@ -9,8 +9,6 @@ import ComponentesHTTP from 'componentes/http/ComponentesHTTP'
 const DetallesRespuestaHttp = ({res}) => {
     if (!res) return null
 
-    console.log(res)
-
     return (
         <Accordion defaultActiveKey="0" className="my-3">
             <Card>
