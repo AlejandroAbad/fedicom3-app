@@ -18,7 +18,7 @@ const EstadoColecciones = ({jwt}) => {
 	const [colSeleccionada, setColSeleccionada] = useState('tx')
 	
 	useEffect(() => {
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/col', { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/colecciones', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -41,7 +41,7 @@ const EstadoColecciones = ({jwt}) => {
 		)
 	}
 
-	let colecciones = resultado?.datos?.data;
+	let colecciones = resultado?.datos;
 
 	if (resultado.error || !colecciones) {
 
@@ -70,7 +70,7 @@ const DetalleColeccion = ({jwt, coleccion}) => {
 
 	useEffect(() => {
 		setResultado({ cargando: true, datos: null, error: null });
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/col/' + coleccion , { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/colecciones/' + coleccion , { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -90,7 +90,7 @@ const DetalleColeccion = ({jwt, coleccion}) => {
 		
 	}
 
-	let col = resultado?.datos?.data;
+	let col = resultado?.datos;
 
 	if (resultado.error || !col) {
 		return <ConsultaError titulo="Error al obtener los datos de la colección" errores={resultado.error} />

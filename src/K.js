@@ -1,19 +1,20 @@
 import React from 'react'
 import { GiMedicines, GiCardExchange } from 'react-icons/gi'
 import { MdControlPointDuplicate, MdAirplanemodeActive, MdPortableWifiOff, MdTimer } from 'react-icons/md'
-import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc } from 'react-icons/fa'
+import { FaBug, FaDatabase, FaRetweet, FaPercentage, FaCreativeCommonsNc, FaBoxOpen, FaPuzzlePiece } from 'react-icons/fa'
 import { IoIosApps } from 'react-icons/io'
 import { GoGitPullRequest, GoGitBranch, GoRepoForked } from 'react-icons/go'
 
 const PRODUCCION = process.env.REACT_APP_F3_PRODUCCION === "true" ? true : false;
 const BASE_URL = process.env.REACT_APP_F3_BASEURL
+const BASE_MONURL = process.env.REACT_APP_F3MON_BASEURL
 
 
 const K = {
     PRODUCCION: PRODUCCION,
     DESTINOS: {
         CORE: BASE_URL,
-        MONITOR: BASE_URL + '/monitor'
+        MONITOR: BASE_MONURL
     },
     AVISO_JWT_PROXIMO_A_CADUCAR: 60 * 5,
     ALMACENES: {
@@ -114,19 +115,23 @@ const K = {
         0: { codigo: 0, filtrable: true, titulo: 'Autenticación', descripcion: 'Solicitud de autenticación de usuario', variante: 'light' },
         10: { codigo: 10, filtrable: true, titulo: 'Crear pedido', descripcion: 'Creación de un nuevo pedido', variante: 'primary' },
         20: { codigo: 20, filtrable: true, titulo: 'Crear devolucion', descripcion: 'Creación de una devolución', variante: 'dark' },
-        
+        50: { codigo: 50, filtrable: true, titulo: 'Pedido logística', descripcion: 'Creación de un nuevo pedido de logística', variante: 'dark' },
+
         13: { codigo: 13, filtrable: true, titulo: 'Confirmación Pedido', descripcion: 'SAP confirma la creación del pedido', variante: 'light' },
         14: { codigo: 14, filtrable: false, titulo: 'Retransmitir Pedido', descripcion: 'Reenvío a SAP de un pedido', variante: 'light' },
 
         12: { codigo: 12, filtrable: true, titulo: 'Pedido duplicado', descripcion: 'Pedido duplicado', variante: 'secondary' },
         22: { codigo: 22, filtrable: true, titulo: 'Devolución duplicada', descripcion: 'Devolución duplicada', variante: 'secondary' },
+        52: { codigo: 52, filtrable: true, titulo: 'Pedido logística duplicado', descripcion: 'Pedido logística duplicado', variante: 'secondary' },
 
         11: { codigo: 11, filtrable: true, titulo: 'Consulta pedido', descripcion: 'Consulta de un pedido', variante: 'info' },
         21: { codigo: 21, filtrable: true, titulo: 'Consulta devolucion', descripcion: 'Consulta de una devolución', variante: 'info' },
-        30: { codigo: 30, filtrable: false, titulo: 'Búsqueda de albaranes', descripcion: 'Búsqueda de albaranes', variante: 'info' },
-        31: { codigo: 31, filtrable: false, titulo: 'Consulta albarán', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
-        40: { codigo: 40, filtrable: false, titulo: 'Búsqueda de facturas', descripcion: 'Búsqueda de facturas', variante: 'info' },
-        41: { codigo: 41, filtrable: false, titulo: 'Consulta factura', descripcion: 'Transmisión de tipo desconocido', variante: 'info' }
+        30: { codigo: 30, filtrable: true, titulo: 'Búsqueda de albaranes', descripcion: 'Búsqueda de albaranes', variante: 'info' },
+        31: { codigo: 31, filtrable: true, titulo: 'Consulta albarán', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
+        40: { codigo: 40, filtrable: true, titulo: 'Búsqueda de facturas', descripcion: 'Búsqueda de facturas', variante: 'info' },
+        41: { codigo: 41, filtrable: true, titulo: 'Consulta factura', descripcion: 'Transmisión de tipo desconocido', variante: 'info' },
+        51: { codigo: 51, filtrable: true, titulo: 'Consulta logística', descripcion: 'Consulta de un pedido de logística', variante: 'info' }
+        
     },
     FLAGS: {
         sqlite: { variante: "danger", titulo: "SQLite", icono: FaDatabase, descripcion: "La transmisión ha sido almacenada temporalmente en la base de datos SQLite y posteriormente migrada a MongoDB.", tecnico: true },
@@ -145,11 +150,14 @@ const K = {
         noFaltas: { variante: "danger", titulo: "No faltas", icono: MdPortableWifiOff, descripcion: "¡ No se devolvieron faltas a la farmacia !" },
         estupe: { variante: "success", titulo: "Estupe", icono: GiMedicines, descripcion: "El pedido contiene algún producto estupefaciente." },
         dupes: { variante: "warning", titulo: "Duplicados", icono: MdControlPointDuplicate, descripcion: "Esta transmisión se ha sido recibido varias veces. El resto de transmisiones se marcaron como duplicadas." },
+        sapDupe: { variante: "warning", titulo: "Dupe SAP", icono: MdControlPointDuplicate, descripcion: "Esta transmisión se ha retransmitido a SAP y SAP la ha detectado como duplicada." },
         bonif: { variante: "success", titulo: "Bonificado", icono: FaPercentage, descripcion: "El pedido contiene líneas bonificadas." },
         transfer: { variante: "primary", titulo: "Transfer", icono: MdAirplanemodeActive, descripcion: "El pedido lo realiza un laboratorio." },
         faltaTotal: { variante: "secondary", titulo: "Falta Total", icono: FaCreativeCommonsNc, descripcion: "Todas las líneas del pedido son falta total. No se servirá nada." },
         //formato: { variante: "warning", titulo: "Formato", icono: FaRadiation, descripcion: (<span>La transmisión tiene incidencias de forma. Por ejemplo, campos de tipo numérico que se mandan como texto (<code>"1"</code> en lugar de <code>1</code>) o fechas mal formateadas.</span>), tecnico: true },
         demorado: { variante: "primary", titulo: "Demorado", icono: MdTimer, descripcion: (<span>El pedido contiene al menos una línea donde se ha sugerido un envío demorado.</span>) },
+        logistica: { variante: "primary", titulo: "Logística", icono: FaBoxOpen, descripcion: (<span>La transmisión ha generado una orden de logística inversa.</span>) },
+        devParc: { variante: "warning", titulo: "Parcial", icono: FaPuzzlePiece, descripcion: (<span>La devolución es parcial, pues contiene errores.</span>) }
     },
     PROGRAMAS_FARMACIA: {
         10: { codigo: '10', nombre: 'FARMABRAIN', filtrable: true},
@@ -161,16 +169,18 @@ const K = {
         48: { codigo: '48', nombre: 'NIXFARMA', apellidos: 'PULSO', filtrable: true },
         59: { codigo: '59', nombre: 'TEDIFARMA', apellidos: 'COFARES', filtrable: true },
         61: { codigo: '61', nombre: 'TEDIFARMA 2', apellidos: 'COFARES', filtrable: true },
-        9000: { codigo: '9000', nombre: 'PostMan', filtrable: true },
-        9001: { codigo: '9001', nombre: 'SIM REACT', filtrable: true },
+        9000: { codigo: '9000', nombre: 'POSTMAN', filtrable: true },
+        9001: { codigo: '9001', nombre: 'SIMULADOR', filtrable: true },
         9002: { codigo: '9002', nombre: 'RETRANSMISOR' },
+        9003: { codigo: '9003', nombre: 'TEST UNITARIO' },
         9100: { codigo: '9100', nombre: 'TRADUCTOR F2', filtrable: true },
         9700: { codigo: '9700', nombre: 'APP EMPLEADO', filtrable: true },
         9800: { codigo: '9800', nombre: 'F+ONLINE', filtrable: true },
+        9801: { codigo: '9801', nombre: 'PORTAL HEFAME', filtrable: true },
         9991: { codigo: '9991', nombre: 'SAP D01' },
         9992: { codigo: '9992', nombre: 'SAP T01' },
         9993: { codigo: '9993', nombre: 'SAP P01' },
-        9999: { codigo: '9999', nombre: 'SIM PHP', filtrable: true }
+        9999: { codigo: '9999', nombre: 'SIMULADOR PHP', filtrable: true } // DEPRECATED
     }
 }
 

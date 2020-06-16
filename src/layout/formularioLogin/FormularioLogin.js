@@ -1,10 +1,9 @@
 import K from 'K';
-import React from 'react';
-import { Col, Button, InputGroup, FormControl, Form, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Col, Button, InputGroup, FormControl, Form, Alert, Spinner } from 'react-bootstrap';
 import { GoPerson, GoKey, GoSignIn } from 'react-icons/go';
 import { FaWindows, FaHome, FaClinicMedical } from 'react-icons/fa';
 
-import AlertaDescartable from 'componentes/alertaDescartable/AlertaDescartable';
 import useStateLocalStorage from 'util/useStateLocalStorage';
 import jsonFetch from 'util/fedicomFetch';
 
@@ -21,11 +20,12 @@ const getIconoDeDominio = (dominio) => {
 
 const FormularioLogin = (props) => {
 
-    const [usuario, setUsuario] = React.useState('');
-    const [clave, setClave] = React.useState('');
+    const [cargando, setCargando] = useState(false);
+    const [usuario, setUsuario] = useState('');
+    const [clave, setClave] = useState('');
     const [dominio, setDominio] = useStateLocalStorage('login.dominioSeleccionado', 'HEFAME', false);
 
-    const [errores, setErrores] = React.useState(null);
+    const [errores, setErrores] = useState(null);
 
 
 
@@ -39,12 +39,13 @@ const FormularioLogin = (props) => {
             domain: dominio
         };
 
-
+        setCargando(true);
         jsonFetch(K.DESTINOS.CORE + '/authenticate', {}, null, solicitudToken)
             .catch((error) => {
                 setErrores([error]);
             })
             .then((response) => {
+                setCargando(false);
                 if (!response) return;
                 if (!response.ok) {
                     setErrores(response.body);
@@ -97,9 +98,15 @@ const FormularioLogin = (props) => {
 
 
             <div className="m-auto mt-2 text-center">
-                <Button variant="outline-primary" size="lg" onClick={solicitaToken}>
-                    <GoSignIn /> Acceder
+                { cargando ? 
+                    <Button variant="link" size="lg" onClick={solicitaToken} disabled>
+                        <Spinner animation="border" variant="primary" />
                     </Button>
+                    :
+                    <Button variant="outline-primary" size="lg" onClick={solicitaToken}>
+                        <GoSignIn /> Acceder
+                    </Button>
+                }   
             </div>
 
         </Col>
@@ -121,12 +128,12 @@ const AlertasLogin = (props) => {
     })
 
     return (
-        <AlertaDescartable variant='danger'>
+        <Alert variant='danger'>
             <Alert.Heading>Fallo al autenticar</Alert.Heading>
             <ul>
                 {alertas}
             </ul>
-        </AlertaDescartable>
+        </Alert>
     )
 }
 

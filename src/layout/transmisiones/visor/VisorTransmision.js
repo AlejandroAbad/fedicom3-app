@@ -2,8 +2,6 @@ import K from 'K'
 import React, { useState, useCallback, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
-
-import DepuradorAPI from 'componentes/debug/depuradorApi/DepuradorApi'
 import fedicomFetch from 'util/fedicomFetch'
 
 import EtiquetaTipo from 'componentes/transmision/EtiquetaTipo'
@@ -17,19 +15,35 @@ import DetallesDuplicado from './detallesDuplicado/DetallesDuplicado'
 import DetallesConfirmacion from './detallesConfirmacion/DetallesConfirmacion'
 import BotonRetransmitir from './detallesPedido/RetransmitirPedido'
 import SistemaSAP from 'componentes/transmision/SistemaSAP'
+import { EJSON, ObjectId } from 'bson'
+import EstadoConsulta from 'componentes/estadoConsulta/EstadoConsulta'
 
 const VisorTransmision = ({ jwt, txId, deshabilitarRetransmision, ...props }) => {
 
-    const [resultado, setResultado] = useState({ datos: null, error: null, cargando: false });
+    const [resultado, setResultado] = useState({ datos: null, error: null, cargando: true });
     if (props?.match?.params?.txId) txId = props.match.params.txId;
 
+    
+
     const ejecutarConsulta = useCallback(() => {
-        setResultado({ datos: null, error: null, cargando: false })
-        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, jwt, { filter: { _id: txId } })
+        let txIdOid = null;
+        try {
+            txIdOid = new ObjectId(txId);
+        } catch (e) {
+            console.error('Se ignora el ID por ser invalido', txId);
+        }
+
+        if (!txIdOid) {
+            setResultado({ datos: null, error: 'No se encuentra el ID de transmisión indicado', cargando: false })
+            return;
+        }
+
+        setResultado({ datos: null, error: null, cargando: true })
+        fedicomFetch(K.DESTINOS.MONITOR + '/v1/transmisiones', { method: 'PUT' }, jwt, { filtro: EJSON.serialize({ _id: txIdOid }) })
             .then(response => {
                 if (response) {
                     if (response.ok) {
-                        setResultado({ datos: response.body, error: null, cargando: false });
+                        setResultado({ datos: response.body?.resultados, error: null, cargando: false });
                     } else {
                         setResultado({ datos: null, error: response.body, cargando: false });
                     }
@@ -45,13 +59,10 @@ const VisorTransmision = ({ jwt, txId, deshabilitarRetransmision, ...props }) =>
     }, [ejecutarConsulta, jwt, txId])
 
 
-
-    if (resultado?.datos?.data?.length > 0) {
-
-        let tx = resultado.datos.data[0]
-
+    
+    if (resultado?.datos?.length > 0) {
+        let tx = resultado.datos[0]
         let mostarBotonRetransmision = (!deshabilitarRetransmision && jwt?.data?.perms?.includes("FED3_RETRANSMISION") && tx.type === 10)
-
         return (
             <>
 
@@ -91,13 +102,9 @@ const VisorTransmision = ({ jwt, txId, deshabilitarRetransmision, ...props }) =>
             </>
         )
     } else {
-        return (
-
-            <Container fluid>
-                Cargando ...
-                <DepuradorAPI id='VisorTransmisiones' query={{ filter: { _id: txId } }} resultado={resultado} />)
-            </Container>
-        )
+        return <Container>
+            <EstadoConsulta resultado={resultado} onRetry={ejecutarConsulta} />
+        </Container>
     }
 
 }

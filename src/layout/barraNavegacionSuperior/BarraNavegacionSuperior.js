@@ -11,6 +11,7 @@ import { FaPaperPlane, FaFlask, FaBook, FaQuora } from 'react-icons/fa'
 import { IoMdPlanet } from 'react-icons/io'
 import Icono from 'componentes/icono/Icono';
 import { MdSchool } from 'react-icons/md';
+import { GiNuclearBomb } from 'react-icons/gi';
 
 
 
@@ -53,6 +54,7 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                     <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
                         {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />}
                         {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />}
+                        {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/pruebaCarga" icono={GiNuclearBomb} titulo="Prueba de carga" />}
                         <BotonNavegacion enlace="/simulador/consultaAlbaranes" icono={FaQuora} titulo="Consulta albaranes" />
                         {/*<BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
                     </BotonNavegacion>

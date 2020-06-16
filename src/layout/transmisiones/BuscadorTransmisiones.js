@@ -42,7 +42,7 @@ const PROYECCION = {
 
 const LIMITE_POR_DEFECTO = 10;
 const FILTRO_POR_DEFECTO = {
-    type: { $in: [10, 14] },
+    type: { $in: [10, 20, 50] },
     //createdAt: { $gte: moment().startOf('day'), $lt: moment().endOf('day') }
 }
 const SORT_POR_DEFECTO = { createdAt: -1 }
@@ -75,17 +75,18 @@ const BuscadorTransmisiones = (props) => {
             }
         }
         return {
-            filter: clonedQuery,
-            proyection: PROYECCION,
-            sort: query.sort,
+            filtro: clonedQuery || {},
+            proyeccion: PROYECCION,
+            orden: query.sort,
             skip: parseInt(query.skip),
-            limit: parseInt(query.limit)
+            limite: parseInt(query.limit)
         }
     }, [query])
 
     const ejecutarConsulta = useCallback(() => {
         setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
-        fedicomFetch(K.DESTINOS.MONITOR + '/query', { method: 'PUT' }, props.jwt, construirQuery())
+        let consultaConstruida = construirQuery();
+        fedicomFetch(K.DESTINOS.MONITOR + '/v1/transmisiones', { method: 'PUT' }, props.jwt, consultaConstruida)
             .then(response => {
                 if (response) {
                     if (response.ok) {
@@ -115,7 +116,6 @@ const BuscadorTransmisiones = (props) => {
     };
 
     const cambiarPagina = (pagina) => {
-        console.log('pagina cambiada', pagina)
         let queryNueva = {}
         Object.assign(queryNueva, query);
         queryNueva.skip = (pagina - 1) * query.limit;
@@ -164,8 +164,8 @@ const BuscadorTransmisiones = (props) => {
     } else {
 
         let filas = [];
-        if (!resultado.cargando && resultado.datos && resultado.datos.data && resultado.datos.data.length > 0) {
-            resultado.datos.data.forEach((transmision, index) => {
+        if (!resultado.cargando && resultado.datos && resultado.datos.resultados && resultado.datos.resultados.length > 0) {
+            resultado.datos.resultados.forEach((transmision, index) => {
                 filas.push(<FilaTransmision key={index} transmision={transmision} formato={formato} />)
             });
         }

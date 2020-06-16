@@ -11,7 +11,7 @@ const jsonFetch = async (url, options = {}, body = null) => {
             options.headers = { 'Content-Type': 'application/json' };
         if (!options.method) options.method = 'POST';
     }
-
+    
     const r = await fetch(url, options);
     const data = await r.json();
     return ({

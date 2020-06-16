@@ -29,7 +29,7 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 	let txId = tx._id
 
 	const [mostrar, setMostar] = useState(false)
-	const [clonar, setClonar] = useState(true)
+	const [clonar, setClonar] = useState(false)
 	const [resultado, setResultado] = useState({ datos: null, error: null, cargando: false })
 
 	const refClone = useRef()
@@ -52,7 +52,7 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 
 		let url = K.DESTINOS.CORE + '/retransmitir/' + txId + '?forzar=si'
 		if (clonar) {
-			url += '&almacen=' + almacen 
+			url += '&almacen=' + almacen
 			if (sap !== (K.PRODUCCION ? 'P01' : 'T01'))
 				url += '&sistemaSAP=' + sap
 		}
@@ -78,7 +78,7 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 	let body = null
 	let formulario = (<>
 		<Form.Group as={Row} className="align-items-center">
-			<Col md="12" column>
+			<Col md="12" column="true">
 				<Form.Check
 					custom
 					defaultChecked={clonar}
@@ -89,12 +89,25 @@ const BotonRetransmitir = ({ transmision, jwt, onPedidoModificado }) => {
 					id={`clonar`}
 				/>
 			</Col>
-			<Form.Label column className="text-muted">
-				{clonar  ? 
-					<small>Cambiar los datos del pedido implica que se generará un nuevo pedido en SAP (con un nuevo CRC)</small> :
-					<small>El pedido se retransmitirá con el mismo CRC y SAP decidirá si es duplicado o no.<br/>
-					<b className="text-danger">Atención:</b> Esta acción puede hacer que el pedido se vea modificado (varíen las faltas, el almacén de servicio, etc...)</small>
-				}
+			<Form.Label column="true" className="text-muted">
+				<Alert variant={clonar ? "danger" : "primary"} className="mt-3 mb-0 pb-0">
+					{clonar ?
+						<>
+							<b>Advertencia:</b> Has marcado la opción de <i>Cambiar los datos del pedido</i>:
+							<ul>
+								<li>Esto genera un CRC nuevo, lo que implica que SAP <b>NUNCA</b> DETECTARÁ EL NUEVO PEDIDO COMO DUPLICADO.</li>
+								<li>¡¡ Incluso si se utiliza el mismo almacén !!</li>
+								<li>¡¡ Incluso si se reenvía varias veces con este método !!</li>
+								<li>No digas que no te lo he avisado ...</li>
+							</ul>
+						</>
+						:
+						<ul>
+							<li>El pedido se retransmitirá con el mismo CRC y <b>SAP decidirá si es duplicado o no</b>.</li>
+							<li>Esta acción puede hacer que varíen los datos que se devolvieron originalmente al cliente como las faltas, el almacén de servicio, etc...</li>
+						</ul>
+					}
+				</Alert>
 			</Form.Label>
 		</Form.Group>
 		{clonar && <>

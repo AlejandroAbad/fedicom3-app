@@ -1,4 +1,4 @@
-//import K from 'K';
+import K from 'K';
 
 import React from 'react';
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
@@ -20,7 +20,8 @@ import VisorTransmision from 'layout/transmisiones/visor/VisorTransmision';
 import BuscadorTransmisiones from 'layout/transmisiones/BuscadorTransmisiones';
 import EstadoProcesos from 'layout/status/procesos/EstadoProcesos';
 import SimuladorPedidos from 'layout/simuladores/pedidos/SimuladorPedidos';
-import K from 'K';
+import PruebaCarga from './layout/simuladores/pruebaCarga/PruebaCarga';
+
 import SimuladorDevoluciones from 'layout/simuladores/devoluciones/SimuladorDevoluciones';
 import EstadoBalanceador from 'layout/status/apache/EstadoBalanceador';
 import EstadoBalanceadores from 'layout/status/apache/EstadoBalanceadores';
@@ -62,6 +63,11 @@ const App = () => {
           <Route
             path="/simulador/devoluciones"
             render={(props) => <SimuladorDevoluciones {...props} jwt={jwt} />} />
+        }
+        {!K.PRODUCCION &&
+          <Route
+            path="/simulador/pruebaCarga"
+          render={(props) => <PruebaCarga {...props} jwt={jwt} />} />
         }
         <Route
           path="/simulador/consultaAlbaranes"

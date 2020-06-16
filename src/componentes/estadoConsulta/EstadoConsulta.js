@@ -20,7 +20,7 @@ const EstadoConsulta = ({resultado, onRetry}) => {
 
 
     if (!error || error.length === 0) {
-        if (datos?.data?.length === 0) {
+        if (datos?.resultados?.length === 0 || datos?.length === 0) {
             return (
 
                 <Alert variant='warning' className="mt-3">

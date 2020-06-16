@@ -3,13 +3,13 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Container, Row, Col, Alert, Badge, Dropdown, Button } from 'react-bootstrap'
 import fedicomFetch from 'util/fedicomFetch';
 import useInterval from 'util/useInterval';
-import DepuradorAPI from 'componentes/debug/depuradorApi/DepuradorApi';
 import { FaExclamation, FaCheck, FaPlay, FaStop, FaCog, FaRegStopCircle } from 'react-icons/fa';
 import Icono from 'componentes/icono/Icono';
 import { MdSnooze, MdAlarmOn } from 'react-icons/md';
 import { GiDrop } from 'react-icons/gi';
 import { LinkContainer } from 'react-router-bootstrap';
 import { TiArrowBack } from 'react-icons/ti';
+import EstadoConsulta from 'componentes/estadoConsulta/EstadoConsulta';
 
 
 const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
@@ -29,17 +29,14 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 
 
 	const ejecutarConsulta = useCallback(() => {
+		
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
 
-		let https = 'https=si'
-		if (servidor.startsWith('f3')) {
-			https = 'https=no'
-		}
-
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?' + https + '&servidor=' + servidor, { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/balanceadores/' + servidor, { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
+						console.log('RESULTADO BALANCEADOR', response.body);
 						setResultado({ datos: response.body, error: null, cargando: false });
 					} else {
 						setResultado({ datos: null, error: response.body, cargando: false });
@@ -62,11 +59,6 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 	const actualizarWorker = useCallback((balanceador, worker, nonce, estado, peso) => {
 		setResultado({ datos: ultimoResultado.current.datos, error: ultimoResultado.current.error, cargando: true });
 
-		let https = 'https=si'
-		if (servidor.startsWith('f3')) {
-			https = 'https=no'
-		}
-
 		let peticion = {
 			balanceador,
 			worker,
@@ -75,7 +67,7 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 			peso
 		}
 
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/apache/balanceadores?' + https + '&servidor=' + servidor, { method: 'PUT' }, jwt, peticion)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/balanceadores/' + servidor, { method: 'PUT' }, jwt, peticion)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -103,15 +95,10 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 	}
 
 
-	if (!resultado?.datos?.data) {
+	if (!resultado?.datos) {
 		return <Container>
-			<DepuradorAPI query={{ server: new URL(K.DESTINOS.CORE).hostname }} id="estadoBalanceo" resultado={resultado} />
+			<EstadoConsulta resultado={resultado} onRetry={ejecutarConsulta} />
 		</Container>
-	}
-
-	let protocol = 'https'
-	if (servidor.startsWith('f3')) {
-		protocol = 'http'
 	}
 
 	return <Container>
@@ -124,9 +111,9 @@ const EstadoBalanceador = ({ jwt, servidor, ...props }) => {
 			</LinkContainer>
 		</h3>
 
-		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">{protocol}://{servidor}.hefame.es</span></span>
+		<span className="text-muted text-monospace">Estado del balanceador de carga en <span className="text-primary">{resultado.datos.url}</span></span>
 		<hr />
-		{Object.values(resultado?.datos?.data).map((b, i) => <Balanceador key={i} balanceador={b} jwt={jwt} onWorkerStart={workerStart} onWorkerStandBy={workerStandBy} />)}
+		{Object.values(resultado?.datos?.balanceadores).map((b, i) => <Balanceador key={i} balanceador={b} jwt={jwt} onWorkerStart={workerStart} onWorkerStandBy={workerStandBy} />)}
 
 	</Container>
 

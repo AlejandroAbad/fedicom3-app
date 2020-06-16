@@ -15,7 +15,7 @@ const EstadoReplicaSet = ({ jwt }) => {
 	const [resultado, setResultado] = useState({ cargando: true, datos: null, error: null })
 
 	useEffect(() => {
-		fedicomFetch(K.DESTINOS.MONITOR + '/status/mdb/rs', { method: 'GET' }, jwt)
+		fedicomFetch(K.DESTINOS.MONITOR + '/v1/mongodb/replicaSet', { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
 					if (response.ok) {
@@ -38,7 +38,7 @@ const EstadoReplicaSet = ({ jwt }) => {
 		)
 	}
 
-	let rs = resultado?.datos?.data;
+	let rs = resultado?.datos;
 
 	if (resultado.error || !rs) {
 		return <ConsultaError errores={resultado.error} />
@@ -135,9 +135,9 @@ const ReplicaSetMember = ({ health, state, host, uptime, version, electionDate, 
 				</Card.Body>
 				<small>
 					<ListGroup className="list-group-flush">
-						<ListGroupItem k="Uptime" v={uptime.humanize()} />
+						{uptime != null && <ListGroupItem k="Uptime" v={uptime.humanize()} />}
 						<ListGroupItem k="Versión" v={version} />
-						{ping && <ListGroupItem k="Ping" v={`${ping}ms`} />}
+						{ping != null && <ListGroupItem k="Ping" v={`${ping}ms`} />}
 						{delay && <ListGroupItem k="Latencia" v={`${delay}ms`} />}
 					</ListGroup>
 				</small>

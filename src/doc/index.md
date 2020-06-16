@@ -45,7 +45,7 @@
 6. **Conceptos básicos**
     1. [El concepto de **Transmisión**]($DOC$/conceptos/transmision)
     1. [JWT: JSON Web Token]($DOC$/conceptos/jwt)
-        1. [Tokens permanentes]($DOC$/conceptos-jwt/permanentes)
+        1. [Tokens permanentes]($DOC$/conceptos/jwt-permanentes)
 ---
 
 7. **Flujos de datos**

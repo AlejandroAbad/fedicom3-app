@@ -24,22 +24,22 @@ const ControlesTabla = ({
 
 
     if (!resultado.datos) return null;
-    const { limit, skip, total } = resultado.datos
+    const { limite, skip, total } = resultado.datos
 
     // Configuracion del paginador
-    let pagMax = Math.floor((total / limit) + 1)
-    let pagActual = (skip / limit) + 1
+    let pagMax = Math.floor((total / limite) + 1)
+    let pagActual = (skip / limite) + 1
 
     // Configuracion del limitador de resultados
     let limitOptions = []
     let stepSize = 10
-    if (limit < stepSize) limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
+    if (limite < stepSize) limitOptions.push(<option value={limite} key={limite}>{limite}</option>)
     for (let i = stepSize; i <= 50; i = i + stepSize) {
-        if (i > stepSize && limit < i && limit > (i - stepSize))
-            limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
+        if (i > stepSize && limite < i && limite > (i - stepSize))
+            limitOptions.push(<option value={limite} key={limite}>{limite}</option>)
         limitOptions.push(<option value={i} key={i}>{i}</option>)
     }
-    if (limit > 50) limitOptions.push(<option value={limit} key={limit}>{limit}</option>)
+    if (limite > 50) limitOptions.push(<option value={limite} key={limite}>{limite}</option>)
 
 
     const cambiarPagina = (pagina) => {
@@ -82,7 +82,7 @@ const ControlesTabla = ({
             </Col>
             <Col className="align-middle" md={6} sm={7} xs={5}>
                 <small className="d-none d-sm-inline mr-1">Mostrar</small>
-                <LimitadorResultados actual={limit} salto={10} max={50} onLimiteCambiado={cambiarLimiteResultados} />
+                <LimitadorResultados actual={limite} salto={10} max={50} onLimiteCambiado={cambiarLimiteResultados} />
                 <small className="d-none d-sm-inline ml-1">transmisiones por página</small>
                 <small className="d-sm-none ml-1">tx &#x02A2F; pág</small>
             </Col>

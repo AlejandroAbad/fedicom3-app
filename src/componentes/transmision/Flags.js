@@ -30,7 +30,7 @@ export const BadgeFlag = ({ icono, titulo, descripcion, variante, tecnico, forma
         let cl = "d-inline-block px-2 py-1 mr-1 mt-1 rounded badge-" + variante
         let iconComponent = icono ? <Icono icono={icono} posicion={[22, 2]} className="mr-1" /> : null
         return (
-            <OverlayTrigger trigger="hover" overlay={FlagPopover(icono, titulo, descripcion, variante)} placement="bottom">
+            <OverlayTrigger trigger={['hover', 'focus']} overlay={FlagPopover(icono, titulo, descripcion, variante)} placement="bottom">
                 <span variant={variante} className={cl} {...props}>
                     {iconComponent}
                     {titulo}
@@ -42,7 +42,7 @@ export const BadgeFlag = ({ icono, titulo, descripcion, variante, tecnico, forma
     let iconComponent = icono ? <Icono icono={icono} posicion={[14]} className={formato !== 'corto' ? 'mr-1' : ''} /> : null
 
     return (
-        <OverlayTrigger trigger="hover" overlay={FlagPopover(icono, titulo, descripcion, variante)} placement="bottom">
+        <OverlayTrigger trigger={['hover', 'focus']} overlay={FlagPopover(icono, titulo, descripcion, variante)} placement="bottom">
             <Badge pill size="lg" variant={variante} className="EtiquetaFlag mr-1" {...props}>
                 {iconComponent}
                 {formato !== 'corto' && titulo}

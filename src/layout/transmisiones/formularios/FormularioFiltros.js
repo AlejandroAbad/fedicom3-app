@@ -25,8 +25,16 @@ const FormularioFiltros = ({ filtro, onAceptar, onCancelar, ...props }) => {
                 filtro[key.replace(/_DOT_/g, '.')] = valores[key]
         }
 
-        Controles.CodigoCliente.expandirOpciones(filtro)
-        Controles.Flags.expandirOpciones(filtro)
+
+        // Para cada control que haya definido, vamos a ver si tiene definida la funcion 'expandirOpciones' y en caso afirmativo
+        // la llamamos pasandole el filtro. Cada control debe modificar el filtro para convertirlo en algo que sea aceptable por el API
+
+        for (let campoControl in Controles ) {
+            if (Controles[campoControl]?.expandirOpciones) {
+                Controles[campoControl].expandirOpciones(filtro);
+            }
+        }
+        
 
         if (onAceptar) {
             onAceptar(filtro)
