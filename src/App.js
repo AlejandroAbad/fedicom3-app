@@ -86,7 +86,7 @@ const App = () => {
           render={(props) => <EstadoBalanceador {...props} jwt={jwt} />} />
         <Route
           path="/estado/balanceador"
-          render={(props) => <EstadoBalanceador {...props} jwt={jwt} />} />
+          render={(props) => <EstadoBalanceadores {...props} jwt={jwt} />} />
         <Route
           path="/estado/balanceadores"
           render={(props) => <EstadoBalanceadores {...props} jwt={jwt} />} />
