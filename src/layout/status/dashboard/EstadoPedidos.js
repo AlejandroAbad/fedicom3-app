@@ -1,18 +1,20 @@
 import K from 'K';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import ReactJson from 'react-json-view';
 import fedicomFetch from 'util/fedicomFetch';
 
 import { ContextoAplicacion } from 'contexto';
 import { EJSON } from 'bson';
 import moment from 'moment';
+import DiagramaEstadoPedidos from 'componentes/diagramas/DiagramaEstadoGeneral';
+import useInterval from 'util/useInterval';
 
 const EstadoPedidos = () => {
 
 	const { jwt } = useContext(ContextoAplicacion);
 	const [resultadoPedidos, setResultadoPedidos] = useState({ cargando: false, datos: null, error: null });
 
-	useEffect(() => {
+	const ejecutarConsulta = useCallback(() => {
 		const pipeline = EJSON.serialize([
 			{
 				$match: {
@@ -30,8 +32,6 @@ const EstadoPedidos = () => {
 			}
 		]);
 
-		console.log()
-
 		fedicomFetch(K.DESTINOS.MONITOR + '/v1/agregacion', { method: 'PUT' }, jwt, pipeline)
 			.then(response => {
 				console.log(response)
@@ -48,8 +48,16 @@ const EstadoPedidos = () => {
 			})
 	}, [jwt, setResultadoPedidos])
 
+	useEffect(() => {
+		ejecutarConsulta()
+	}, [ejecutarConsulta]);
+
+	useInterval(ejecutarConsulta, 5000);
+
 
 	return <>
+		<DiagramaEstadoPedidos estado={resultadoPedidos} />
+
 		<h2>EstadoPedidos</h2>
 		<ReactJson src={resultadoPedidos} collapsed />
 

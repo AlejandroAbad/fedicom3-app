@@ -13,7 +13,7 @@ const EstadoDashboard = () => {
 
 
 	return 	<Container fluid>
-		<h1>Estado general</h1>
+		
 		<EstadoPedidos />
 		<EstadoBalanceo  />
 		<EstadoBaseDatos />
