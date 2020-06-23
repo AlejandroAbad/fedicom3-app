@@ -1,12 +1,13 @@
 import K from 'K';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ReactJson from 'react-json-view';
 import fedicomFetch from 'util/fedicomFetch';
 
+import { ContextoAplicacion } from 'contexto';
 
+const EstadoProcesos = () => {
 
-const EstadoProcesos = ({ jwt }) => {
-
+	const { jwt } = useContext(ContextoAplicacion);
 	const [resultadoProcesos, setResultadoProcesos] = useState({ cargando: false, datos: null, error: null });
 
 	useEffect( ()=> {

@@ -6,19 +6,21 @@ import EstadoDumps from './EstadoDumps';
 import EstadoSqlite from './EstadoSqlite';
 import EstadoSap from './EstadoSap';
 import EstadoProcesos from './EstadoProcesos';
+import EstadoPedidos from './EstadoPedidos';
 
 
-const EstadoDashboard = ({jwt}) => {
+const EstadoDashboard = () => {
 
 
 	return 	<Container fluid>
 		<h1>Estado general</h1>
-		<EstadoBalanceo jwt={jwt} />
-		<EstadoBaseDatos jwt={jwt} />
-		<EstadoDumps jwt={jwt} />
-		<EstadoSqlite jwt={jwt} />
-		<EstadoSap jwt={jwt} />
-		<EstadoProcesos jwt={jwt} />
+		<EstadoPedidos />
+		<EstadoBalanceo  />
+		<EstadoBaseDatos />
+		<EstadoDumps />
+		<EstadoSqlite />
+		<EstadoSap />
+		<EstadoProcesos />
 	</Container>
 	
 
