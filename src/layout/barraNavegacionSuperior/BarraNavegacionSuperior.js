@@ -45,6 +45,7 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                 <Nav className="mr-auto ml-10" >
                     <BotonNavegacion enlace="/transmisiones" icono={FaPaperPlane} titulo="Transmisiones" esconderEn={expandirEn} mostrarEn="xl" />
                     <BotonNavegacion icono={GoDashboard} titulo="Estado" esconderEn={expandirEn} mostrarEn="xl" >
+                        <BotonNavegacion enlace="/estado/dashboard" icono={GoDashboard} titulo="Estado general del servicio" />
                         <BotonNavegacion enlace="/estado/mongodb" icono={GoDatabase} titulo="Base de datos" />
                         <BotonNavegacion enlace="/estado/procesos" icono={GoPulse} titulo="Procesos" />
                         {<BotonNavegacion enlace="/estado/balanceadores" icono={GoGitMerge} titulo="Balanceadores" />}
