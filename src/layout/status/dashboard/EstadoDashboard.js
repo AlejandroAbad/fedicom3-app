@@ -12,7 +12,7 @@ import EstadoPedidos from './EstadoPedidos';
 const EstadoDashboard = () => {
 
 
-	return 	<Container fluid>
+	return 	<Container>
 		
 		<EstadoPedidos />
 		<EstadoBalanceo  />

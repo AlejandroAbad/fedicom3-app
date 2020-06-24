@@ -117,11 +117,11 @@ const DiagramaEstadoPedidos = ({ estado }) => {
 }
 
 
-const LineaError = ({ x, y, alto, ancho, resaltar, variante }) => {
+const LineaError = ({ x, y, alto, ancho, variante }) => {
 	let fgColor = Variantes.fg(variante);
 	return (<>
-		<line opacity={resaltar ? 1 : 0.6} x1={x} x2={x} y1={y} y2={y + alto + 2} strokeWidth="4" stroke={fgColor} />
-		<line opacity={resaltar ? 1 : 0.6} x1={x} x2={x + ancho} y1={y + alto} y2={y + alto} strokeWidth="4" stroke={fgColor} />
+		<line x1={x} x2={x} y1={y + 2} y2={y + alto + 2} strokeWidth="4" stroke={fgColor} />
+		<line x1={x} x2={x + ancho} y1={y + alto} y2={y + alto} strokeWidth="4" stroke={fgColor} />
 	</>)
 }
 
