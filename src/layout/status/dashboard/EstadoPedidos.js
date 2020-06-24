@@ -52,7 +52,7 @@ const EstadoPedidos = () => {
 		ejecutarConsulta()
 	}, [ejecutarConsulta]);
 
-	useInterval(ejecutarConsulta, 5000);
+	useInterval(ejecutarConsulta, 1000);
 
 
 	return <>

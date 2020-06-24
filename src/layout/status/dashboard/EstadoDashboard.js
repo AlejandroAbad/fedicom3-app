@@ -12,7 +12,7 @@ import EstadoPedidos from './EstadoPedidos';
 const EstadoDashboard = () => {
 
 
-	return 	<Container>
+	return 	<Container className="border">
 		
 		<EstadoPedidos />
 		<EstadoBalanceo  />

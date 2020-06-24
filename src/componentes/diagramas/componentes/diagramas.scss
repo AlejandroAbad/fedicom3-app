@@ -1,0 +1,13 @@
+.lineaAnimada {
+  stroke-dasharray: 5,1;
+  animation: dash 5s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 0
+  }
+  to {
+    stroke-dashoffset: 100;
+  }
+}

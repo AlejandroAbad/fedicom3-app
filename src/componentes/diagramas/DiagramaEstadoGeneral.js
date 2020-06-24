@@ -5,6 +5,8 @@ import Variantes from './componentes/variantes';
 import EstadoConsulta from 'componentes/estadoConsulta/EstadoConsulta';
 
 
+import './componentes/diagramas.scss';
+
 
 const DiagramaEstadoPedidos = ({ estado }) => {
 	if (!estado) return null;
@@ -67,48 +69,93 @@ const DiagramaEstadoPedidos = ({ estado }) => {
 
 
 
-	let xOffset = 80
+	const X_OFFSET = 210;
+	const Y_OFFSET = 70;
+	const Y_BASE = 40;
+	const X_BASE = 60;
+
+	let xBase = X_BASE;
+	let yBase = Y_BASE;
 
 	return (
-		<svg viewBox='0 0 1140 263' preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
-
-			<Linea x={-20} y={65} variante='primary' resaltar />
-			<Caja texto={`RECEPCIONADO|` + acumulador.RECEPCIONADO} x={xOffset} y={40} variante='primary' resaltar={acumulador.RECEPCIONADO} />
-			<LineaError x={xOffset - 30} y={65} alto={60} ancho={30} variante='secondary' resaltar={false} />
-			<Caja texto={`FALLO AUTH|` + acumulador.FALLO_AUTENTICACION} x={xOffset} y={100} variante='secondary' resaltar={acumulador.FALLO_AUTENTICACION} />
-			<LineaError x={xOffset - 50} y={65} alto={120} ancho={50} variante='secondary' resaltar={false} />
-			<Caja texto={`INCORRECTO|` + acumulador.PETICION_INCORRECTA} x={xOffset} y={160} variante='secondary' resaltar={acumulador.PETICION_INCORRECTA} />
+		<svg viewBox='0 0 1053 263' preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
 
 
-			<Linea x={xOffset + 130} y={65} variante='primary' resaltar />
-			{xOffset += 230}
-			<Caja texto={`ENVIADO SAP|` + acumulador.ESPERANDO_INCIDENCIAS} x={xOffset} y={40} variante='primary' resaltar={acumulador.ESPERANDO_INCIDENCIAS} />
+			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				texto={`RECEPCIONADO`} cantidad={acumulador.RECEPCIONADO} color='primary'
+				lineaOrigen={[60, 0, 6]} />
 
+			{acumulador.PETICION_INCORRECTA && <>
+				{yBase += Y_OFFSET}
+				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+					texto={`INCORRECTO`} cantidad={acumulador.PETICION_INCORRECTA} color='warning'
+					lineaOrigen={[50, Y_OFFSET, 6]} />
+			</>}
 
-			<Linea x={xOffset + 130} y={65} variante='primary' resaltar />
-			{xOffset += 230}
-			<Caja texto={`RECIBIDO SAP|` + acumulador.INCIDENCIAS_RECIBIDAS} x={xOffset} y={40} variante='primary' resaltar={acumulador.INCIDENCIAS_RECIBIDAS} />
-			<LineaError x={xOffset - 30} y={65} alto={60} ancho={30} variante='warning' />
-			<Caja texto={`RECHAZADO SAP|` + acumulador.RECHAZADO_SAP} x={xOffset} y={100} variante='warning' resaltar={acumulador.RECHAZADO_SAP} />
-			<LineaError x={xOffset - 70} y={65} alto={120} ancho={70} variante='danger' />
-			<Caja texto={`NO SAP|` + acumulador.NO_SAP} x={xOffset} y={160} variante='danger' resaltar={acumulador.NO_SAP} />
-
-
-			<Linea x={xOffset + 130} y={65} variante='primary' resaltar />
-			{xOffset += 230}
-			<Caja texto={`RESPONDIDO|` + acumulador.ESPERANDO_NUMERO_PEDIDO} x={xOffset} y={40} variante='success' resaltar={acumulador.ESPERANDO_NUMERO_PEDIDO} />
+			{acumulador.FALLO_AUTENTICACION && <>
+				{yBase += Y_OFFSET}
+				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+					texto={`FALLO AUTH`} cantidad={acumulador.FALLO_AUTENTICACION} color='warning'
+					lineaOrigen={[50, Y_OFFSET, 6]} />
+			</>}
 
 
 
-			<Linea x={xOffset + 130} y={65} variante='primary' resaltar />
-			{xOffset += 230}
-			<Caja texto={`CONFIRMADO|` + acumulador.OK} x={xOffset} y={40} variante='success' resaltar={acumulador.OK} />
+			{xBase += X_OFFSET}
+			{yBase = Y_BASE}
+			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				texto={`ENVIADO A SAP`} cantidad={acumulador.ESPERANDO_INCIDENCIAS} color='primary'
+				lineaOrigen={[60, 0, 6]} />
 
-			<LineaError x={xOffset - 30} y={65} alto={60} ancho={30} variante='danger' />
-			<Caja texto={`TIMEOUT|` + acumulador.ESPERA_AGOTADA} x={xOffset} y={100} variante='danger' resaltar={acumulador.ESPERA_AGOTADA} />
 
-			<LineaError x={xOffset - 70} y={65} alto={120} ancho={70} variante='danger' />
-			<Caja texto={`NO PEDIDO SAP|` + acumulador.SIN_NUMERO_PEDIDO_SAP} x={xOffset} y={160} variante='danger' resaltar={acumulador.SIN_NUMERO_PEDIDO_SAP} />
+			{xBase += X_OFFSET}
+			{yBase = Y_BASE}
+			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				texto={`RECIBIDO DE SAP`} cantidad={acumulador.INCIDENCIAS_RECIBIDAS} color='primary'
+				lineaOrigen={[60, 0, 6]} />
+			{acumulador.RECHAZADO_SAP && <>
+				{yBase += Y_OFFSET}
+				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+					texto={`RECHAZADO SAP`} cantidad={acumulador.RECHAZADO_SAP} color='warning'
+					lineaOrigen={[50, Y_OFFSET, 6]} />
+			</>}
+			{acumulador.NO_SAP && <>
+				{yBase += Y_OFFSET}
+				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+					texto={`NO SAP`} cantidad={acumulador.NO_SAP} color='danger'
+					lineaOrigen={[50, Y_OFFSET, 6]} />
+			</>}
+
+
+			{xBase += X_OFFSET}
+			{yBase = Y_BASE}
+			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				texto={`RESPONDIDO`} cantidad={acumulador.ESPERANDO_NUMERO_PEDIDO} color='success'
+				lineaOrigen={[60, 0, 6]} />
+
+
+
+
+
+			{xBase += X_OFFSET}
+			{yBase = Y_BASE}
+			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				texto={`CONFIRMADO`} cantidad={acumulador.OK} color='success'
+				lineaOrigen={[60, 0, 6]} />
+			{acumulador.ESPERA_AGOTADA && <>
+				{yBase += Y_OFFSET}
+				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+					texto={`ESPERA AGOTADA`} cantidad={acumulador.ESPERA_AGOTADA} color='danger'
+					lineaOrigen={[50, Y_OFFSET, 6]} />
+			</>}
+			{acumulador.SIN_NUMERO_PEDIDO_SAP && <>
+				{yBase += Y_OFFSET}
+				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+					texto={`SIN PEDIDO SAP`} cantidad={acumulador.SIN_NUMERO_PEDIDO_SAP} color='danger'
+					lineaOrigen={[50, Y_OFFSET, 6]} />
+			</>}
+
+
 
 
 			<polygon points="0,50 15,65 0,80" />
@@ -120,10 +167,65 @@ const DiagramaEstadoPedidos = ({ estado }) => {
 const LineaError = ({ x, y, alto, ancho, variante }) => {
 	let fgColor = Variantes.fg(variante);
 	return (<>
-		<line x1={x} x2={x} y1={y + 2} y2={y + alto + 2} strokeWidth="4" stroke={fgColor} />
-		<line x1={x} x2={x + ancho} y1={y + alto} y2={y + alto} strokeWidth="4" stroke={fgColor} />
+		<line className="linea" x2={x} x1={x} y2={y + 2} y1={y + alto + 2} strokeWidth="4" stroke={fgColor} />
+		<line className="linea" x2={x} x1={x + ancho} y1={y + alto} y2={y + alto} strokeWidth="4" stroke={fgColor} />
 	</>)
 }
+
+
+const SvgContadorEstadoTransmision = ({
+	x, y,
+	texto,
+	cantidad,
+	color,
+	lineaOrigen
+
+}) => {
+
+
+	let anchoCaja = 150;
+	let altoCaja = 60;
+	let bordeCaja = 4;
+
+	let fgColor = Variantes.fg(color);
+	let bgColor = Variantes.bg(color);
+
+	let linea = null;
+	if (lineaOrigen) {
+		let [lineaX, lineaY, lineaAncho] = lineaOrigen;
+		if (!lineaAncho) lineaAncho = bordeCaja;
+
+		let baseY = Math.round(y + (altoCaja / 2) - (lineaAncho / 2) + (bordeCaja / 2));
+		linea = (<>
+			{lineaX && <line className="lineaAnimada"
+				x1={x} x2={x - lineaX}
+				y1={baseY} y2={baseY}
+				strokeWidth={lineaAncho} stroke={fgColor} />}
+			{lineaY && <line className="lineaAnimada"
+				x1={x - lineaX} x2={x - lineaX}
+				y1={baseY + (lineaAncho / 2)} y2={baseY - lineaY}
+				strokeWidth={lineaAncho} stroke={fgColor} />}
+		</>);
+	}
+
+	let centroX = Math.round(x + (anchoCaja / 2));
+
+	return (<>
+		{linea}
+		<g opacity={1}>
+			<title>{texto.replace('|', ' ')}</title>
+			<rect rx="1" id="svg_2" height={altoCaja} width={anchoCaja} x={x} y={y} strokeWidth={bordeCaja} stroke={fgColor} fill={bgColor} />
+			<text fontWeight="" fontFamily="Consolas, monospace" fontSize="14" x={centroX - (texto.length * 4.2)} y={y + (altoCaja * 0.42)}>{texto}</text>
+			<text fontWeight="bold" fontFamily="Consolas, monospace" fontSize="16" x={centroX - ((cantidad + '').length * 4.6)} y={y + (altoCaja * 0.72)}>{cantidad}</text>
+		</g>
+	</>
+	)
+
+}
+
+
+
+
 
 
 export default DiagramaEstadoPedidos;
