@@ -2,7 +2,7 @@ import K from 'K'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Container, Row, Col, Alert, Badge, Dropdown, Button } from 'react-bootstrap'
 import fedicomFetch from 'util/fedicomFetch';
-import useInterval from 'util/useInterval';
+import useInterval from 'hooks/useInterval';
 import { FaExclamation, FaCheck, FaPlay, FaStop, FaCog, FaRegStopCircle } from 'react-icons/fa';
 import Icono from 'componentes/icono/Icono';
 import { MdSnooze, MdAlarmOn } from 'react-icons/md';

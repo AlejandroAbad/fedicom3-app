@@ -28,7 +28,7 @@ import EstadoBalanceadores from 'layout/status/apache/EstadoBalanceadores';
 import MD from 'layout/doc/Markdown';
 import EstadoMDB from 'layout/status/mongodb/EstadoMDB';
 import SimuladorConsultaAlbaranes from 'layout/simuladores/consultaAlbaranes/SimuladorConsultaAlbaranes';
-import EstadoDashboard from 'layout/status/dashboard/EstadoDashboard';
+import EstadoDashboard from 'layout/status/dashboard/Dashboard';
 
 
 const App = () => {

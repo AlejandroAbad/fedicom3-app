@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Toast, Button} from 'react-bootstrap';
 import {GoIssueReopened, GoSync} from 'react-icons/go'
 
-import useInterval from 'util/useInterval';
+import useInterval from 'hooks/useInterval';
 
 const TostadaExpiracionJwt = (props) => {
 
