@@ -6,20 +6,21 @@ import EstadoDumps from './EstadoDumps';
 import EstadoSqlite from './EstadoSqlite';
 import EstadoSap from './EstadoSap';
 import EstadoProcesos from './EstadoProcesos';
-import EstadoPedidos from './EstadoPedidos';
-import EstadoFlujos from './EstadoFlujos';
+
+import EstadoFlujoPedidos from './EstadoFlujoPedidos';
+import EstadoOtrosFlujos from './EstadoOtrosFlujos';
 
 
 const EstadoDashboard = () => {
 
 
-	return 	<Container fluid>
-		<Row>
+	return 	<Container fluid >
+		<Row className="no-gutters text-center">
 			<Col xl={8}>
-				<EstadoPedidos />
+				<EstadoFlujoPedidos />
 			</Col>
 			<Col xl={4}>
-				<EstadoFlujos />
+				<EstadoOtrosFlujos />
 			</Col>
 		</Row>
 		

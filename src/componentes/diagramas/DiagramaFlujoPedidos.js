@@ -4,6 +4,7 @@ import EstadoConsulta from 'componentes/estadoConsulta/EstadoConsulta';
 
 
 import './componentes/diagramas.scss';
+import SvgCajaEstadoTransmision from './componentes/SvgCajaEstadoTransmision';
 
 
 const DiagramaFlujoPedidos = ({ estado }) => {
@@ -51,69 +52,89 @@ const DiagramaFlujoPedidos = ({ estado }) => {
 	})
 
 
-	const X_OFFSET = 205;
-	const Y_OFFSET = 70;
-	const Y_BASE = 40;
-	const X_BASE = 60;
+	const X_OFFSET = 140;
+	const Y_OFFSET = 60;
+	const Y_BASE = 1;
+	const X_BASE = 40;
+
+	const ANCHO_CAJA = 120;
+	const ALTO_CAJA = 50;
+	const BORDE_CAJA = 2;
+	const FUENTE_CAJA = 14;
 
 	let xBase = X_BASE;
 	let yBase = Y_BASE;
 
 	return (
-		<svg viewBox='0 0 1053 263' preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
+		<svg width="724px" height="175px" xmlns="http://www.w3.org/2000/svg">
 
 
-			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+			<SvgCajaEstadoTransmision
+				ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+				x={xBase} y={yBase}
 				texto={`RECEPCIONADO`} cantidad={acumulador.RECEPCIONADO} color='primary'
-				lineaOrigen={[50, 0, 6]} />
+				lineaOrigen={[30, 0, BORDE_CAJA]} />
 
 			{acumulador.PETICION_INCORRECTA && <>
 				{yBase += Y_OFFSET}
-				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				<SvgCajaEstadoTransmision
+					ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+					x={xBase} y={yBase}
 					texto={`INCORRECTO`} cantidad={acumulador.PETICION_INCORRECTA} color='warning'
-					lineaOrigen={[40, Y_OFFSET, 6]} />
+					lineaOrigen={[20, Y_OFFSET, BORDE_CAJA]} />
 			</>}
 
 			{acumulador.FALLO_AUTENTICACION && <>
 				{yBase += Y_OFFSET}
-				<SvgContadorEstadoTransmision x={xBase} y={yBase}
-					texto={`FALLO AUTH`} cantidad={acumulador.FALLO_AUTENTICACION} color='warning'
-					lineaOrigen={[40, Y_OFFSET, 6]} />
+				<SvgCajaEstadoTransmision
+					ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+					x={xBase} y={yBase}
+					texto={`FALLO AUTH`} cantidad={acumulador.FALLO_AUTENTICACION} color='info'
+					lineaOrigen={[20, Y_OFFSET, BORDE_CAJA]} />
 			</>}
 
 
+			{xBase += X_OFFSET}
+			{yBase = Y_BASE}
+			<SvgCajaEstadoTransmision
+				ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+				x={xBase} y={yBase}
+				texto={`EN SAP`} cantidad={acumulador.ESPERANDO_INCIDENCIAS} color='primary'
+				lineaOrigen={[20, 0, BORDE_CAJA]} />
+
 
 			{xBase += X_OFFSET}
 			{yBase = Y_BASE}
-			<SvgContadorEstadoTransmision x={xBase} y={yBase}
-				texto={`ENVIADO A SAP`} cantidad={acumulador.ESPERANDO_INCIDENCIAS} color='primary'
-				lineaOrigen={[50, 0, 6]} />
-
-
-			{xBase += X_OFFSET}
-			{yBase = Y_BASE}
-			<SvgContadorEstadoTransmision x={xBase} y={yBase}
-				texto={`RECIBIDO DE SAP`} cantidad={acumulador.INCIDENCIAS_RECIBIDAS} color='primary'
-				lineaOrigen={[50, 0, 6]} />
+			<SvgCajaEstadoTransmision
+				ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+				x={xBase} y={yBase}
+				texto={`RECIBIDO SAP`} cantidad={acumulador.INCIDENCIAS_RECIBIDAS} color='primary'
+				lineaOrigen={[20, 0, BORDE_CAJA]} />
 			{acumulador.RECHAZADO_SAP && <>
 				{yBase += Y_OFFSET}
-				<SvgContadorEstadoTransmision x={xBase} y={yBase}
-					texto={`RECHAZADO SAP`} cantidad={acumulador.RECHAZADO_SAP} color='warning'
-					lineaOrigen={[40, Y_OFFSET, 6]} />
+				<SvgCajaEstadoTransmision
+					ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+					x={xBase} y={yBase}
+					texto={`RECHAZADO SAP`} cantidad={acumulador.RECHAZADO_SAP} color='info'
+					lineaOrigen={[10, Y_OFFSET, BORDE_CAJA]} />
 			</>}
 			{acumulador.NO_SAP && <>
 				{yBase += Y_OFFSET}
-				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				<SvgCajaEstadoTransmision
+					ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+					x={xBase} y={yBase}
 					texto={`NO SAP`} cantidad={acumulador.NO_SAP} color='danger'
-					lineaOrigen={[40, Y_OFFSET, 6]} />
+					lineaOrigen={[10, Y_OFFSET, BORDE_CAJA]} />
 			</>}
 
 
 			{xBase += X_OFFSET}
 			{yBase = Y_BASE}
-			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+			<SvgCajaEstadoTransmision
+				ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+				x={xBase} y={yBase}
 				texto={`RESPONDIDO`} cantidad={acumulador.ESPERANDO_NUMERO_PEDIDO} color='success'
-				lineaOrigen={[50, 0, 6]} />
+				lineaOrigen={[20, 0, BORDE_CAJA]} />
 
 
 
@@ -121,82 +142,33 @@ const DiagramaFlujoPedidos = ({ estado }) => {
 
 			{xBase += X_OFFSET}
 			{yBase = Y_BASE}
-			<SvgContadorEstadoTransmision x={xBase} y={yBase}
+			<SvgCajaEstadoTransmision
+				ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+				x={xBase} y={yBase}
 				texto={`CONFIRMADO`} cantidad={acumulador.OK} color='success'
-				lineaOrigen={[50, 0, 6]} />
+				lineaOrigen={[20, 0, BORDE_CAJA]} />
 			{acumulador.ESPERA_AGOTADA && <>
 				{yBase += Y_OFFSET}
-				<SvgContadorEstadoTransmision x={xBase} y={yBase}
+				<SvgCajaEstadoTransmision
+					ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+					x={xBase} y={yBase}
 					texto={`ESPERA AGOTADA`} cantidad={acumulador.ESPERA_AGOTADA} color='danger'
-					lineaOrigen={[40, Y_OFFSET, 6]} />
+					lineaOrigen={[10, Y_OFFSET, BORDE_CAJA]} />
 			</>}
 			{acumulador.SIN_NUMERO_PEDIDO_SAP && <>
 				{yBase += Y_OFFSET}
-				<SvgContadorEstadoTransmision x={xBase} y={yBase}
-					texto={`SIN PEDIDO SAP`} cantidad={acumulador.SIN_NUMERO_PEDIDO_SAP} color='danger'
-					lineaOrigen={[40, Y_OFFSET, 6]} />
+				<SvgCajaEstadoTransmision
+					ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
+					x={xBase} y={yBase}
+					texto={`SIN PEDIDO`} cantidad={acumulador.SIN_NUMERO_PEDIDO_SAP} color='danger'
+					lineaOrigen={[10, Y_OFFSET, BORDE_CAJA]} />
 			</>}
 
 
-			<polygon points="2,58 27,69 2,80" style={{ fill: Variantes.bg('success'), stroke: Variantes.fg('success'), strokeWidth: 5 }} />
+			<polygon points="2,18 19,26 2,34" style={{ fill: Variantes.bg('success'), stroke: Variantes.fg('success'), strokeWidth: 2 }} />
 		</svg>
 	)
 }
-
-
-
-const SvgContadorEstadoTransmision = ({
-	x, y,
-	texto,
-	cantidad,
-	color,
-	lineaOrigen
-
-}) => {
-
-
-	let anchoCaja = 150;
-	let altoCaja = 60;
-	let bordeCaja = 4;
-
-	let fgColor = Variantes.fg(color);
-	let bgColor = Variantes.bg(color);
-
-	let linea = null;
-	if (lineaOrigen) {
-		let [lineaX, lineaY, lineaAncho] = lineaOrigen;
-		if (!lineaAncho) lineaAncho = bordeCaja;
-
-		let baseY = Math.round(y + (altoCaja / 2) - (lineaAncho / 2) + (bordeCaja / 2));
-		linea = (<>
-			{lineaX && <line className="lineaAnimada"
-				x1={x } x2={x - lineaX - (lineaAncho/2)}
-				y1={baseY} y2={baseY}
-				strokeWidth={lineaAncho} stroke={fgColor} />}
-			{lineaY && <line className="lineaAnimada"
-				x1={x - lineaX} x2={x - lineaX}
-				y1={baseY - lineaAncho/2} y2={baseY - lineaY + lineaAncho/2}
-				strokeWidth={lineaAncho} stroke={fgColor} />}
-		</>);
-	}
-
-	let centroX = Math.round(x + (anchoCaja / 2));
-
-	return (<>
-		{linea}
-		<g opacity={1}>
-			<title>{texto.replace('|', ' ')}</title>
-			<rect rx="1" id="svg_2" height={altoCaja} width={anchoCaja} x={x} y={y} strokeWidth={bordeCaja} stroke={fgColor} fill={bgColor} />
-			<text fontWeight="" fontFamily="Consolas, monospace" fontSize="14" x={centroX - (texto.length * 4.2)} y={y + (altoCaja * 0.42)}>{texto}</text>
-			<text fontWeight="bold" fontFamily="Consolas, monospace" fontSize="16" x={centroX - ((cantidad + '').length * 4.6)} y={y + (altoCaja * 0.72)}>{cantidad}</text>
-		</g>
-	</>
-	)
-
-}
-
-
-
 
 
 

@@ -10,14 +10,14 @@ import { useApiMonitor } from 'hooks/useApiMonitor';
 
 
 
-const EstadoPedidos = () => {
+const EstadoFlujoPedidos = () => {
 
 	const { jwt } = useContext(ContextoAplicacion);
 
 	const PIPELINE = EJSON.serialize([
 		{
 			$match: {
-				type: 10,
+				type: {$in: [10, 50]},
 				createdAt: { $gte: moment().startOf('day').toDate() }
 			}
 		},
@@ -31,16 +31,16 @@ const EstadoPedidos = () => {
 		}
 	]);
 
-	const { ejecutarConsulta: ejecutarConsultaPedidos, resultado: resultadoPedidos } = useApiMonitor('/v1/agregacion', jwt, { method: 'PUT', body: PIPELINE });
+	const { ejecutarConsulta, resultado } = useApiMonitor('/v1/agregacion', jwt, { method: 'PUT', body: PIPELINE });
 
-	useInterval(ejecutarConsultaPedidos, 1000);
+	useInterval(ejecutarConsulta, 1000);
 
 
 	return <>
-		<h3>Flujo de pedidos</h3>
-		<DiagramaFlujoPedidos estado={resultadoPedidos} />
+		<h4>Flujo de pedidos</h4>
+		<DiagramaFlujoPedidos estado={resultado} />
 	</>
 
 }
 
-export default EstadoPedidos;
+export default EstadoFlujoPedidos;
