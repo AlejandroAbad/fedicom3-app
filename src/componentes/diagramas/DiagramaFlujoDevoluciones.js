@@ -27,7 +27,7 @@ const DiagramaFlujoDevoluciones = ({ estado }) => {
 			<SvgCajaEstadoTransmision
 				ancho={ANCHO_CAJA} alto={ALTO_CAJA} borde={BORDE_CAJA} fuente={FUENTE_CAJA}
 				x={xBase} y={yBase}
-				texto={`PENDIENTE`} cantidad={estado.error} color='success'
+				texto={`PENDIENTE`} cantidad={estado.error || 0} color='success'
 				lineaOrigen={[30, 0, 2]} />
 
 			{xBase += X_OFFSET}

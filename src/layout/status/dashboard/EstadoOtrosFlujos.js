@@ -1,12 +1,9 @@
-import K from 'K';
 import React, { useContext } from 'react';
 import { ContextoAplicacion } from 'contexto';
 import { EJSON } from 'bson';
 import moment from 'moment';
-import DiagramaFlujoPedidos from 'componentes/diagramas/DiagramaFlujoPedidos';
 import useInterval from 'hooks/useInterval';
 import { useApiMonitor } from 'hooks/useApiMonitor';
-import ReactJson from 'react-json-view';
 import DiagramaFlujoDevoluciones from 'componentes/diagramas/DiagramaFlujoDevoluciones';
 import { Row, Col, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
 
@@ -21,8 +18,8 @@ const EstadoOtrosFlujos = () => {
 	const PIPELINE = EJSON.serialize([
 		{
 			$match: {
-				type: { $nin: [10, 13, 50] }/*,
-				createdAt: { $gte: moment().startOf('day').toDate() }*/
+				type: { $nin: [10, 13, 50] },
+				createdAt: { $gte: moment().startOf('day').toDate() }
 			}
 		},
 		{
@@ -63,37 +60,41 @@ const EstadoOtrosFlujos = () => {
 
 	}
 
-	console.log(estadoTransmisiones)
-	return <Row>
-		<Col md={6} xl={12} >
-			<h4>Flujo devoluciones</h4>
-			<DiagramaFlujoDevoluciones estado={estadoTransmisiones} />
-		</Col>
-		<Col md={6} xl={12}>
-			<Col xs={12}>
-				<h4>Otras transmisiones</h4>
+	return <>
+		<Row>
+			<Col xl={12} className="mt-4 mt-xl-0" >
+				<h4>Flujo devoluciones</h4>
+				<DiagramaFlujoDevoluciones estado={estadoTransmisiones} />
 			</Col>
-			<Col md={12}>
-				<ListGroup className='list-group-flush text-left'>
-					<FilaTablaConsultas titulo="Consulta Pedidos" valores={estadoTransmisiones.cPedido} />
-					<FilaTablaConsultas titulo="Consulta Devoluciones" valores={estadoTransmisiones.cDevolucion} />
-					<FilaTablaConsultas titulo="Consulta Logística" valores={estadoTransmisiones.cLogistica} />
-					<FilaTablaConsultas titulo="Consulta Albaranes" valores={estadoTransmisiones.cAlbaran} />
-					<FilaTablaConsultas titulo="Consulta Facturas" valores={estadoTransmisiones.cFactura} />
-					<FilaTablaConsultas titulo="Autenticaciones" valores={estadoTransmisiones.autenticacion} />
-					<FilaTablaConsultas titulo="Pedidos duplicados" valores={estadoTransmisiones.dPedido} />
-					<FilaTablaConsultas titulo="Devoluciones duplicadas" valores={estadoTransmisiones.dDevolucion} />
-					<FilaTablaConsultas titulo="Logistica duplicada" valores={estadoTransmisiones.dLogistica} />
-				</ListGroup>
+		</Row>
+		<Row>
+			<Col xl={12} className="mt-4">
+				<Col xs={12}>
+					<h4>Otras transmisiones</h4>
+				</Col>
+				<Col xs={12}>
+					<ListGroup className='list-group-flush text-left'>
+						<FilaTablaConsultas titulo="Consulta Pedidos" valores={estadoTransmisiones.cPedido} />
+						<FilaTablaConsultas titulo="Consulta Devoluciones" valores={estadoTransmisiones.cDevolucion} />
+						<FilaTablaConsultas titulo="Consulta Logística" valores={estadoTransmisiones.cLogistica} />
+						<FilaTablaConsultas titulo="Consulta Albaranes" valores={estadoTransmisiones.cAlbaran} />
+						<FilaTablaConsultas titulo="Consulta Facturas" valores={estadoTransmisiones.cFactura} />
+						<FilaTablaConsultas titulo="Autenticaciones" valores={estadoTransmisiones.autenticacion} />
+						<FilaTablaConsultas titulo="Pedidos duplicados" valores={estadoTransmisiones.dPedido} />
+						<FilaTablaConsultas titulo="Devoluciones duplicadas" valores={estadoTransmisiones.dDevolucion} />
+						<FilaTablaConsultas titulo="Logistica duplicada" valores={estadoTransmisiones.dLogistica} />
+					</ListGroup>
+				</Col>
 			</Col>
-		</Col>
 
-	</Row>
-
+		</Row>
+	</>
 }
 
 
 const FilaTablaConsultas = ({ titulo, valores, className, ...props }) => {
+
+	if (isNaN(valores?.ok ?? 0 + valores?.rechazo ?? 0 + valores?.error ?? 0)) return null;
 	if (className) className += ' d-flex justify-content-between align-items-center';
 	else className = 'd-flex justify-content-between align-items-center';
 	return (
@@ -101,7 +102,7 @@ const FilaTablaConsultas = ({ titulo, valores, className, ...props }) => {
 			<h5>{titulo}</h5>
 			<h5>
 				{(valores?.error > 0) && <Badge variant='danger' pill>{valores.error}</Badge>}
-				{(valores?.rechazo > 0) && <Badge variant='warning' pill>{valores.rechazo}</Badge>}
+				{(valores?.rechazo > 0) && <Badge variant='info' pill>{valores.rechazo}</Badge>}
 				<Badge variant={valores?.ok ? 'success' : 'light'} pill>{valores?.ok || '-'}</Badge>
 				{(valores?.pendiente > 0) && <Badge variant='info' pill>{valores.pendiente}</Badge>}
 			</h5>

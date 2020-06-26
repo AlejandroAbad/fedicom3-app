@@ -25,12 +25,12 @@ const EstadoDashboard = () => {
 		</Row>
 		
 
-		<EstadoBalanceo  />
+		{/*<EstadoBalanceo  />
 		<EstadoBaseDatos />
 		<EstadoDumps />
 		<EstadoSqlite />
 		<EstadoSap />
-		<EstadoProcesos />
+		<EstadoProcesos />*/}
 	</Container>
 	
 
