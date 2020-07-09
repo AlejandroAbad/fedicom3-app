@@ -1,13 +1,13 @@
 import K from 'K';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import 'App.scss';
 
 
 import ReactJson from 'react-json-view';
-import useStateLocalStorage from 'util/useStateLocalStorage';
+// import useStateLocalStorage from 'util/useStateLocalStorage';
 import BootstrapMedia from 'componentes/debug/bootstrapMedia/BootstrapMedia';
 
 import BarraNavegacionSuperior from 'layout/barraNavegacionSuperior/BarraNavegacionSuperior';
@@ -31,10 +31,14 @@ import SimuladorConsultaAlbaranes from 'layout/simuladores/consultaAlbaranes/Sim
 import EstadoDashboard from 'layout/status/dashboard/Dashboard';
 
 
+import { ContextoAplicacion } from 'contexto';
+
 const App = () => {
 
+	const { jwt, setJwt } = useContext(ContextoAplicacion);
+
 	// Almacena el JWT del usuario logeado
-	const [jwt, setJwt] = useStateLocalStorage('login.jwt', null, true);
+	//const [jwt, setJwt] = useStateLocalStorage('login.jwt', null, true);
 
 
 	let content = null;
