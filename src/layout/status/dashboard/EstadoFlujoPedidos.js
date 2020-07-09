@@ -31,7 +31,7 @@ const EstadoFlujoPedidos = () => {
 		}
 	]);
 
-	const { ejecutarConsulta, resultado } = useApiMonitor('/v1/agregacion', jwt, { method: 'PUT', body: PIPELINE });
+	const { resultado, ejecutarConsulta } = useApiMonitor('/v1/agregacion', jwt, { method: 'PUT', body: PIPELINE });
 
 	useInterval(ejecutarConsulta, 1000);
 
