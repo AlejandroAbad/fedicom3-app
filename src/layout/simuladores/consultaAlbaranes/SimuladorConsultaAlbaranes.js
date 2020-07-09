@@ -1,29 +1,52 @@
 import K from 'K'
-import React, { useRef, useState } from 'react'
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
+import React, { useRef, useState, useContext } from 'react'
+import { Container, Row, Col, Form, Button, Alert, Card } from "react-bootstrap"
 import Icono from 'componentes/icono/Icono'
 import { FaRegFilePdf, FaCode, FaSearch } from 'react-icons/fa'
-import fedicomFetch, {fedicomFetchPdf} from 'util/fedicomFetch'
+import fedicomFetch, { fedicomFetchPdf } from 'util/fedicomFetch'
 import ReactDatePicker from 'react-datepicker'
 import ConsultaError from 'componentes/estadoConsulta/ConsultaError'
 import ConsultaCargando from 'componentes/estadoConsulta/ConsultaCargando'
 import ConsultaVacia from 'componentes/estadoConsulta/ConsultaVacia'
 import ReactJson from 'react-json-view'
 import useStateLocalStorage from 'util/useStateLocalStorage'
+import ContextoAplicacion from 'contexto'
 
 
-const SimuladorConsultaAlbaranes = ({ jwt }) => {
+const SimuladorConsultaAlbaranes = () => {
 
-	const refCodigoCliente = useRef()
-	const refFechaDesde = useRef()
-	const refFechaHasta = useRef()
-	const refNumeroAlbaran = useRef()
+	const { jwt } = useContext(ContextoAplicacion);
+
+	// Referencias a los campos del buscador
+	const refCodigoCliente = useRef();
+	const [codigoCliente, setCodigoCliente] = useStateLocalStorage('qAlbaran.codigoCliente', '', false)
+
+	const refFechaDesde = useRef();
+	const [fechaDesde, setFechaDesde] = useState(new Date())
+
+	const refFechaHasta = useRef();
+	const [fechaHasta, setFechaHasta] = useState(new Date())
+
+	const refNumeroPedido = useRef();
+	const [numeroPedido, setNumeroPedido] = useState('')
+
+	const refNumeroPedidoOrigen = useRef();
+	const [numeroPedidoOrigen, setNumeroPedidoOrigen] = useState('')
+
+	const refNumeroAlbaran = useRef();
 	const refDescargaPdf = useRef()
 
+
+	
+
 	const [resultado, setResultado] = useState({ cargando: false, datos: null, error: null, tipo: 'lista' })
-	const [codigoCliente, setCodigoCliente] = useStateLocalStorage('qAlbaran.codigoCliente', '', false)
-	const [fechaDesde, setFechaDesde] = useState(new Date())
-	const [fechaHasta, setFechaHasta] = useState(new Date())
+
+
+	
+	
+	
+	
+	
 
 
 	const listarAlbaranes = () => {
@@ -36,7 +59,13 @@ const SimuladorConsultaAlbaranes = ({ jwt }) => {
 
 		if (refFechaDesde.current?.input?.value) parametrosQuery.fechaDesde = refFechaDesde.current.input.value
 		if (refFechaHasta.current?.input?.value) parametrosQuery.fechaHasta = refFechaHasta.current.input.value
+		if (refNumeroPedido.current?.value) parametrosQuery.numeroPedido = refNumeroPedido.current.value
+		if (refNumeroPedidoOrigen.current?.value) parametrosQuery.numeroPedidoOrigen = refNumeroPedidoOrigen.current.value
+
 		let queryString = Object.keys(parametrosQuery).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(parametrosQuery[k])).join('&')
+
+		console.log(queryString)
+
 		fedicomFetch(K.DESTINOS.CORE + '/albaranes?' + queryString, { method: 'GET' }, jwt)
 			.then(response => {
 				if (response) {
@@ -95,7 +124,7 @@ const SimuladorConsultaAlbaranes = ({ jwt }) => {
 		}
 
 		if (!numeroAlbaran) {
-			setResultado({ datos: null, error: [{codigo: "ALB-ERR-API", descripcion: "Debes indicar el número del albarán"}], cargando: false, tipo: 'pdf' })
+			setResultado({ datos: null, error: [{ codigo: "ALB-ERR-API", descripcion: "Debes indicar el número del albarán" }], cargando: false, tipo: 'pdf' })
 			return;
 		}
 
@@ -113,7 +142,7 @@ const SimuladorConsultaAlbaranes = ({ jwt }) => {
 					if (response.ok) {
 						setResultado({ datos: response.body, error: null, cargando: false, tipo: 'pdf' });
 					} else {
-						setResultado({ datos: null, error: [{codigo:'ERR-ALB-999', descripcion: 'No se encuentra el albarán'}], cargando: false, tipo: 'pdf' });
+						setResultado({ datos: null, error: [{ codigo: 'ERR-ALB-999', descripcion: 'No se encuentra el albarán' }], cargando: false, tipo: 'pdf' });
 					}
 				}
 
@@ -166,92 +195,108 @@ const SimuladorConsultaAlbaranes = ({ jwt }) => {
 		</h4>
 
 		<Row>
-			<Col xs={12}>
-				<Form.Group as={Row} className="align-items-center">
-					<Form.Label column md={3}>
-						Código de cliente
-					</Form.Label>
-					<Col md={6} lg={4}>
-						<Form.Control size="sm" type="text" className="text-center" ref={refCodigoCliente} defaultValue={codigoCliente} onChange={(e) => setCodigoCliente(e.target.value)} />
-					</Col>
-					<Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
-						<small>Nota: Las consultas se realizan con el código de cliente completo (Ej. 10107506, 10101234 ...)</small>
-					</Form.Label>
-				</Form.Group>
-			</Col>
-			<Col md={6}>
-				<h6 className=" mt-3 py-2 text-center bg-primary-soft">
-					Listar albaranes
-				</h6>
+			<Col md={7}>
+				<Card>
+					<Card.Header>Listado de albaranes</Card.Header>
+					<Card.Body>
+						<Card.Text as="div">
 
-				<Form.Group as={Row} className="align-items-center px-3">
-					<Form.Label column md={12} lg={6}>
-						Fecha desde
-					</Form.Label>
-					<Col md={12} lg={6}>
-						<ReactDatePicker
-							ref={refFechaDesde}
-							selected={fechaDesde}
-							onChange={setFechaDesde}
-							customInput={<Form.Control type="text" className="text-center" size="sm" />}
-							dateFormat="dd/MM/yyyy"
-							strictParsing
-							shouldCloseOnSelect={true}
-						/>
-					</Col>
-				</Form.Group>
-				<Form.Group as={Row} className="align-items-center px-3">
-					<Form.Label column md={12} lg={6}>
-						Fecha hasta
-					</Form.Label>
-					<Col md={12} lg={6}>
-						<ReactDatePicker
-							ref={refFechaHasta}
-							selected={fechaHasta}
-							onChange={setFechaHasta}
-							customInput={<Form.Control type="text" className="text-center" size="sm" />}
-							dateFormat="dd/MM/yyyy"
-							strictParsing
-							shouldCloseOnSelect={true}
-						/>
-					</Col>
-				</Form.Group>
+							<Form.Group as={Row} className="align-items-center px-3">
+								<Form.Label column md={12} lg={6}>
+									Código de cliente
+								</Form.Label>
+								<Col md={12} lg={6}>
+									<Form.Control size="sm" type="text" className="text-center" ref={refCodigoCliente} defaultValue={codigoCliente} onChange={(e) => setCodigoCliente(e.target.value)} />
+								</Col>
+								<Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
+									<small>Nota: Utiliza el código de cliente completo (Ej. 10107506, 10101234 ...)</small>
+								</Form.Label>
+							</Form.Group>
 
-				<Row>
-					<Col xs={12} className="text-center">
+							<Form.Group as={Row} className="align-items-center px-3">
+								<Form.Label column md={12} lg={6}>
+									Fecha desde
+								</Form.Label>
+								<Col md={12} lg={6}>
+									<ReactDatePicker
+										ref={refFechaDesde}
+										selected={fechaDesde}
+										onChange={setFechaDesde}
+										customInput={<Form.Control type="text" className="text-center" size="sm" />}
+										dateFormat="dd/MM/yyyy"
+										strictParsing
+										shouldCloseOnSelect={true}
+									/>
+								</Col>
+							</Form.Group>
+							<Form.Group as={Row} className="align-items-center px-3">
+								<Form.Label column md={12} lg={6}>
+									Fecha hasta
+							</Form.Label>
+								<Col md={12} lg={6}>
+									<ReactDatePicker
+										ref={refFechaHasta}
+										selected={fechaHasta}
+										onChange={setFechaHasta}
+										customInput={<Form.Control type="text" className="text-center" size="sm" />}
+										dateFormat="dd/MM/yyyy"
+										strictParsing
+										shouldCloseOnSelect={true}
+									/>
+								</Col>
+							</Form.Group>
+
+
+							<Form.Group as={Row} className="align-items-center px-3">
+								<Form.Label column md={12} lg={6}>
+									Número de pedido
+							</Form.Label>
+								<Col md={12} lg={6}>
+									<Form.Control size="sm" type="text" className="text-center" ref={refNumeroPedido} defaultValue={numeroPedido} onChange={(e) => setNumeroPedido(e.target.value)} />
+								</Col>
+							</Form.Group>
+
+							<Form.Group as={Row} className="align-items-center px-3">
+								<Form.Label column md={12} lg={6}>
+									Número de pedido origen
+							</Form.Label>
+								<Col md={12} lg={6}>
+									<Form.Control size="sm" type="text" className="text-center" ref={refNumeroPedidoOrigen} defaultValue={numeroPedidoOrigen} onChange={(e) => setNumeroPedidoOrigen(e.target.value)} />
+								</Col>
+							</Form.Group>
+						</Card.Text>
+
 						<Button variant='outline-primary' className="mx-1" onClick={listarAlbaranes}>
 							<Icono icono={FaSearch} posicion={[22, 2]} className="mr-1" />Consultar
 						</Button>
-					</Col>
-				</Row>
 
+					</Card.Body>
+				</Card>
 			</Col>
-			<Col md={6}>
+			<Col md={5}>
+				<Card>
+					<Card.Header>Búsqueda directa por número de albarán</Card.Header>
+					<Card.Body>
+						<Card.Text as="div">
+							<Form.Group as={Row} className="align-items-center px-3">
+								<Form.Label column md={12} lg={6}>
+									Número de albarán
+								</Form.Label>
+								<Col md={12} lg={6}>
+									<Form.Control size="sm" type="text" className="text-center" ref={refNumeroAlbaran} />
+								</Col>
+							</Form.Group>
+						</Card.Text>
 
-				<h6 className=" mt-3 py-2 text-center  bg-success-soft">
-					Por número
-				</h6>
-
-				<Form.Group as={Row} className="align-items-center px-3">
-					<Form.Label column md={12} lg={6}>
-						Número de albarán
-					</Form.Label>
-					<Col md={12} lg={6}>
-						<Form.Control size="sm" type="text" className="text-center" ref={refNumeroAlbaran} />
-					</Col>
-				</Form.Group>
-
-				<Row>
-					<Col xs={12} className="text-center">
 						<Button variant='outline-success' className="mx-1" onClick={() => consultaAlbaranPdf()}>
 							<Icono icono={FaRegFilePdf} posicion={[22, 2]} className="mr-1" />PDF
 						</Button>
 						<Button variant='outline-success' className="mx-1" onClick={() => consultaAlbaranJson()}>
 							<Icono icono={FaCode} posicion={[22, 2]} className="mr-1" />JSON
 						</Button>
-					</Col>
-				</Row>
 
+					</Card.Body>
+				</Card>
 			</Col>
 		</Row>
 
