@@ -9,9 +9,12 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { GoDashboard, GoRocket, GoPulse, GoInfo, GoSignOut, GoSettings, GoPerson, GoGitMerge, GoDatabase } from 'react-icons/go';
 import { FaPaperPlane, FaFlask, FaBook, FaQuora } from 'react-icons/fa'
 import { IoMdPlanet } from 'react-icons/io'
-import Icono from 'componentes/icono/Icono';
 import { MdSchool } from 'react-icons/md';
 import { GiNuclearBomb } from 'react-icons/gi';
+import { FiPackage } from 'react-icons/fi';
+
+import Icono from 'componentes/icono/Icono';
+
 
 
 
@@ -55,8 +58,18 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
                     <BotonNavegacion icono={FaFlask} titulo="Simuladores" esconderEn={expandirEn} mostrarEn="xl" >
                         {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/pedidos" icono={GoRocket} titulo="Pedidos" />}
                         {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/devoluciones" icono={IoMdPlanet} titulo="Devoluciones" />}
+                        {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/logistica" icono={FiPackage} titulo="Logística" />}
+
+
+                        <BotonNavegacion icono={FaFlask} titulo="Consultas" esconderEn={expandirEn} mostrarEn="xl" >
+                            <BotonNavegacion enlace="/simulador/consulta/pedidos" icono={FaQuora} titulo="Consulta pedidos" />
+                            <BotonNavegacion enlace="/simulador/consulta/devoluciones" icono={FaQuora} titulo="Consulta devoluciones" />
+                            <BotonNavegacion enlace="/simulador/consulta/albaranes" icono={FaQuora} titulo="Consulta albaranes" />
+                            <BotonNavegacion enlace="/simulador/consulta/facturas" icono={FaQuora} titulo="Consulta facturas" />
+                            <BotonNavegacion enlace="/simulador/consulta/logistica" icono={FaQuora} titulo="Consulta logistica" />
+                        </BotonNavegacion>
+
                         {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/pruebaCarga" icono={GiNuclearBomb} titulo="Prueba de carga" />}
-                        <BotonNavegacion enlace="/simulador/consultaAlbaranes" icono={FaQuora} titulo="Consulta albaranes" />
                         {/*<BotonNavegacion enlace="/simulador/stress" icono={FaMeteor} titulo="Stress" />*/}
                     </BotonNavegacion>
 

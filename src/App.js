@@ -32,6 +32,7 @@ import EstadoDashboard from 'layout/status/dashboard/Dashboard';
 
 
 import { ContextoAplicacion } from 'contexto';
+import SimuladorLogistica from 'layout/simuladores/logistica/SimuladorLogistica';
 
 const App = () => {
 
@@ -71,11 +72,16 @@ const App = () => {
 				}
 				{!K.PRODUCCION &&
 					<Route
+						path="/simulador/logistica"
+						render={(props) => <SimuladorLogistica {...props} />} />
+				}
+				{!K.PRODUCCION &&
+					<Route
 						path="/simulador/pruebaCarga"
 						render={(props) => <PruebaCarga {...props} jwt={jwt} />} />
 				}
 				<Route
-					path="/simulador/consultaAlbaranes"
+					path="/simulador/consulta/albaranes"
 					render={(props) => <SimuladorConsultaAlbaranes {...props} jwt={jwt} />} />
 
 
