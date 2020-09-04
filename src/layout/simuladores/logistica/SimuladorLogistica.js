@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import ContextoAplicacion from 'contexto'
 import { useApiSimulador } from 'hooks/useApiMonitor'
-import useStateLocalStorage from 'util/useStateLocalStorage'
+//import useStateLocalStorage from 'util/useStateLocalStorage'
 
 import { useForm } from 'react-hook-form'
-import { Container, Col, Row, Button } from 'react-bootstrap'
-import BotonVariantes from './BotonVariantes'
+import { Container } from 'react-bootstrap'
+//import BotonVariantes from './BotonVariantes'
 
 import ResultadoLlamadaApi from 'componentes/resultadoLlamadaApi/ResultadoLlamadaApi'
 import clone from 'clone'
@@ -38,11 +38,11 @@ const PEDIDO_EJEMPLO = {
 		}
 	],
 	"observaciones": "A/A de D. Pablo Escobar",
-	"numeroLogistica": "6000000016",
+//	"numeroLogistica": "6000000016",
 	"codigoCliente": "10104999",
 	"numeroLogisticaOrigen": "132323-c4d5-44b3-b2cb-4ca65652212",
 	"tipoLogistica": "I",
-	"fechaLogistica": "2020-07-13"
+//	"fechaLogistica": "2020-07-13"
 }
 
 

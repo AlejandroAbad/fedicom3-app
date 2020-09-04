@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Form, Col, Row } from 'react-bootstrap';
 import useStateLocalStorage from 'util/useStateLocalStorage';
 
@@ -30,10 +30,12 @@ export const CampoFormulario = ({ titulo, notas, ...props }) => {
 			<Col md={8} lg={9}>
 				{props.children}
 			</Col>
-			{notas &&
-				<Form.Label column xs={12} className="text-muted px-3 pt-0 mt-0">
+			{notas && <>
+				<Form.Label column md={4} lg={3} className="text-muted px-3 pt-0 mt-n1"></Form.Label>
+				<Col md={8} lg={9} className="text-muted px-3 pt-0 mt-n1">
 					<small>{notas}</small>
-				</Form.Label>}
+				</Col>
+			</>}
 		</Form.Group>
 	)
 }
