@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+/*
 import EstadoBalanceo from './EstadoBalanceo';
 import EstadoBaseDatos from './EstadoBaseDatos';
 import EstadoDumps from './EstadoDumps';
 import EstadoSqlite from './EstadoSqlite';
 import EstadoSap from './EstadoSap';
 import EstadoProcesos from './EstadoProcesos';
-
+*/
 import EstadoFlujoPedidos from './EstadoFlujoPedidos';
 import EstadoOtrosFlujos from './EstadoOtrosFlujos';
 

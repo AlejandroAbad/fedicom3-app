@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Row, Col, Form, InputGroup, FormControl } from 'react-bootstrap'
 
 import Icono from 'componentes/icono/Icono'
