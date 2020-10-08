@@ -3,9 +3,7 @@ Interfaz WEB para monitorización y gestión de los concentradores Fedicom3
 
 ---
 
-## Available Scripts
-
-In the project directory, you can run:
+## Scripts
 
 ### `npm start`
 
