@@ -62,11 +62,11 @@ const BarraNavegacionSuperior = ({ jwt, expandirEn, onLogout, ...props }) => {
 
 
                         <BotonNavegacion icono={FaFlask} titulo="Consultas" esconderEn={expandirEn} mostrarEn="xl" >
-                            <BotonNavegacion enlace="/simulador/consulta/pedidos" icono={FaQuora} titulo="Consulta pedidos" />
-                            <BotonNavegacion enlace="/simulador/consulta/devoluciones" icono={FaQuora} titulo="Consulta devoluciones" />
+                            <BotonNavegacion enlace="/simulador/consulta/pedidos" icono={FaQuora} titulo="Consulta pedidos" disabled />
+                            <BotonNavegacion enlace="/simulador/consulta/devoluciones" icono={FaQuora} titulo="Consulta devoluciones"  />
                             <BotonNavegacion enlace="/simulador/consulta/albaranes" icono={FaQuora} titulo="Consulta albaranes" />
-                            <BotonNavegacion enlace="/simulador/consulta/facturas" icono={FaQuora} titulo="Consulta facturas" />
-                            <BotonNavegacion enlace="/simulador/consulta/logistica" icono={FaQuora} titulo="Consulta logistica" />
+                            <BotonNavegacion enlace="/simulador/consulta/facturas" icono={FaQuora} titulo="Consulta facturas" disabled />
+                            <BotonNavegacion enlace="/simulador/consulta/logistica" icono={FaQuora} titulo="Consulta logistica" disabled />
                         </BotonNavegacion>
 
                         {!K.PRODUCCION && <BotonNavegacion enlace="/simulador/pruebaCarga" icono={GiNuclearBomb} titulo="Prueba de carga" />}
@@ -131,11 +131,11 @@ const BotonNavegacion = ({ icono, className, esconderEn, mostrarEn, titulo, enla
     enlace = enlace ?? '#'
 
     return (
-        <Nav.Item className={navClassName} {...props}>
+        <Nav.Item className={navClassName} >
             {enlace ?
-                <LinkContainer to={enlace}><Nav.Link>{elementoIcono}<span className={textClassName}> {titulo}</span></Nav.Link></LinkContainer>
+                <LinkContainer to={enlace}><Nav.Link {...props}>{elementoIcono}<span className={textClassName}> {titulo}</span></Nav.Link></LinkContainer>
                 :
-                <Nav.Link>{elementoIcono}<span className={textClassName}> {titulo}</span></Nav.Link>
+                <Nav.Link {...props}>{elementoIcono}<span className={textClassName}> {titulo}</span></Nav.Link>
             }
         </Nav.Item>
     );
